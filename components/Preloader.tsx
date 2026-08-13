@@ -87,7 +87,7 @@ export const Preloader: React.FC = () => {
 
           <div className="flex flex-col items-center gap-2">
             <span className="font-mono text-sm uppercase tracking-widest text-accent-lime font-semibold">
-              // CODEX BIO SEQUENCING ENGINE
+              // CODEX BIO · ENGINEERED BY SAMEEP CHAURASIA
             </span>
             <div className="font-mono text-4xl font-bold text-ink">
               {Math.min(progress, 100)}

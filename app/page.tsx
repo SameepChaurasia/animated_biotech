@@ -5,6 +5,7 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Technology } from "@/components/sections/Technology";
 import { Capabilities } from "@/components/sections/Capabilities";
+import { GenePlayground } from "@/components/sections/GenePlayground";
 import { Stats } from "@/components/sections/Stats";
 import { FinalCta } from "@/components/sections/FinalCta";
 
@@ -39,6 +40,7 @@ export default function Home() {
         <About />
         <Technology />
         <Capabilities />
+        <GenePlayground />
         <Stats />
         <FinalCta />
       </main>

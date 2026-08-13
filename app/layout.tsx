@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
 import { Preloader } from "@/components/Preloader";
 import { CursorTrail } from "@/components/ui/CursorTrail";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -32,21 +33,22 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Codex Bio — Engineering the Code of Life",
+  title: "Codex Bio by Sameep Chaurasia — Engineering the Code of Life",
   description:
-    "AI-driven precision genomics & synthetic biology platform pairing generative protein design with high-throughput automated wet labs.",
+    "AI-driven precision genomics & synthetic biology platform created by Sameep Chaurasia. Featuring 3D Three.js molecular structure prediction and generative wet labs.",
+  authors: [{ name: "Sameep Chaurasia" }],
   keywords: [
     "Synthetic Biology",
+    "Sameep Chaurasia",
     "Generative AI Genomics",
     "Protein Structure Prediction",
-    "CRISPR Engineering",
-    "Drug Discovery",
+    "Three.js 3D Biotech",
     "Codex Bio",
   ],
   openGraph: {
-    title: "Codex Bio — Engineering the Code of Life",
+    title: "Codex Bio by Sameep Chaurasia — Engineering the Code of Life",
     description:
-      "AI-driven precision genomics platform pairing generative AI with wet-lab synthetic biology.",
+      "AI-driven precision genomics platform pairing generative AI with wet-lab synthetic biology. Built by Sameep Chaurasia.",
     siteName: "Codex Bio",
     type: "website",
   },
@@ -68,7 +70,8 @@ export default function RootLayout({
           Skip to main content
         </a>
 
-        {/* Ambient Cursor Trail */}
+        {/* Bioluminescent Custom Cursor & Trail */}
+        <CustomCursor />
         <CursorTrail />
 
         {/* Preloader Animation */}

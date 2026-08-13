@@ -93,7 +93,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/60 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs text-ink-muted">
           <div>
-            © 2026 Codex Bio Inc. Designed & Engineered for Advanced Genomics.
+            © 2026 CODEX BIO. DESIGNED & DEVELOPED BY <span className="text-accent-lime font-bold">SAMEEP CHAURASIA</span>.
           </div>
 
           <div className="flex items-center gap-6">

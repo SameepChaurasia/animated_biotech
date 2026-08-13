@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { SoundToggle } from "@/components/ui/SoundToggle";
 import { NAV_LINKS } from "@/data/content";
 import { cn } from "@/lib/utils";
 
@@ -44,7 +45,7 @@ export const Navbar: React.FC = () => {
       )}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
-        {/* Logo Monogram */}
+        {/* Logo Monogram with Recruiter Attribution Pill */}
         <Link href="#main" className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-lime rounded-lg p-1">
           <div className="w-9 h-9 rounded-xl bg-surface-elevated border border-border flex items-center justify-center text-accent-lime group-hover:border-accent-lime/60 group-hover:shadow-[0_0_15px_rgba(200,255,77,0.3)] transition-all">
             <svg viewBox="0 0 100 100" className="w-6 h-6 stroke-current fill-none stroke-[7]">
@@ -57,6 +58,9 @@ export const Navbar: React.FC = () => {
           <div className="flex flex-col">
             <span className="font-display font-bold text-lg md:text-xl text-ink tracking-tight flex items-center gap-1.5">
               CODEX <span className="text-accent-lime font-mono">BIO</span>
+            </span>
+            <span className="font-mono text-[9px] uppercase tracking-widest text-accent-cyan font-semibold -mt-1 hidden sm:inline-block">
+              BY SAMEEP CHAURASIA
             </span>
           </div>
         </Link>
@@ -74,8 +78,10 @@ export const Navbar: React.FC = () => {
           ))}
         </nav>
 
-        {/* CTA Button & Mobile Toggle */}
-        <div className="flex items-center gap-4">
+        {/* CTA Button, Sound Toggle & Mobile Toggle */}
+        <div className="flex items-center gap-3">
+          <SoundToggle />
+
           <Button href="#cta" variant="primary" size="sm" className="hidden sm:inline-flex" icon={<ArrowUpRight className="w-4 h-4" />}>
             Request Access
           </Button>
