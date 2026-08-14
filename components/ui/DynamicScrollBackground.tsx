@@ -57,39 +57,48 @@ export const DynamicScrollBackground: React.FC<DynamicScrollBackgroundProps> = (
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden transition-all duration-1000 ease-out">
-      {/* 1. DeepPiction Sky/Ice-Blue Top Backdrop Gradient Layer */}
+      {/* 1. Continuous Global Dot-Mesh Grid Layer across the whole viewport */}
       <div
-        className="absolute top-0 left-0 right-0 h-[680px] transition-all duration-1000 ease-out pointer-events-none"
+        className="absolute inset-0 pointer-events-none opacity-25"
         style={{
-          background: `linear-gradient(to bottom, ${topGlowColor} 0%, rgba(15, 23, 42, 0.45) 45%, rgba(3, 7, 18, 0) 100%)`,
-          opacity: Math.max(0.18, heroHeaderGradientOpacity),
+          backgroundImage: `radial-gradient(rgba(148, 163, 184, 0.2) 1px, transparent 1px)`,
+          backgroundSize: "28px 28px",
         }}
       />
 
-      {/* 2. Soft Horizontal Color Transition Masking Layer */}
+      {/* 2. DeepPiction Sky/Ice-Blue Top Atmospheric Backdrop Gradient Layer */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[720px] transition-all duration-1000 ease-out pointer-events-none"
+        style={{
+          background: `linear-gradient(to bottom, ${topGlowColor} 0%, rgba(15, 23, 42, 0.5) 45%, rgba(3, 7, 18, 0) 100%)`,
+          opacity: Math.max(0.2, heroHeaderGradientOpacity),
+        }}
+      />
+
+      {/* 3. Soft Radial Color Transition Masking Layer */}
       <div
         className="absolute inset-0 transition-colors duration-1000 ease-out pointer-events-none"
         style={{
-          background: `radial-gradient(1200px circle at 50% ${sp * 100}%, ${primaryOrbColor}, transparent 70%)`,
+          background: `radial-gradient(1300px circle at 50% ${sp * 100}%, ${primaryOrbColor}, transparent 75%)`,
         }}
       />
 
-      {/* 3. Primary Glowing Blob Orb (Left Floating) */}
+      {/* 4. Primary Floating Ambient Glow Orb */}
       <div
-        className="absolute w-[750px] h-[750px] rounded-full blur-[180px] transition-all duration-1000 ease-out animate-pulse-glow pointer-events-none"
+        className="absolute w-[800px] h-[800px] rounded-full blur-[190px] transition-all duration-1000 ease-out animate-pulse-glow pointer-events-none"
         style={{
-          top: `${12 + sp * 50}%`,
-          left: `${12 + Math.sin(sp * Math.PI) * 20}%`,
+          top: `${10 + sp * 50}%`,
+          left: `${10 + Math.sin(sp * Math.PI) * 22}%`,
           backgroundColor: primaryOrbColor,
         }}
       />
 
-      {/* 4. Secondary Glowing White-Light / Accent Blob Orb (Right Floating) */}
+      {/* 5. Secondary Floating Accent Glow Orb */}
       <div
-        className="absolute w-[750px] h-[750px] rounded-full blur-[180px] transition-all duration-1000 ease-out animate-pulse-glow pointer-events-none"
+        className="absolute w-[800px] h-[800px] rounded-full blur-[190px] transition-all duration-1000 ease-out animate-pulse-glow pointer-events-none"
         style={{
-          bottom: `${15 - sp * 40}%`,
-          right: `${12 + Math.cos(sp * Math.PI) * 20}%`,
+          bottom: `${10 - sp * 40}%`,
+          right: `${10 + Math.cos(sp * Math.PI) * 22}%`,
           backgroundColor: secondaryOrbColor,
           animationDelay: "3.5s",
         }}

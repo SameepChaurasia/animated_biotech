@@ -67,8 +67,10 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
   );
 
   return (
-    <section id="technology" className="py-24 md:py-32 bg-blueprint-schematic relative overflow-hidden">
-      <Container>
+    <section id="technology" className="py-24 md:py-32 bg-blueprint-schematic bg-slate-950 relative overflow-hidden">
+      {/* Smooth Curved Parabolic Arc Fade from Hero/About into The Platform */}
+      <div className="absolute top-0 left-0 right-0 h-44 bg-[radial-gradient(ellipse_160%_100%_at_50%_0%,rgba(59,130,246,0.35)_0%,rgba(3,7,18,1)_85%)] pointer-events-none z-10" />
+      <Container className="relative z-10">
         <SectionHeading
           eyebrow="// 02 — THE PLATFORM"
           headline="Four Core Engines. One Unified Bio-Operating System."

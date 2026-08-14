@@ -19,6 +19,8 @@ import { MissionVideoModal } from "@/components/ui/MissionVideoModal";
 
 import { DynamicScrollBackground } from "@/components/ui/DynamicScrollBackground";
 
+import { CurvedSectionTransition } from "@/components/ui/CurvedSectionTransition";
+
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
 
@@ -79,26 +81,19 @@ export default function Home() {
       {/* Global Navigation Bar */}
       <Navbar onOpenPartner={handleOpenPartner} />
 
-      {/* Main Content Sections */}
+      {/* Main Content Sections - Seamless Fluid Page Flow */}
       <main className="relative z-10">
         <Hero
           onOpenPartner={handleOpenPartner}
           onOpenMissionVideo={handleOpenMissionVideo}
           onOpenDetail={handleOpenDetail}
         />
-        <SectionDivider />
         <About onOpenDetail={handleOpenDetail} />
-        <SectionDivider />
         <Technology onOpenDetail={handleOpenDetail} />
-        <SectionDivider />
         <ResearchKnowledgeHub onOpenDetail={handleOpenDetail} />
-        <SectionDivider />
         <Capabilities onOpenDetail={handleOpenDetail} />
-        <SectionDivider />
         <GenePlayground />
-        <SectionDivider />
         <Stats onOpenDetail={handleOpenDetail} />
-        <SectionDivider />
         <FinalCta onOpenPartner={handleOpenPartner} />
       </main>
 

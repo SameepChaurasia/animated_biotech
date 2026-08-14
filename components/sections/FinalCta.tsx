@@ -22,7 +22,7 @@ export const FinalCta: React.FC<FinalCtaProps> = ({ onOpenPartner }) => {
   };
 
   return (
-    <section id="cta" className="py-28 md:py-36 bg-vortex-glow relative overflow-hidden">
+    <section id="cta" className="py-28 md:py-36 bg-vortex-glow bg-slate-950 relative overflow-hidden">
       {/* Background Radial Glow Blobs */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
 

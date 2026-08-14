@@ -109,7 +109,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
             className="group flex flex-col items-center gap-2 pointer-events-auto cursor-pointer transition-colors"
           >
             <span className="font-mono text-[11px] uppercase tracking-widest text-blue-400 font-bold group-hover:text-white transition-colors">
-              SEE HOW IT WORKS
+              Scroll To Explore
             </span>
             <ChevronDown className="w-5 h-5 text-blue-400 group-hover:text-white animate-bounce transition-colors" />
           </a>

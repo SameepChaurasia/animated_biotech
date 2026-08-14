@@ -23,7 +23,7 @@ interface CapabilitiesProps {
 
 export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
   return (
-    <section id="capabilities" className="py-24 md:py-32 bg-hex-matrix relative overflow-hidden">
+    <section id="capabilities" className="py-24 md:py-32 bg-hex-matrix bg-slate-950 relative overflow-hidden">
       <Container>
         <SectionHeading
           eyebrow="// 03 — CAPABILITIES"

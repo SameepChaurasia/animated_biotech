@@ -45,7 +45,7 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
   }, []);
 
   return (
-    <section id="about" className="py-24 md:py-32 bg-cellular-grid relative overflow-hidden">
+    <section id="about" className="py-24 md:py-32 bg-transparent relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
 
