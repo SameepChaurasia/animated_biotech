@@ -14,7 +14,11 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   Layers: <Layers className="w-5 h-5 text-purple-400" />,
 };
 
-export const About: React.FC = () => {
+interface AboutProps {
+  onOpenDetail: (detailId: string) => void;
+}
+
+export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
   const svgPathRef = useRef<SVGPathElement | null>(null);
 
   useEffect(() => {
@@ -65,23 +69,38 @@ export const About: React.FC = () => {
 
             {/* Three Pillars */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
-              {ABOUT_CONTENT.pillars.map((pillar, idx) => (
-                <RevealOnScroll key={pillar.title} delay={200 + idx * 100}>
-                  <GlassCard className="p-6 h-full flex flex-col justify-between hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.25)] transition-all rounded-3xl">
-                    <div>
-                      <div className="w-10 h-10 rounded-xl bg-slate-900 border border-blue-500/30 flex items-center justify-center mb-4 shadow-md">
-                        {ICON_MAP[pillar.icon]}
+              {ABOUT_CONTENT.pillars.map((pillar, idx) => {
+                const mapId =
+                  idx === 0
+                    ? "pillar-precision"
+                    : idx === 1
+                    ? "pillar-velocity"
+                    : "pillar-scale";
+
+                return (
+                  <RevealOnScroll key={pillar.title} delay={200 + idx * 100}>
+                    <GlassCard
+                      onClick={() => onOpenDetail(mapId)}
+                      className="p-6 h-full flex flex-col justify-between hover:border-blue-500/60 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all rounded-3xl cursor-pointer group"
+                    >
+                      <div>
+                        <div className="w-10 h-10 rounded-xl bg-slate-900 border border-blue-500/30 flex items-center justify-center mb-4 shadow-md group-hover:border-blue-400 group-hover:scale-110 transition-all">
+                          {ICON_MAP[pillar.icon]}
+                        </div>
+                        <h3 className="font-sans font-bold text-lg text-white mb-2 group-hover:text-blue-400 transition-colors">
+                          {pillar.title}
+                        </h3>
+                        <p className="font-sans text-xs text-slate-400 leading-relaxed mb-3">
+                          {pillar.description}
+                        </p>
                       </div>
-                      <h3 className="font-sans font-bold text-lg text-white mb-2">
-                        {pillar.title}
-                      </h3>
-                      <p className="font-sans text-xs text-slate-400 leading-relaxed">
-                        {pillar.description}
-                      </p>
-                    </div>
-                  </GlassCard>
-                </RevealOnScroll>
-              ))}
+                      <span className="font-mono text-[10px] text-blue-400 font-semibold group-hover:underline flex items-center gap-1">
+                        EXPLORE METHODOLOGY →
+                      </span>
+                    </GlassCard>
+                  </RevealOnScroll>
+                );
+              })}
             </div>
 
             {/* Quick Metadata Bar */}

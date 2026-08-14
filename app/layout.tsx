@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
 import { Preloader } from "@/components/Preloader";
 import { CursorTrail } from "@/components/ui/CursorTrail";
@@ -84,9 +82,7 @@ export default function RootLayout({
 
         {/* Smooth Scroll Provider & Global Shell */}
         <SmoothScrollProvider>
-          <Navbar />
           <div className="flex-1">{children}</div>
-          <Footer />
         </SmoothScrollProvider>
       </body>
     </html>

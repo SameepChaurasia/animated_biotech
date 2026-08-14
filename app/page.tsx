@@ -1,18 +1,47 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Technology } from "@/components/sections/Technology";
 import { Capabilities } from "@/components/sections/Capabilities";
+import { ResearchKnowledgeHub } from "@/components/sections/ResearchKnowledgeHub";
 import { GenePlayground } from "@/components/sections/GenePlayground";
 import { Stats } from "@/components/sections/Stats";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { MolecularCanvas } from "@/components/canvas/MolecularCanvas";
 import { SectionDivider } from "@/components/ui/SectionDivider";
+import { DetailModal } from "@/components/ui/DetailModal";
+import { PartnerModal } from "@/components/ui/PartnerModal";
+import { MissionVideoModal } from "@/components/ui/MissionVideoModal";
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
+
+  // Global Interactive Modal States
+  const [activeDetailId, setActiveDetailId] = useState<string | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
+  const [isPartnerOpen, setIsPartnerOpen] = useState<boolean>(false);
+  const [isMissionVideoOpen, setIsMissionVideoOpen] = useState<boolean>(false);
+
+  const handleOpenDetail = (id: string) => {
+    setActiveDetailId(id);
+    setIsDetailOpen(true);
+  };
+
+  const handleCloseDetail = () => {
+    setIsDetailOpen(false);
+  };
+
+  const handleOpenPartner = () => {
+    setIsPartnerOpen(true);
+  };
+
+  const handleOpenMissionVideo = () => {
+    setIsMissionVideoOpen(true);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,7 +52,7 @@ export default function Home() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -37,7 +66,10 @@ export default function Home() {
       {/* Perspective Cyber Grid & Ambient Glowing Royal Blue/Indigo Background Overlay */}
       <div className="fixed inset-0 z-0 pointer-events-none bg-perspective-grid opacity-40" />
       <div className="fixed top-1/4 left-1/4 w-[650px] h-[650px] bg-blue-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
-      <div className="fixed bottom-1/3 right-1/4 w-[650px] h-[650px] bg-indigo-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "3.5s" }} />
+      <div
+        className="fixed bottom-1/3 right-1/4 w-[650px] h-[650px] bg-indigo-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow"
+        style={{ animationDelay: "3.5s" }}
+      />
 
       {/* Top Scroll Progress Indicator */}
       <div className="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-slate-950 pointer-events-none">
@@ -47,22 +79,51 @@ export default function Home() {
         />
       </div>
 
+      {/* Global Navigation Bar */}
+      <Navbar onOpenPartner={handleOpenPartner} />
+
+      {/* Main Content Sections */}
       <main className="relative z-10">
-        <Hero />
+        <Hero
+          onOpenPartner={handleOpenPartner}
+          onOpenMissionVideo={handleOpenMissionVideo}
+          onOpenDetail={handleOpenDetail}
+        />
         <SectionDivider />
-        <About />
+        <About onOpenDetail={handleOpenDetail} />
         <SectionDivider />
-        <Technology />
+        <Technology onOpenDetail={handleOpenDetail} />
         <SectionDivider />
-        <Capabilities />
+        <ResearchKnowledgeHub onOpenDetail={handleOpenDetail} />
+        <SectionDivider />
+        <Capabilities onOpenDetail={handleOpenDetail} />
         <SectionDivider />
         <GenePlayground />
         <SectionDivider />
-        <Stats />
+        <Stats onOpenDetail={handleOpenDetail} />
         <SectionDivider />
-        <FinalCta />
+        <FinalCta onOpenPartner={handleOpenPartner} />
       </main>
+
+      {/* Global Footer */}
+      <Footer onOpenDetail={handleOpenDetail} onOpenPartner={handleOpenPartner} />
+
+      {/* Interactive Global Modals & Drawers */}
+      <DetailModal
+        isOpen={isDetailOpen}
+        onClose={handleCloseDetail}
+        detailId={activeDetailId}
+      />
+
+      <PartnerModal
+        isOpen={isPartnerOpen}
+        onClose={() => setIsPartnerOpen(false)}
+      />
+
+      <MissionVideoModal
+        isOpen={isMissionVideoOpen}
+        onClose={() => setIsMissionVideoOpen(false)}
+      />
     </>
   );
 }
-

@@ -17,7 +17,11 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   Cpu: <Cpu className="w-6 h-6 text-blue-400" />,
 };
 
-export const Capabilities: React.FC = () => {
+interface CapabilitiesProps {
+  onOpenDetail: (detailId: string) => void;
+}
+
+export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
   return (
     <section id="capabilities" className="py-24 md:py-32 bg-hex-matrix relative overflow-hidden">
       <Container>
@@ -38,7 +42,10 @@ export const Capabilities: React.FC = () => {
                 delay={idx * 80}
                 className={isLarge ? "lg:col-span-2" : "lg:col-span-1"}
               >
-                <GlassCard className="h-full flex flex-col justify-between p-8 group border-slate-800 hover:border-blue-500/60 hover:shadow-[0_0_35px_rgba(59,130,246,0.2)] transition-all rounded-3xl">
+                <GlassCard
+                  onClick={() => onOpenDetail(cap.id)}
+                  className="h-full flex flex-col justify-between p-8 group border-slate-800 hover:border-blue-500/60 hover:shadow-[0_0_35px_rgba(59,130,246,0.2)] transition-all rounded-3xl cursor-pointer"
+                >
                   <div>
                     {/* Header Row */}
                     <div className="flex items-center justify-between mb-6">

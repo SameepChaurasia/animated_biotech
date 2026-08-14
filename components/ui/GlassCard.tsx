@@ -10,6 +10,7 @@ interface GlassCardProps {
   className?: string;
   glow?: boolean;
   tilt?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export const GlassCard: React.FC<GlassCardProps> = ({
@@ -17,6 +18,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   className,
   glow = true,
   tilt = true,
+  onClick,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
@@ -54,6 +56,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   return (
     <div
       ref={cardRef}
+      onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={cn(

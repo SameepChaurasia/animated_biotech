@@ -5,10 +5,13 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { SoundToggle } from "@/components/ui/SoundToggle";
 import { NAV_LINKS } from "@/data/content";
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  onOpenPartner: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>("main");
@@ -44,7 +47,7 @@ export const Navbar: React.FC = () => {
   }, [mobileMenuOpen]);
 
   return (
-    <header className="fixed top-4 left-4 right-4 z-50 max-w-6xl mx-auto">
+    <header className="fixed top-4 left-4 right-4 z-50 max-w-[1500px] mx-auto">
       <div
         className={`w-full rounded-full transition-all duration-300 px-5 md:px-7 py-3 flex items-center justify-between backdrop-blur-2xl border ${
           scrolled
@@ -99,15 +102,13 @@ export const Navbar: React.FC = () => {
           })}
         </nav>
 
-        {/* CTA Button, Sound Toggle & Mobile Toggle */}
+        {/* CTA Button & Mobile Toggle */}
         <div className="flex items-center gap-3">
-          <SoundToggle />
-
           <Button
-            href="#cta"
+            onClick={onOpenPartner}
             variant="primary"
             size="sm"
-            className="hidden sm:inline-flex rounded-full bg-white text-slate-950 font-bold hover:bg-slate-200 transition-all border-none text-sm px-5 py-2"
+            className="hidden sm:inline-flex rounded-full bg-white text-slate-950 font-bold hover:bg-slate-200 transition-all border-none text-sm px-5 py-2 cursor-pointer"
             icon={<ArrowUpRight className="w-4 h-4 text-slate-950" />}
           >
             Partner with us
@@ -163,11 +164,13 @@ export const Navbar: React.FC = () => {
 
             <div className="pt-4 border-t border-slate-800 flex flex-col gap-3">
               <Button
-                href="#cta"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenPartner();
+                }}
                 variant="primary"
                 size="lg"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center rounded-full bg-white text-slate-950 font-bold text-base py-3"
+                className="w-full text-center rounded-full bg-white text-slate-950 font-bold text-base py-3 cursor-pointer"
               >
                 Partner with us
               </Button>

@@ -67,7 +67,7 @@ export interface FooterColumn {
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Platform", href: "#technology" },
-  { label: "Research", href: "#about" },
+  { label: "Research Hub", href: "#research" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Impact", href: "#impact" },
   { label: "Gene Sandbox", href: "#playground" },
@@ -279,21 +279,22 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     ],
   },
   {
-    title: "Company",
+    title: "Company & Science",
     links: [
       { label: "About Mission", href: "#about" },
-      { label: "Impact & Research", href: "#impact" },
-      { label: "Careers (12 Openings)", href: "#" },
-      { label: "Press Releases", href: "#" },
+      { label: "Research Knowledge Hub", href: "#research" },
+      { label: "Empirical Impact", href: "#impact" },
+      { label: "Careers & Openings", href: "#careers" },
+      { label: "Press Releases", href: "#press" },
     ],
   },
   {
     title: "Legal & Ethics",
     links: [
-      { label: "Bio-Safety Charter", href: "#" },
-      { label: "Data Privacy Policy", href: "#" },
-      { label: "Terms of Access", href: "#" },
-      { label: "Security & SOC 2", href: "#" },
+      { label: "Bio-Safety Charter", href: "#ethics" },
+      { label: "Data Privacy Policy", href: "#privacy" },
+      { label: "Terms of Access", href: "#terms" },
+      { label: "Security & SOC 2", href: "#soc2" },
     ],
   },
 ];

@@ -23,7 +23,11 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   ShieldCheck: <ShieldCheck className="w-8 h-8 text-blue-400" />,
 };
 
-export const Technology: React.FC = () => {
+interface TechnologyProps {
+  onOpenDetail: (detailId: string) => void;
+}
+
+export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const isMobile = useIsMobile(1024);
@@ -81,23 +85,27 @@ export const Technology: React.FC = () => {
                 key={panel.id}
                 className="tech-panel-item flex-shrink-0 w-[85vw] max-w-[960px]"
               >
-                <GlassCard className="p-10 md:p-12 h-full flex flex-col justify-between border-2 border-blue-500/30 hover:border-blue-400 transition-all bg-slate-950/90 shadow-[0_20px_50px_rgba(0,0,0,0.8)] rounded-[32px]">
+                <GlassCard
+                  onClick={() => onOpenDetail(panel.id)}
+                  className="p-10 md:p-12 h-full flex flex-col justify-between border-2 border-blue-500/30 hover:border-blue-400 transition-all bg-slate-950/90 shadow-[0_20px_50px_rgba(0,0,0,0.8)] rounded-[32px] cursor-pointer group"
+                >
                   {/* Panel Top Bar */}
                   <div className="flex items-center justify-between mb-8 pb-6 border-b border-slate-800">
                     <span className="font-mono text-4xl md:text-5xl font-bold text-blue-400">
                       {panel.counter}
                     </span>
-                    <div className="p-3 rounded-2xl bg-slate-900 border border-blue-500/30 shadow-md">
+                    <div className="p-3 rounded-2xl bg-slate-900 border border-blue-500/30 shadow-md group-hover:scale-110 group-hover:border-blue-400 transition-all">
                       {ICON_MAP[panel.iconName]}
                     </div>
                   </div>
 
                   {/* Content */}
                   <div className="space-y-4 mb-8">
-                    <span className="font-mono text-xs text-indigo-400 uppercase tracking-widest font-semibold">
-                      // {panel.subtitle}
+                    <span className="font-mono text-xs text-indigo-400 uppercase tracking-widest font-semibold flex items-center justify-between">
+                      <span>// {panel.subtitle}</span>
+                      <span className="text-blue-400 font-bold group-hover:underline">EXPLORE SPECS & RESEARCH →</span>
                     </span>
-                    <h3 className="font-sans text-3xl md:text-4xl font-bold text-white leading-tight">
+                    <h3 className="font-sans text-3xl md:text-4xl font-bold text-white leading-tight group-hover:text-blue-400 transition-colors">
                       {panel.title}
                     </h3>
                     <p className="font-sans text-base md:text-lg text-slate-300 leading-relaxed max-w-2xl">
@@ -111,7 +119,7 @@ export const Technology: React.FC = () => {
                       {panel.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:border-blue-500/40 transition-colors"
+                          className="px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300 group-hover:border-blue-500/40 transition-colors"
                         >
                           {tag}
                         </span>
@@ -132,7 +140,11 @@ export const Technology: React.FC = () => {
         /* Mobile / Reduced Motion Vertical Stack Fallback (<1024px) */
         <Container className="space-y-8">
           {TECH_PANELS.map((panel) => (
-            <GlassCard key={panel.id} className="p-8 space-y-6 border-slate-800 rounded-3xl">
+            <GlassCard
+              key={panel.id}
+              onClick={() => onOpenDetail(panel.id)}
+              className="p-8 space-y-6 border-slate-800 rounded-3xl cursor-pointer group hover:border-blue-500/50"
+            >
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                 <span className="font-mono text-3xl font-bold text-blue-400">
                   {panel.counter}
@@ -146,7 +158,7 @@ export const Technology: React.FC = () => {
                 <span className="font-mono text-xs text-indigo-400 uppercase tracking-widest block mb-1">
                   // {panel.subtitle}
                 </span>
-                <h3 className="font-sans text-2xl font-bold text-white mb-3">
+                <h3 className="font-sans text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
                   {panel.title}
                 </h3>
                 <p className="font-sans text-sm text-slate-300 leading-relaxed">
@@ -165,9 +177,12 @@ export const Technology: React.FC = () => {
                 ))}
               </div>
 
-              <div className="flex items-center gap-2 text-blue-400 font-mono text-xs font-bold pt-2">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>{panel.metrics}</span>
+              <div className="flex items-center justify-between text-blue-400 font-mono text-xs font-bold pt-2">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>{panel.metrics}</span>
+                </div>
+                <span>EXPLORE SPECS →</span>
               </div>
             </GlassCard>
           ))}

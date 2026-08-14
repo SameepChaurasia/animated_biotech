@@ -5,14 +5,35 @@ import Link from "next/link";
 import { ArrowUp, Dna } from "lucide-react";
 import { FOOTER_COLUMNS } from "@/data/content";
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenDetail: (detailId: string) => void;
+  onOpenPartner: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenDetail, onOpenPartner }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleLinkClick = (href: string, e: React.MouseEvent) => {
+    if (href.startsWith("#")) {
+      const id = href.replace("#", "");
+      if (id === "careers" || id === "press" || id === "ethics" || id === "privacy" || id === "terms" || id === "soc2") {
+        e.preventDefault();
+        onOpenDetail("regulatory-intel");
+      } else {
+        const element = document.getElementById(id);
+        if (element) {
+          e.preventDefault();
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
+
   return (
     <footer className="bg-slate-950/90 backdrop-blur-2xl border-t border-slate-800/80 pt-16 md:pt-24 pb-12 text-white relative z-10">
-      <div className="max-w-[1536px] mx-auto px-6 md:px-12 lg:px-16">
+      <div className="max-w-[1720px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           {/* Brand Left Column */}
           <div className="lg:col-span-2 flex flex-col justify-between">
@@ -79,6 +100,7 @@ export const Footer: React.FC = () => {
                   <li key={link.label}>
                     <Link
                       href={link.href}
+                      onClick={(e) => handleLinkClick(link.href, e)}
                       className="text-sm text-slate-400 hover:text-white transition-colors font-sans"
                     >
                       {link.label}
@@ -97,8 +119,18 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-6">
-            <span className="hover:text-white transition-colors cursor-pointer">Privacy Policy</span>
-            <span className="hover:text-white transition-colors cursor-pointer">Terms of Access</span>
+            <span
+              onClick={() => onOpenDetail("regulatory-intel")}
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              Privacy Policy
+            </span>
+            <span
+              onClick={() => onOpenDetail("regulatory-intel")}
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              Terms of Access
+            </span>
             <button
               onClick={scrollToTop}
               className="flex items-center gap-2 text-blue-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-400 rounded p-1"

@@ -10,7 +10,13 @@ import { ParticleBurstContainer } from "@/components/ui/ParticleBurst";
 import { ThreeProteinViewer } from "@/components/canvas/ThreeProteinViewer";
 import { HERO_CONTENT } from "@/data/content";
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  onOpenPartner: () => void;
+  onOpenMissionVideo: () => void;
+  onOpenDetail: (detailId: string) => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, onOpenDetail }) => {
   return (
     <section
       id="main"
@@ -44,10 +50,10 @@ export const Hero: React.FC = () => {
             <div className="flex flex-wrap items-center gap-4 mb-12">
               <ParticleBurstContainer>
                 <Button
-                  href="#playground"
+                  onClick={onOpenPartner}
                   variant="primary"
                   size="lg"
-                  className="rounded-full bg-white text-slate-950 font-bold hover:bg-slate-200 transition-all border-none px-8 shadow-xl"
+                  className="rounded-full bg-white text-slate-950 font-bold hover:bg-slate-200 transition-all border-none px-8 shadow-xl cursor-pointer"
                   icon={<ArrowRight className="w-5 h-5 text-slate-950" />}
                 >
                   Partner with us
@@ -56,10 +62,10 @@ export const Hero: React.FC = () => {
 
               <MagneticButton>
                 <Button
-                  href="#about"
+                  onClick={onOpenMissionVideo}
                   variant="ghost"
                   size="lg"
-                  className="rounded-full border border-white/20 text-white hover:bg-white/10 px-6 font-semibold"
+                  className="rounded-full border border-white/20 text-white hover:bg-white/10 px-6 font-semibold cursor-pointer"
                   icon={<Play className="w-4 h-4 fill-current text-blue-400" />}
                 >
                   {HERO_CONTENT.secondaryCta}
@@ -70,8 +76,12 @@ export const Hero: React.FC = () => {
             {/* Quick Metrics Bar */}
             <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-800/80 w-full max-w-lg">
               {HERO_CONTENT.statsQuick.map((stat) => (
-                <div key={stat.label} className="flex flex-col p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/90 hover:border-blue-500/40 transition-colors">
-                  <span className="font-sans text-xl sm:text-2xl font-bold text-white">
+                <div
+                  key={stat.label}
+                  onClick={() => onOpenDetail("protein-engine")}
+                  className="flex flex-col p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/90 hover:border-blue-500/50 hover:bg-slate-900/60 transition-all cursor-pointer group"
+                >
+                  <span className="font-sans text-xl sm:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">
                     {stat.value}
                   </span>
                   <span className="font-mono text-[11px] text-slate-400 uppercase tracking-wider mt-0.5 font-medium">
