@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ParticleBurstContainer } from "@/components/ui/ParticleBurst";
-import { ThreeProteinViewer } from "@/components/canvas/ThreeProteinViewer";
+import { HeroPrecisionSlider } from "@/components/sections/HeroPrecisionSlider";
 import { HERO_CONTENT } from "@/data/content";
 
 interface HeroProps {
@@ -20,7 +20,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
   return (
     <section
       id="main"
-      className="relative min-h-screen flex flex-col justify-center pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden bg-perspective-grid"
+      className="relative min-h-screen flex flex-col justify-center pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden"
     >
       {/* Deep Piction Ambient Glow Blobs */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
@@ -92,9 +92,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
             </div>
           </div>
 
-          {/* 3D WebGL Three.js Interactive Molecule Viewer (Right ~45%) */}
+          {/* Interactive Split-Comparison Precision Showcase (Right ~45%) */}
           <div className="lg:col-span-6">
-            <ThreeProteinViewer />
+            <HeroPrecisionSlider onOpenDetail={onOpenDetail} />
           </div>
         </div>
 

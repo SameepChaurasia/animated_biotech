@@ -17,6 +17,8 @@ import { DetailModal } from "@/components/ui/DetailModal";
 import { PartnerModal } from "@/components/ui/PartnerModal";
 import { MissionVideoModal } from "@/components/ui/MissionVideoModal";
 
+import { DynamicScrollBackground } from "@/components/ui/DynamicScrollBackground";
+
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
 
@@ -63,13 +65,8 @@ export default function Home() {
         <MolecularCanvas scrollProgress={scrollProgress} />
       </div>
 
-      {/* Perspective Cyber Grid & Ambient Glowing Royal Blue/Indigo Background Overlay */}
-      <div className="fixed inset-0 z-0 pointer-events-none bg-perspective-grid opacity-40" />
-      <div className="fixed top-1/4 left-1/4 w-[650px] h-[650px] bg-blue-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
-      <div
-        className="fixed bottom-1/3 right-1/4 w-[650px] h-[650px] bg-indigo-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow"
-        style={{ animationDelay: "3.5s" }}
-      />
+      {/* Atmospheric Dynamic Scroll Color Transition Background Layer */}
+      <DynamicScrollBackground scrollProgress={scrollProgress} />
 
       {/* Top Scroll Progress Indicator */}
       <div className="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-slate-950 pointer-events-none">
