@@ -45,6 +45,11 @@ export const metadata: Metadata = {
     "Three.js 3D Biotech",
     "Codex Bio",
   ],
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   openGraph: {
     title: "Codex Bio by Sameep Chaurasia — Engineering the Code of Life",
     description:

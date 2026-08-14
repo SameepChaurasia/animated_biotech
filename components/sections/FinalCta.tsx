@@ -20,26 +20,26 @@ export const FinalCta: React.FC = () => {
   };
 
   return (
-    <section id="cta" className="py-28 md:py-36 bg-transparent relative overflow-hidden">
+    <section id="cta" className="py-28 md:py-36 bg-vortex-glow relative overflow-hidden">
       {/* Background Radial Glow Blobs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-cyan/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
 
       <Container className="relative z-10">
-        <GlassCard className="p-10 md:p-16 max-w-4xl mx-auto text-center border-2 border-accent-cyan/40 bg-surface-elevated/90 cyan-glow-border shadow-[0_0_80px_rgba(0,229,255,0.18)]">
-          <Eyebrow label={FINAL_CTA.eyebrow} className="mx-auto mb-4" />
+        <GlassCard className="p-10 md:p-16 max-w-4xl mx-auto text-center border-2 border-blue-500/40 bg-slate-950/90 shadow-[0_25px_80px_rgba(0,0,0,0.8)] rounded-[36px]">
+          <Eyebrow label={FINAL_CTA.eyebrow} className="mx-auto mb-4 text-blue-400 font-semibold" />
 
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-ink tracking-tight mb-6">
+          <h2 className="font-sans text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight mb-6">
             {FINAL_CTA.headline}
           </h2>
 
-          <p className="font-sans text-base md:text-xl text-ink-muted leading-relaxed max-w-2xl mx-auto mb-10">
+          <p className="font-sans text-base md:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto mb-10">
             {FINAL_CTA.subheadline}
           </p>
 
           {/* Interactive Email Form */}
           {submitted ? (
-            <div className="flex items-center justify-center gap-3 p-4 rounded-2xl bg-accent-cyan/15 border border-accent-cyan text-accent-cyan font-mono text-sm max-w-md mx-auto shadow-[0_0_20px_rgba(0,229,255,0.2)]">
-              <CheckCircle2 className="w-5 h-5" />
+            <div className="flex items-center justify-center gap-3 p-4 rounded-full bg-blue-600/20 border border-blue-500 text-blue-300 font-mono text-sm max-w-md mx-auto shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+              <CheckCircle2 className="w-5 h-5 text-blue-400" />
               <span>PARTNERSHIP REQUEST LOGGED. WE WILL BE IN TOUCH.</span>
             </div>
           ) : (
@@ -53,7 +53,7 @@ export const FinalCta: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={FINAL_CTA.inputPlaceholder}
-                className="w-full px-6 py-4 rounded-full bg-surface border border-accent-cyan/30 text-ink placeholder:text-ink-muted/60 focus:outline-none focus:border-accent-cyan focus:ring-2 focus:ring-accent-cyan/50 font-sans text-sm transition-all shadow-[inset_0_0_12px_rgba(0,229,255,0.08)]"
+                className="w-full px-6 py-4 rounded-full bg-slate-900 border border-slate-700 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 font-sans text-sm transition-all shadow-[inset_0_0_12px_rgba(0,0,0,0.5)]"
               />
 
               <MagneticButton>
@@ -61,8 +61,8 @@ export const FinalCta: React.FC = () => {
                   type="submit"
                   variant="primary"
                   size="lg"
-                  className="w-full sm:w-auto whitespace-nowrap"
-                  icon={<Send className="w-4 h-4" />}
+                  className="w-full sm:w-auto whitespace-nowrap rounded-full bg-white text-slate-950 font-bold hover:bg-slate-200 border-none px-6"
+                  icon={<Send className="w-4 h-4 text-slate-950" />}
                 >
                   {FINAL_CTA.ctaButton}
                 </Button>
@@ -70,7 +70,7 @@ export const FinalCta: React.FC = () => {
             </form>
           )}
 
-          <div className="mt-8 font-mono text-xs text-accent-cyan/80 font-semibold">
+          <div className="mt-8 font-mono text-xs text-blue-400/80 font-semibold">
             SOC 2 TYPE II CERTIFIED · HIPAA COMPLIANT DATA PIPELINES
           </div>
         </GlassCard>
@@ -78,4 +78,5 @@ export const FinalCta: React.FC = () => {
     </section>
   );
 };
+
 

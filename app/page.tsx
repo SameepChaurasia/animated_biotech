@@ -34,15 +34,15 @@ export default function Home() {
         <MolecularCanvas scrollProgress={scrollProgress} />
       </div>
 
-      {/* Cyber Grid & Ambient Glowing Cyan/Emerald Background Overlay */}
-      <div className="fixed inset-0 z-0 pointer-events-none bg-cyber-grid opacity-30" />
-      <div className="fixed top-1/4 left-1/4 w-[650px] h-[650px] bg-accent-cyan/12 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
-      <div className="fixed bottom-1/3 right-1/4 w-[650px] h-[650px] bg-accent-emerald/10 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "3.5s" }} />
+      {/* Perspective Cyber Grid & Ambient Glowing Royal Blue/Indigo Background Overlay */}
+      <div className="fixed inset-0 z-0 pointer-events-none bg-perspective-grid opacity-40" />
+      <div className="fixed top-1/4 left-1/4 w-[650px] h-[650px] bg-blue-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
+      <div className="fixed bottom-1/3 right-1/4 w-[650px] h-[650px] bg-indigo-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "3.5s" }} />
 
       {/* Top Scroll Progress Indicator */}
-      <div className="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-surface pointer-events-none">
+      <div className="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-slate-950 pointer-events-none">
         <div
-          className="h-full bg-gradient-to-r from-accent-cyan via-accent-lime to-accent-emerald transition-all duration-150 ease-out shadow-[0_0_12px_#00E5FF]"
+          className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transition-all duration-150 ease-out shadow-[0_0_12px_#3B82F6]"
           style={{ width: `${Math.min(scrollProgress * 100, 100)}%` }}
         />
       </div>

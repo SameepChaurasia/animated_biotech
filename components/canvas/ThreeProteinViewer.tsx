@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { RotateCw, Sparkles, Layers, Eye } from "lucide-react";
+import { RotateCw, Eye, ZoomIn, ZoomOut, RefreshCcw, Box } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { soundManager } from "@/lib/audio";
 
@@ -18,11 +18,36 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
   const [mode, setMode] = useState<MoleculeMode>("double-helix");
   const [autoRotate, setAutoRotate] = useState<boolean>(true);
   const [activeAtomInfo, setActiveAtomInfo] = useState<string>("P-8849 [PHOSPHATE BACKBONE]");
+  const [zoomLevel, setZoomLevel] = useState<number>(28);
   const isReducedMotion = useReducedMotion();
 
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const groupRef = useRef<THREE.Group | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+
+  const resetCameraView = () => {
+    soundManager.playClickSound();
+    setZoomLevel(34);
+    if (cameraRef.current) {
+      cameraRef.current.position.set(0, 0, 34);
+    }
+    if (groupRef.current) {
+      groupRef.current.rotation.set(0, 0, 0);
+      groupRef.current.scale.set(0.68, 0.68, 0.68);
+    }
+  };
+
+  const handleZoom = (delta: number) => {
+    soundManager.playClickSound();
+    setZoomLevel((prev) => {
+      const next = Math.max(16, Math.min(42, prev + delta));
+      if (cameraRef.current) {
+        cameraRef.current.position.z = next;
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -37,37 +62,76 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
     const height = container.clientHeight || 400;
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(0, 0, 28);
+    camera.position.set(0, 0, 34);
+    cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
       alpha: true,
       antialias: true,
+      powerPreference: "high-performance",
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     rendererRef.current = renderer;
 
-    // Lighting setup
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    // Deep Piction Lighting setup (Royal Blue & Indigo/Purple)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
-    const pointLightLime = new THREE.PointLight(0xc8ff4d, 3, 50);
-    pointLightLime.position.set(10, 10, 10);
-    scene.add(pointLightLime);
+    const pointLightBlue = new THREE.PointLight(0x3b82f6, 5, 60);
+    pointLightBlue.position.set(12, 12, 12);
+    scene.add(pointLightBlue);
 
-    const pointLightCyan = new THREE.PointLight(0x00e5ff, 3, 50);
-    pointLightCyan.position.set(-10, -10, -10);
-    scene.add(pointLightCyan);
+    const pointLightIndigo = new THREE.PointLight(0x818cf8, 5, 60);
+    pointLightIndigo.position.set(-12, -12, -12);
+    scene.add(pointLightIndigo);
 
     // Parent group for rotation
     const moleculeGroup = new THREE.Group();
+    moleculeGroup.scale.set(0.68, 0.68, 0.68);
     scene.add(moleculeGroup);
     groupRef.current = moleculeGroup;
 
-    // Helper function to build 3D Double Helix
-    const buildDoubleHelix = () => {
+    // Ambient Molecular Particle Cloud
+    const particleGeo = new THREE.BufferGeometry();
+    const particleCount = 120;
+    const posArray = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+      posArray[i] = (Math.random() - 0.5) * 20;
+      posArray[i + 1] = (Math.random() - 0.5) * 20;
+      posArray[i + 2] = (Math.random() - 0.5) * 20;
+    }
+    particleGeo.setAttribute("position", new THREE.BufferAttribute(posArray, 3));
+    const particleMat = new THREE.PointsMaterial({
+      size: 0.18,
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.7,
+      blending: THREE.AdditiveBlending,
+    });
+    const particlePoints = new THREE.Points(particleGeo, particleMat);
+    scene.add(particlePoints);
+
+    // Helper to safely dispose objects
+    const clearGroup = () => {
+      moleculeGroup.children.forEach((child) => {
+        if (child instanceof THREE.Mesh || child instanceof THREE.Points) {
+          child.geometry.dispose();
+          if (Array.isArray(child.material)) {
+            child.material.forEach((m) => m.dispose());
+          } else {
+            child.material.dispose();
+          }
+        }
+      });
       moleculeGroup.clear();
+    };
+
+    // Build 3D Double Helix
+    const buildDoubleHelix = () => {
+      clearGroup();
 
       const points1: THREE.Vector3[] = [];
       const points2: THREE.Vector3[] = [];
@@ -91,33 +155,35 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
 
         // Create Atom Node Spheres along strands
         if (i % 3 === 0) {
-          const sphereGeo = new THREE.SphereGeometry(0.35, 16, 16);
+          const sphereGeo = new THREE.SphereGeometry(0.38, 16, 16);
           const mat1 = new THREE.MeshStandardMaterial({
-            color: 0xc8ff4d,
-            emissive: 0xc8ff4d,
-            emissiveIntensity: 0.5,
+            color: 0x3b82f6,
+            emissive: 0x2563eb,
+            emissiveIntensity: 0.7,
             roughness: 0.2,
+            metalness: 0.3,
           });
           const sphere1 = new THREE.Mesh(sphereGeo, mat1);
           sphere1.position.set(x1, y, z1);
           moleculeGroup.add(sphere1);
 
           const mat2 = new THREE.MeshStandardMaterial({
-            color: 0x00e5ff,
-            emissive: 0x00e5ff,
-            emissiveIntensity: 0.5,
+            color: 0xa855f7,
+            emissive: 0x9333ea,
+            emissiveIntensity: 0.7,
             roughness: 0.2,
+            metalness: 0.3,
           });
           const sphere2 = new THREE.Mesh(sphereGeo, mat2);
           sphere2.position.set(x2, y, z2);
           moleculeGroup.add(sphere2);
 
           // Connecting Base-Pair Rungs
-          const cylinderGeo = new THREE.CylinderGeometry(0.08, 0.08, radius * 2, 8);
+          const cylinderGeo = new THREE.CylinderGeometry(0.09, 0.09, radius * 2, 8);
           const cylinderMat = new THREE.MeshStandardMaterial({
-            color: 0x8a968e,
+            color: 0x64748b,
             metalness: 0.8,
-            roughness: 0.3,
+            roughness: 0.2,
           });
           const rung = new THREE.Mesh(cylinderGeo, cylinderMat);
           rung.position.set(0, y, 0);
@@ -131,19 +197,19 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
       const curve1 = new THREE.CatmullRomCurve3(points1);
       const curve2 = new THREE.CatmullRomCurve3(points2);
 
-      const tubeGeo1 = new THREE.TubeGeometry(curve1, 80, 0.35, 12, false);
-      const tubeGeo2 = new THREE.TubeGeometry(curve2, 80, 0.35, 12, false);
+      const tubeGeo1 = new THREE.TubeGeometry(curve1, 80, 0.38, 12, false);
+      const tubeGeo2 = new THREE.TubeGeometry(curve2, 80, 0.38, 12, false);
 
-      const tubeMat1 = new THREE.MeshStandardMaterial({ color: 0xc8ff4d, roughness: 0.3 });
-      const tubeMat2 = new THREE.MeshStandardMaterial({ color: 0x00e5ff, roughness: 0.3 });
+      const tubeMat1 = new THREE.MeshStandardMaterial({ color: 0x3b82f6, roughness: 0.25, metalness: 0.2 });
+      const tubeMat2 = new THREE.MeshStandardMaterial({ color: 0x818cf8, roughness: 0.25, metalness: 0.2 });
 
       moleculeGroup.add(new THREE.Mesh(tubeGeo1, tubeMat1));
       moleculeGroup.add(new THREE.Mesh(tubeGeo2, tubeMat2));
     };
 
-    // Helper function to build Alpha Helix
+    // Build Alpha Helix
     const buildAlphaHelix = () => {
-      moleculeGroup.clear();
+      clearGroup();
       const points: THREE.Vector3[] = [];
       const numPoints = 100;
       const radius = 3.2;
@@ -156,11 +222,11 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
         points.push(new THREE.Vector3(x, y, z));
 
         if (i % 2 === 0) {
-          const sphereGeo = new THREE.SphereGeometry(0.4, 16, 16);
+          const sphereGeo = new THREE.SphereGeometry(0.42, 16, 16);
           const mat = new THREE.MeshStandardMaterial({
-            color: i % 4 === 0 ? 0xff6b9d : 0x0fa37f,
-            emissive: i % 4 === 0 ? 0xff6b9d : 0x0fa37f,
-            emissiveIntensity: 0.4,
+            color: i % 4 === 0 ? 0xc084fc : 0x38bdf8,
+            emissive: i % 4 === 0 ? 0xa855f7 : 0x0284c7,
+            emissiveIntensity: 0.6,
           });
           const sphere = new THREE.Mesh(sphereGeo, mat);
           sphere.position.set(x, y, z);
@@ -169,25 +235,25 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
       }
 
       const curve = new THREE.CatmullRomCurve3(points);
-      const tubeGeo = new THREE.TubeGeometry(curve, 100, 0.45, 12, false);
-      const tubeMat = new THREE.MeshStandardMaterial({ color: 0x0fa37f, roughness: 0.2 });
+      const tubeGeo = new THREE.TubeGeometry(curve, 100, 0.48, 12, false);
+      const tubeMat = new THREE.MeshStandardMaterial({ color: 0x6366f1, roughness: 0.2 });
       moleculeGroup.add(new THREE.Mesh(tubeGeo, tubeMat));
     };
 
-    // Helper function to build Binding Pocket Complex
+    // Build Binding Pocket Complex
     const buildBindingPocket = () => {
-      moleculeGroup.clear();
-      const sphereGeo = new THREE.SphereGeometry(0.6, 16, 16);
+      clearGroup();
+      const sphereGeo = new THREE.SphereGeometry(0.65, 16, 16);
       const centerCore = new THREE.Mesh(
-        new THREE.SphereGeometry(2.2, 32, 32),
-        new THREE.MeshStandardMaterial({ color: 0xc8ff4d, emissive: 0xc8ff4d, emissiveIntensity: 0.6, wireframe: true })
+        new THREE.SphereGeometry(2.4, 32, 32),
+        new THREE.MeshStandardMaterial({ color: 0x3b82f6, emissive: 0x2563eb, emissiveIntensity: 0.8, wireframe: true })
       );
       moleculeGroup.add(centerCore);
 
       for (let i = 0; i < 24; i++) {
         const phi = Math.acos(-1 + (2 * i) / 24);
         const theta = Math.sqrt(24 * Math.PI) * phi;
-        const radius = 5.5;
+        const radius = 5.6;
 
         const x = radius * Math.cos(theta) * Math.sin(phi);
         const y = radius * Math.sin(theta) * Math.sin(phi);
@@ -195,15 +261,14 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
 
         const atom = new THREE.Mesh(
           sphereGeo,
-          new THREE.MeshStandardMaterial({ color: i % 2 === 0 ? 0x00e5ff : 0xff6b9d })
+          new THREE.MeshStandardMaterial({ color: i % 2 === 0 ? 0x60a5fa : 0xa855f7, metalness: 0.4 })
         );
         atom.position.set(x, y, z);
         moleculeGroup.add(atom);
 
-        // Cylinder connector to core
         const cylinder = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.06, 0.06, radius, 8),
-          new THREE.MeshBasicMaterial({ color: 0x4da8ff, wireframe: true })
+          new THREE.CylinderGeometry(0.07, 0.07, radius, 8),
+          new THREE.MeshBasicMaterial({ color: 0x818cf8, wireframe: true })
         );
         cylinder.position.set(x / 2, y / 2, z / 2);
         cylinder.lookAt(new THREE.Vector3(x, y, z));
@@ -212,12 +277,12 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
       }
     };
 
-    // Initial build based on mode
+    // Build model by selected mode
     if (mode === "double-helix") buildDoubleHelix();
     else if (mode === "alpha-helix") buildAlphaHelix();
     else buildBindingPocket();
 
-    // Mouse Drag Orbit Controls
+    // Smooth Mouse Drag Orbiting
     let isDragging = false;
     let previousMousePosition = { x: 0, y: 0 };
 
@@ -232,8 +297,8 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
       const deltaX = e.clientX - previousMousePosition.x;
       const deltaY = e.clientY - previousMousePosition.y;
 
-      moleculeGroup.rotation.y += deltaX * 0.01;
-      moleculeGroup.rotation.x += deltaY * 0.01;
+      moleculeGroup.rotation.y += deltaX * 0.008;
+      moleculeGroup.rotation.x += deltaY * 0.008;
 
       previousMousePosition = { x: e.clientX, y: e.clientY };
     };
@@ -260,15 +325,17 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
 
     window.addEventListener("resize", handleResize);
 
-    // Animation Render Loop
+    // Render Loop
     let reqId: number;
     const animate = () => {
       reqId = requestAnimationFrame(animate);
 
       if (autoRotate && !isDragging && !isReducedMotion && moleculeGroup) {
-        moleculeGroup.rotation.y += 0.008;
-        moleculeGroup.rotation.x += 0.003;
+        moleculeGroup.rotation.y += 0.006;
+        moleculeGroup.rotation.x += 0.002;
       }
+
+      particlePoints.rotation.y += 0.001;
 
       renderer.render(scene, camera);
     };
@@ -281,53 +348,67 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
       canvas.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
+      particleGeo.dispose();
+      particleMat.dispose();
+      clearGroup();
       renderer.dispose();
     };
-  }, [mode, autoRotate, isReducedMotion]);
+  }, [mode, autoRotate, isReducedMotion, zoomLevel]);
 
   const handleModeChange = (newMode: MoleculeMode) => {
     soundManager.playClickSound();
     setMode(newMode);
     if (newMode === "double-helix") setActiveAtomInfo("P-8849 [DOUBLE HELIX BACKBONE]");
-    else if (newMode === "alpha-helix") setActiveAtomInfo("VAL-104 [ALPHA HELIX FOLD]");
-    else setActiveAtomInfo("KD-0.38nM [LIGAND BINDING POCKET]");
+    else if (newMode === "alpha-helix") setActiveAtomInfo("VAL-104 [ALPHA HELIX SECONDARY]");
+    else setActiveAtomInfo("KD-0.18nM [LIGAND BINDING POCKET]");
   };
 
   return (
-    <div ref={containerRef} className={`relative w-full h-[400px] md:h-[480px] rounded-3xl overflow-hidden glass-panel border border-border flex flex-col justify-between p-6 ${className}`}>
+    <div
+      ref={containerRef}
+      className={`relative w-full h-[440px] md:h-[520px] rounded-[32px] overflow-hidden bg-slate-950/80 backdrop-blur-2xl border border-blue-500/30 flex flex-col justify-between p-6 shadow-[0_25px_60px_rgba(0,0,0,0.8)] ${className}`}
+    >
       {/* Top Header Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-3 z-10">
+      <div className="flex flex-wrap items-center justify-between gap-3 z-10 pb-3 border-b border-slate-800/80 bg-slate-900/60 p-3 rounded-2xl backdrop-blur-md">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-accent-lime animate-ping" />
-          <span className="font-mono text-xs text-accent-lime font-bold uppercase tracking-widest">
-            // THREE.JS 3D MOLECULAR VIEWER
+          <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-ping" />
+          <span className="font-mono text-xs text-blue-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
+            <Box className="w-3.5 h-3.5 text-blue-400" />
+            // 3D BIOMOLECULAR STRUCTURE PREDICTOR
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 bg-surface-elevated/90 p-1 rounded-full border border-border">
+        {/* View Mode Buttons */}
+        <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-full border border-slate-800 font-mono text-[11px]">
           <button
             onClick={() => handleModeChange("double-helix")}
-            className={`px-3 py-1 rounded-full font-mono text-[11px] uppercase transition-all ${
-              mode === "double-helix" ? "bg-accent-lime text-void font-bold" : "text-ink-muted hover:text-ink"
+            className={`px-3 py-1 rounded-full font-bold uppercase transition-all ${
+              mode === "double-helix"
+                ? "bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.6)]"
+                : "text-slate-400 hover:text-white"
             }`}
           >
-            Helix 3D
+            DNA Helix 3D
           </button>
           <button
             onClick={() => handleModeChange("alpha-helix")}
-            className={`px-3 py-1 rounded-full font-mono text-[11px] uppercase transition-all ${
-              mode === "alpha-helix" ? "bg-accent-cyan text-void font-bold" : "text-ink-muted hover:text-ink"
+            className={`px-3 py-1 rounded-full font-bold uppercase transition-all ${
+              mode === "alpha-helix"
+                ? "bg-indigo-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.6)]"
+                : "text-slate-400 hover:text-white"
             }`}
           >
             Alpha Fold
           </button>
           <button
             onClick={() => handleModeChange("binding-pocket")}
-            className={`px-3 py-1 rounded-full font-mono text-[11px] uppercase transition-all ${
-              mode === "binding-pocket" ? "bg-accent-pink text-void font-bold" : "text-ink-muted hover:text-ink"
+            className={`px-3 py-1 rounded-full font-bold uppercase transition-all ${
+              mode === "binding-pocket"
+                ? "bg-purple-600 text-white shadow-[0_0_15px_rgba(147,51,234,0.6)]"
+                : "text-slate-400 hover:text-white"
             }`}
           >
-            Pocket 3D
+            Binding Pocket
           </button>
         </div>
       </div>
@@ -335,25 +416,52 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
       {/* Main 3D Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing z-0" />
 
-      {/* Bottom Control & Status Overlay */}
-      <div className="flex flex-wrap items-center justify-between gap-4 z-10 pt-4 border-t border-border/60 bg-surface/40 backdrop-blur-md px-4 py-3 rounded-2xl">
-        <div className="flex items-center gap-2 font-mono text-xs text-ink-muted">
-          <Eye className="w-4 h-4 text-accent-cyan" />
-          <span className="text-ink font-semibold">{activeAtomInfo}</span>
+      {/* Bottom Control Toolbar */}
+      <div className="flex flex-wrap items-center justify-between gap-4 z-10 pt-3 border-t border-slate-800/80 bg-slate-900/80 backdrop-blur-md px-4 py-3 rounded-2xl shadow-lg">
+        <div className="flex items-center gap-2 font-mono text-xs text-slate-300">
+          <Eye className="w-4 h-4 text-blue-400" />
+          <span className="text-white font-bold">{activeAtomInfo}</span>
         </div>
 
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] text-ink-muted hidden sm:inline">
-            DRAG TO ROTATE 3D MODEL
+        {/* Interactive Controls Bar */}
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-[10px] text-slate-400 hidden lg:inline mr-2">
+            DRAG TO ORBIT 3D MODEL
           </span>
+
+          <button
+            onClick={() => handleZoom(-3)}
+            className="p-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 hover:border-blue-500 hover:text-blue-400 transition-all"
+            title="Zoom In"
+          >
+            <ZoomIn className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={() => handleZoom(3)}
+            className="p-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 hover:border-blue-500 hover:text-blue-400 transition-all"
+            title="Zoom Out"
+          >
+            <ZoomOut className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={resetCameraView}
+            className="p-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 hover:border-blue-500 hover:text-blue-400 transition-all"
+            title="Reset View"
+          >
+            <RefreshCcw className="w-4 h-4" />
+          </button>
 
           <button
             onClick={() => {
               soundManager.playClickSound();
               setAutoRotate(!autoRotate);
             }}
-            className={`p-2 rounded-xl border border-border transition-all ${
-              autoRotate ? "bg-accent-lime/20 text-accent-lime border-accent-lime/50" : "bg-surface-elevated text-ink-muted"
+            className={`p-2 rounded-xl border transition-all ${
+              autoRotate
+                ? "bg-blue-600/30 text-blue-300 border-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.4)]"
+                : "bg-slate-950 text-slate-500 border-slate-800"
             }`}
             title="Toggle Auto Rotation"
           >
@@ -364,3 +472,5 @@ export const ThreeProteinViewer: React.FC<ThreeProteinViewerProps> = ({ classNam
     </div>
   );
 };
+
+

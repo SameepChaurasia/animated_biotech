@@ -9,17 +9,17 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { CAPABILITIES } from "@/data/content";
 
 const ICON_MAP: Record<string, React.ReactNode> = {
-  Sparkles: <Sparkles className="w-6 h-6 text-accent-cyan" />,
-  Binary: <Binary className="w-6 h-6 text-accent-lime" />,
-  Dna: <Dna className="w-6 h-6 text-accent-emerald" />,
-  Activity: <Activity className="w-6 h-6 text-accent-cyan" />,
-  FileCheck: <FileCheck className="w-6 h-6 text-accent-lime" />,
-  Cpu: <Cpu className="w-6 h-6 text-accent-cyan" />,
+  Sparkles: <Sparkles className="w-6 h-6 text-blue-400" />,
+  Binary: <Binary className="w-6 h-6 text-indigo-400" />,
+  Dna: <Dna className="w-6 h-6 text-purple-400" />,
+  Activity: <Activity className="w-6 h-6 text-blue-400" />,
+  FileCheck: <FileCheck className="w-6 h-6 text-indigo-400" />,
+  Cpu: <Cpu className="w-6 h-6 text-blue-400" />,
 };
 
 export const Capabilities: React.FC = () => {
   return (
-    <section id="capabilities" className="py-24 md:py-32 bg-transparent relative">
+    <section id="capabilities" className="py-24 md:py-32 bg-hex-matrix relative overflow-hidden">
       <Container>
         <SectionHeading
           eyebrow="// 03 — CAPABILITIES"
@@ -38,40 +38,40 @@ export const Capabilities: React.FC = () => {
                 delay={idx * 80}
                 className={isLarge ? "lg:col-span-2" : "lg:col-span-1"}
               >
-                <GlassCard className="h-full flex flex-col justify-between p-8 group border-accent-cyan/25 hover:border-accent-cyan hover:shadow-[0_0_35px_rgba(0,229,255,0.2)] transition-all">
+                <GlassCard className="h-full flex flex-col justify-between p-8 group border-slate-800 hover:border-blue-500/60 hover:shadow-[0_0_35px_rgba(59,130,246,0.2)] transition-all rounded-3xl">
                   <div>
                     {/* Header Row */}
                     <div className="flex items-center justify-between mb-6">
-                      <div className="w-12 h-12 rounded-2xl bg-surface border border-accent-cyan/30 flex items-center justify-center group-hover:border-accent-cyan group-hover:shadow-[0_0_18px_rgba(0,229,255,0.3)] group-hover:scale-110 transition-all duration-300">
+                      <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-blue-500/30 flex items-center justify-center group-hover:border-blue-400 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-all duration-300">
                         {ICON_MAP[cap.iconName]}
                       </div>
 
-                      <span className="font-mono text-xs uppercase tracking-widest text-accent-cyan px-3 py-1 rounded-full bg-surface/90 border border-accent-cyan/30">
+                      <span className="font-mono text-xs uppercase tracking-widest text-blue-400 px-3 py-1 rounded-full bg-slate-900 border border-blue-500/30 font-semibold">
                         {cap.category}
                       </span>
                     </div>
 
-                    <h3 className="font-display font-bold text-2xl text-ink mb-3 group-hover:text-accent-cyan transition-colors">
+                    <h3 className="font-sans font-bold text-2xl text-white mb-3 group-hover:text-blue-400 transition-colors">
                       {cap.title}
                     </h3>
 
-                    <p className="font-sans text-sm md:text-base text-ink-muted leading-relaxed mb-6">
+                    <p className="font-sans text-sm md:text-base text-slate-300 leading-relaxed mb-6">
                       {cap.description}
                     </p>
                   </div>
 
                   {/* Footer Metric highlight if available */}
-                  <div className="pt-4 border-t border-accent-cyan/20 flex items-center justify-between font-mono text-xs text-ink-muted">
+                  <div className="pt-4 border-t border-slate-800 flex items-center justify-between font-mono text-xs text-slate-400">
                     {cap.highlightMetric ? (
-                      <span className="text-accent-cyan font-semibold flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-pulse" />
+                      <span className="text-blue-400 font-semibold flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
                         {cap.highlightMetric}
                       </span>
                     ) : (
-                      <span className="text-ink-muted/80">READY FOR DEPLOYMENT</span>
+                      <span className="text-slate-400/80 font-medium">READY FOR DEPLOYMENT</span>
                     )}
 
-                    <ArrowUpRight className="w-4 h-4 text-ink-muted group-hover:text-accent-cyan group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-blue-400 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                   </div>
                 </GlassCard>
               </RevealOnScroll>

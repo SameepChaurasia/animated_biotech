@@ -16,17 +16,17 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   ({ variant = "primary", size = "md", href, children, className, icon, ...props }, ref) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-mono uppercase tracking-wider transition-all duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent-cyan focus-visible:ring-offset-void disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
+      "inline-flex items-center justify-center font-sans transition-all duration-300 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus-visible:ring-offset-slate-950 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
 
     const variantStyles = {
       primary:
-        "bg-accent-cyan text-void font-bold shadow-[0_0_25px_rgba(0,229,255,0.4)] hover:shadow-[0_0_40px_rgba(0,229,255,0.7)] hover:scale-105 active:scale-95 border border-accent-cyan",
+        "bg-white text-slate-950 font-bold shadow-lg hover:bg-slate-100 hover:scale-105 active:scale-95 border-none",
       ghost:
-        "bg-surface-elevated/80 text-ink border border-accent-cyan/30 backdrop-blur-md hover:bg-surface-elevated hover:border-accent-cyan hover:text-accent-cyan hover:shadow-[0_0_25px_rgba(0,229,255,0.3)] active:scale-95",
+        "bg-slate-900/80 text-white border border-white/20 backdrop-blur-md hover:bg-slate-800 hover:border-blue-400 hover:text-blue-400 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] active:scale-95",
       cyan:
-        "bg-accent-cyan text-void font-bold shadow-[0_0_25px_rgba(0,229,255,0.4)] hover:shadow-[0_0_40px_rgba(0,229,255,0.7)] hover:scale-105 active:scale-95 border border-accent-cyan",
+        "bg-blue-600 text-white font-bold shadow-[0_0_25px_rgba(37,99,235,0.4)] hover:bg-blue-500 hover:shadow-[0_0_35px_rgba(37,99,235,0.7)] hover:scale-105 active:scale-95 border border-blue-500",
       pink:
-        "bg-accent-pink text-void font-bold shadow-[0_0_20px_rgba(255,107,157,0.3)] hover:shadow-[0_0_35px_rgba(255,107,157,0.6)] hover:scale-105 active:scale-95 border border-accent-pink",
+        "bg-purple-600 text-white font-bold shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 hover:shadow-[0_0_35px_rgba(147,51,234,0.6)] hover:scale-105 active:scale-95 border border-purple-500",
     };
 
     const sizeStyles = {

@@ -86,17 +86,17 @@ export const Preloader: React.FC = () => {
           </div>
 
           <div className="flex flex-col items-center gap-2">
-            <span className="font-mono text-sm uppercase tracking-widest text-accent-lime font-semibold">
+            <span className="font-mono text-xs uppercase tracking-widest text-blue-400 font-semibold">
               // CODEX BIO · ENGINEERED BY SAMEEP CHAURASIA
             </span>
-            <div className="font-mono text-4xl font-bold text-ink">
+            <div className="font-mono text-4xl font-bold text-white">
               {Math.min(progress, 100)}
-              <span className="text-accent-lime text-2xl">%</span>
+              <span className="text-blue-400 text-2xl">%</span>
             </div>
             {/* Progress bar line */}
-            <div className="w-48 h-1 bg-surface-elevated rounded-full overflow-hidden mt-3">
+            <div className="w-48 h-1 bg-slate-900 rounded-full overflow-hidden mt-3">
               <motion.div
-                className="h-full bg-gradient-to-r from-accent-lime via-accent-cyan to-accent-emerald"
+                className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"
                 style={{ width: `${Math.min(progress, 100)}%` }}
               />
             </div>

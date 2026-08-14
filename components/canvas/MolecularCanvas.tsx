@@ -21,7 +21,7 @@ interface MolecularCanvasProps {
   className?: string;
 }
 
-const COLORS = ["#00E5FF", "#C8FF4D", "#00F5A0", "#38BDF8", "#FF6B9D"];
+const COLORS = ["#3B82F6", "#6366F1", "#8B5CF6", "#38BDF8", "#F8FAFC"];
 
 export const MolecularCanvas: React.FC<MolecularCanvasProps> = ({
   scrollProgress = 0,

@@ -57,28 +57,28 @@ export const GlassCard: React.FC<GlassCardProps> = ({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        "relative rounded-2xl p-6 md:p-8 bg-surface-elevated/75 backdrop-blur-xl border border-border/90 transition-all duration-300 group overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
-        glow && "hover:border-accent-cyan/60 hover:shadow-[0_0_40px_rgba(0,229,255,0.22)]",
+        "relative rounded-3xl p-6 md:p-8 bg-slate-950/75 backdrop-blur-2xl border border-white/10 transition-all duration-300 group overflow-hidden shadow-[0_16px_50px_rgba(0,0,0,0.6)]",
+        glow && "hover:border-blue-500/60 hover:shadow-[0_0_40px_rgba(59,130,246,0.25)]",
         className
       )}
       style={{ transformStyle: "preserve-3d", transitionProperty: "transform, border-color, box-shadow" }}
     >
-      {/* Cyber Corner Bracket Accent Lights */}
-      <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-accent-cyan/40 group-hover:border-accent-cyan transition-colors pointer-events-none rounded-tl-2xl" />
-      <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-accent-lime/40 group-hover:border-accent-lime transition-colors pointer-events-none rounded-tr-2xl" />
-      <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-accent-emerald/40 group-hover:border-accent-emerald transition-colors pointer-events-none rounded-bl-2xl" />
-      <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-accent-cyan/40 group-hover:border-accent-cyan transition-colors pointer-events-none rounded-br-2xl" />
+      {/* Corner Bracket Accents */}
+      <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-blue-500/40 group-hover:border-blue-400 transition-colors pointer-events-none rounded-tl-3xl" />
+      <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-indigo-500/40 group-hover:border-indigo-400 transition-colors pointer-events-none rounded-tr-3xl" />
+      <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-purple-500/40 group-hover:border-purple-400 transition-colors pointer-events-none rounded-bl-3xl" />
+      <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-blue-500/40 group-hover:border-blue-400 transition-colors pointer-events-none rounded-br-3xl" />
 
       {/* Dynamic Cursor Spotlight Radial Glow inside Card */}
       <div
         className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{
-          background: `radial-gradient(400px circle at ${mousePos.x}% ${mousePos.y}%, rgba(0, 229, 255, 0.12), transparent 80%)`,
+          background: `radial-gradient(400px circle at ${mousePos.x}% ${mousePos.y}%, rgba(59, 130, 246, 0.15), transparent 80%)`,
         }}
       />
 
       {/* Ambient background glow blob inside card */}
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-accent-cyan/5 rounded-full blur-3xl group-hover:bg-accent-cyan/15 transition-colors pointer-events-none" />
+      <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/20 transition-colors pointer-events-none" />
       {children}
     </div>
   );

@@ -7,26 +7,34 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SoundToggle } from "@/components/ui/SoundToggle";
 import { NAV_LINKS } from "@/data/content";
-import { cn } from "@/lib/utils";
 
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [activeSection, setActiveSection] = useState<string>("main");
 
   useEffect(() => {
+    const sectionIds = ["main", "about", "technology", "capabilities", "playground", "impact", "cta"];
+
     const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
+      setScrolled(window.scrollY > 30);
+
+      const scrollPosition = window.scrollY + 250;
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sectionIds[i]);
+        if (el && el.offsetTop <= scrollPosition) {
+          setActiveSection(sectionIds[i]);
+          break;
+        }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -36,63 +44,82 @@ export const Navbar: React.FC = () => {
   }, [mobileMenuOpen]);
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 md:py-5",
-        scrolled
-          ? "bg-void/85 backdrop-blur-2xl border-b border-accent-cyan/20 shadow-[0_4px_30px_rgba(0,229,255,0.1)] py-3 md:py-4"
-          : "bg-transparent"
-      )}
-    >
-      <div className="max-w-[1536px] mx-auto px-6 md:px-12 lg:px-16 flex items-center justify-between">
+    <header className="fixed top-4 left-4 right-4 z-50 max-w-6xl mx-auto">
+      <div
+        className={`w-full rounded-full transition-all duration-300 px-5 md:px-7 py-3 flex items-center justify-between backdrop-blur-2xl border ${
+          scrolled
+            ? "bg-slate-950/90 border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.85)]"
+            : "bg-slate-950/70 border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.65)]"
+        }`}
+      >
         {/* Logo Monogram with Recruiter Attribution Pill */}
-        <Link href="#main" className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan rounded-lg p-1">
-          <div className="w-9 h-9 rounded-xl bg-surface-elevated border border-accent-cyan/30 flex items-center justify-center text-accent-cyan group-hover:border-accent-cyan group-hover:shadow-[0_0_18px_rgba(0,229,255,0.4)] transition-all">
-            <svg viewBox="0 0 100 100" className="w-6 h-6 stroke-current fill-none stroke-[7]">
-              {/* Double helix C mark */}
+        <Link
+          href="#main"
+          className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-full px-2 py-1"
+        >
+          <div className="w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 group-hover:border-blue-400 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all">
+            <svg viewBox="0 0 100 100" className="w-5 h-5 stroke-current fill-none stroke-[8]">
               <path d="M 75 30 C 40 10, 20 40, 35 70 C 50 90, 80 75, 80 75" strokeLinecap="round" />
-              <path d="M 65 20 C 30 30, 30 70, 65 80" stroke="#00E5FF" strokeLinecap="round" />
-              <circle cx="50" cy="50" r="6" fill="#C8FF4D" stroke="none" />
+              <path d="M 65 20 C 30 30, 30 70, 65 80" stroke="#38BDF8" strokeLinecap="round" />
+              <circle cx="50" cy="50" r="7" fill="#6366F1" stroke="none" />
             </svg>
           </div>
           <div className="flex flex-col">
-            <span className="font-display font-bold text-lg md:text-xl text-ink tracking-tight flex items-center gap-1.5">
-              CODEX <span className="text-accent-cyan font-mono">BIO</span>
+            <span className="font-sans font-bold text-base sm:text-lg text-white tracking-tight flex items-center gap-1.5">
+              Codex <span className="text-blue-400 font-mono text-xs uppercase tracking-wider font-semibold">Bio</span>
             </span>
-            <span className="font-mono text-[9px] uppercase tracking-widest text-accent-lime font-semibold -mt-1 hidden sm:inline-block">
+            <span className="font-mono text-[9px] uppercase tracking-widest text-indigo-400 font-semibold -mt-1 hidden sm:inline-block">
               BY SAMEEP CHAURASIA
             </span>
           </div>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 bg-surface-elevated/70 border border-accent-cyan/25 rounded-full px-6 py-2 backdrop-blur-xl shadow-[0_0_20px_rgba(0,229,255,0.06)] hover:border-accent-cyan/50 transition-colors">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="font-mono text-xs uppercase tracking-widest text-ink-muted hover:text-accent-cyan transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-cyan rounded"
-            >
-              {link.label}
-            </Link>
-          ))}
+        {/* Desktop Navigation Links with Active Scroll-Spy & Increased Font Size */}
+        <nav className="hidden md:flex items-center gap-1.5 lg:gap-3 px-2 py-1">
+          {NAV_LINKS.map((link) => {
+            const sectionId = link.href.replace("#", "");
+            const isActive = activeSection === sectionId;
+
+            return (
+              <Link
+                key={link.label}
+                href={link.href}
+                className={`font-sans text-sm lg:text-base font-bold px-3.5 py-1.5 rounded-full transition-all duration-200 flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+                  isActive
+                    ? "bg-blue-600 text-white shadow-[0_0_18px_rgba(59,130,246,0.6)] border border-blue-400/60"
+                    : "text-slate-200 hover:text-blue-400 hover:bg-slate-900/70"
+                }`}
+              >
+                {isActive && (
+                  <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                )}
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* CTA Button, Sound Toggle & Mobile Toggle */}
         <div className="flex items-center gap-3">
           <SoundToggle />
 
-          <Button href="#cta" variant="primary" size="sm" className="hidden sm:inline-flex" icon={<ArrowUpRight className="w-4 h-4" />}>
-            Request Access
+          <Button
+            href="#cta"
+            variant="primary"
+            size="sm"
+            className="hidden sm:inline-flex rounded-full bg-white text-slate-950 font-bold hover:bg-slate-200 transition-all border-none text-sm px-5 py-2"
+            icon={<ArrowUpRight className="w-4 h-4 text-slate-950" />}
+          >
+            Partner with us
           </Button>
 
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            className="md:hidden p-2.5 rounded-full bg-surface-elevated border border-accent-cyan/30 text-ink hover:text-accent-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan"
+            className="md:hidden p-2.5 rounded-full bg-slate-900 border border-white/20 text-white hover:text-blue-400 focus-visible:outline-none"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
@@ -101,45 +128,50 @@ export const Navbar: React.FC = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 top-[72px] z-40 bg-void/98 backdrop-blur-2xl border-t border-accent-cyan/20 flex flex-col justify-between p-8 md:hidden overflow-y-auto"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="mt-3 w-full bg-slate-950/95 backdrop-blur-2xl border border-white/20 rounded-3xl p-6 md:hidden shadow-2xl"
           >
-            <div className="flex flex-col gap-6 my-auto">
-              <span className="font-mono text-xs uppercase tracking-widest text-accent-cyan">
+            <div className="flex flex-col gap-3 mb-6">
+              <span className="font-mono text-xs uppercase tracking-widest text-blue-400 font-semibold mb-1">
                 // NAVIGATION
               </span>
-              {NAV_LINKS.map((link, idx) => (
-                <motion.div
-                  key={link.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.08 }}
-                >
+              {NAV_LINKS.map((link) => {
+                const sectionId = link.href.replace("#", "");
+                const isActive = activeSection === sectionId;
+                return (
                   <Link
+                    key={link.label}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="font-display text-3xl font-bold text-ink hover:text-accent-cyan transition-colors block"
+                    className={`font-sans text-xl font-bold transition-all py-2.5 px-4 rounded-2xl flex items-center justify-between ${
+                      isActive
+                        ? "bg-blue-600/40 text-blue-300 border border-blue-500/50 shadow-md"
+                        : "text-white hover:text-blue-400 hover:bg-slate-900/60"
+                    }`}
                   >
-                    {link.label}
+                    <span>{link.label}</span>
+                    {isActive && (
+                      <span className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse" />
+                    )}
                   </Link>
-                </motion.div>
-              ))}
+                );
+              })}
             </div>
 
-            <div className="pt-8 border-t border-border flex flex-col gap-4">
+            <div className="pt-4 border-t border-slate-800 flex flex-col gap-3">
               <Button
                 href="#cta"
                 variant="primary"
                 size="lg"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center"
+                className="w-full text-center rounded-full bg-white text-slate-950 font-bold text-base py-3"
               >
-                Request Access
+                Partner with us
               </Button>
-              <div className="text-center font-mono text-xs text-ink-muted">
+              <div className="text-center font-mono text-[11px] text-slate-400">
                 CODEX BIO © 2026 · ALL RIGHTS RESERVED
               </div>
             </div>
@@ -149,4 +181,6 @@ export const Navbar: React.FC = () => {
     </header>
   );
 };
+
+
 

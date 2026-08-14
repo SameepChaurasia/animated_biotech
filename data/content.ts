@@ -70,7 +70,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: "Research", href: "#about" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Impact", href: "#impact" },
-  { label: "Sandbox", href: "#playground" },
+  { label: "Gene Sandbox", href: "#playground" },
 ];
 
 export const HERO_CONTENT: HeroContent = {

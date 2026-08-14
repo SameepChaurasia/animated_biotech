@@ -12,7 +12,7 @@ interface Particle {
   size: number;
 }
 
-const COLORS = ["#C8FF4D", "#00E5FF", "#0FA37F"];
+const COLORS = ["#3B82F6", "#6366F1", "#8B5CF6"];
 
 export const CursorTrail: React.FC = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
