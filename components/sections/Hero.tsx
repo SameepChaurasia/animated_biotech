@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Play, ArrowRight, ChevronDown } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
@@ -8,38 +8,18 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { TextDecode } from "@/components/ui/TextDecode";
 import { ParticleBurstContainer } from "@/components/ui/ParticleBurst";
-import { MolecularCanvas } from "@/components/canvas/MolecularCanvas";
 import { ThreeProteinViewer } from "@/components/canvas/ThreeProteinViewer";
 import { HERO_CONTENT } from "@/data/content";
 
 export const Hero: React.FC = () => {
-  const [scrollProgress, setScrollProgress] = useState<number>(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const heroElement = document.getElementById("main");
-      if (!heroElement) return;
-
-      const heroHeight = heroElement.clientHeight;
-      const progress = Math.min(Math.max(window.scrollY / heroHeight, 0), 1);
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <section
       id="main"
-      className="relative min-h-screen flex flex-col justify-center pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-void"
+      className="relative min-h-screen flex flex-col justify-center pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-transparent"
     >
-      {/* Dynamic Molecular Canvas Background */}
-      <MolecularCanvas scrollProgress={scrollProgress} className="z-0 opacity-75" />
-
       {/* Radial Gradient Ambient Glow Blobs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-lime/8 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-cyan/8 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "3s" }} />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-cyan/15 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-lime/10 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "3s" }} />
 
       <Container className="relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -47,7 +27,7 @@ export const Hero: React.FC = () => {
           <div className="lg:col-span-6 flex flex-col items-start">
             <div className="flex items-center gap-3 mb-4">
               <Eyebrow label={HERO_CONTENT.eyebrow} className="mb-0" />
-              <span className="font-mono text-xs text-accent-cyan bg-surface-elevated border border-border px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              <span className="font-mono text-xs text-accent-cyan bg-surface-elevated/90 border border-accent-cyan/30 px-3 py-1 rounded-full uppercase tracking-wider shadow-[0_0_12px_rgba(0,229,255,0.2)]">
                 BY SAMEEP CHAURASIA
               </span>
             </div>
@@ -76,10 +56,10 @@ export const Hero: React.FC = () => {
             </div>
 
             {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-border/80 w-full max-w-lg">
+            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-accent-cyan/20 w-full max-w-lg">
               {HERO_CONTENT.statsQuick.map((stat) => (
-                <div key={stat.label} className="flex flex-col">
-                  <span className="font-mono text-xl sm:text-2xl font-bold text-accent-lime">
+                <div key={stat.label} className="flex flex-col p-3 rounded-xl bg-surface-elevated/40 border border-accent-cyan/15 hover:border-accent-cyan/40 transition-colors">
+                  <span className="font-mono text-xl sm:text-2xl font-bold text-accent-cyan">
                     {stat.value}
                   </span>
                   <span className="font-mono text-xs text-ink-muted uppercase tracking-wider mt-0.5">
@@ -98,12 +78,13 @@ export const Hero: React.FC = () => {
 
         {/* Scroll Indicator Chevron */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none opacity-75">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-ink-muted">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-accent-cyan font-semibold">
             SCROLL TO EXPLORE
           </span>
-          <ChevronDown className="w-5 h-5 text-accent-lime animate-bounce" />
+          <ChevronDown className="w-5 h-5 text-accent-cyan animate-bounce" />
         </div>
       </Container>
     </section>
   );
 };
+

@@ -11,8 +11,9 @@ interface Particle {
   radius: number;
   color: string;
   baseAlpha: number;
-  helixTargetX: number;
-  helixTargetY: number;
+  targetX: number;
+  targetY: number;
+  phase: number;
 }
 
 interface MolecularCanvasProps {
@@ -20,7 +21,7 @@ interface MolecularCanvasProps {
   className?: string;
 }
 
-const COLORS = ["#C8FF4D", "#00E5FF", "#0FA37F", "#4DA8FF"];
+const COLORS = ["#00E5FF", "#C8FF4D", "#00F5A0", "#38BDF8", "#FF6B9D"];
 
 export const MolecularCanvas: React.FC<MolecularCanvasProps> = ({
   scrollProgress = 0,
@@ -43,7 +44,7 @@ export const MolecularCanvas: React.FC<MolecularCanvasProps> = ({
 
     let animationFrameId: number;
     let time = 0;
-    const PARTICLE_COUNT = 180;
+    const PARTICLE_COUNT = 240;
     const particles: Particle[] = [];
 
     // Resize handler with DevicePixelRatio
@@ -70,13 +71,14 @@ export const MolecularCanvas: React.FC<MolecularCanvasProps> = ({
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: (Math.random() - 0.5) * 0.6,
-        radius: Math.random() * 2 + 1.2,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        baseAlpha: Math.random() * 0.5 + 0.4,
-        helixTargetX: 0,
-        helixTargetY: 0,
+        vx: (Math.random() - 0.5) * 0.7,
+        vy: (Math.random() - 0.5) * 0.7,
+        radius: Math.random() * 2.2 + 1.2,
+        color: COLORS[i % COLORS.length],
+        baseAlpha: Math.random() * 0.4 + 0.45,
+        targetX: 0,
+        targetY: 0,
+        phase: Math.random() * Math.PI * 2,
       });
     }
 
@@ -92,93 +94,129 @@ export const MolecularCanvas: React.FC<MolecularCanvasProps> = ({
       mouseRef.current.active = false;
     };
 
-    canvas.addEventListener("mousemove", handleMouseMove);
-    canvas.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", handleMouseLeave);
 
     // Main render loop
     const render = () => {
-      time += 0.015;
+      time += 0.016;
       const currentWidth = canvas.parentElement?.clientWidth || window.innerWidth;
       const currentHeight = canvas.parentElement?.clientHeight || window.innerHeight;
       const centerX = currentWidth * 0.5;
+      const centerY = currentHeight * 0.5;
 
-      // Clear canvas with trail blur
-      ctx.fillStyle = "rgba(5, 8, 10, 0.22)";
+      // Clear canvas with deep void trail blur
+      ctx.fillStyle = "rgba(3, 7, 18, 0.22)";
       ctx.fillRect(0, 0, currentWidth, currentHeight);
 
-      // Calculate particle positions
+      // Determine active section topic mode (0.0 to 1.0)
+      const sp = Math.max(0, Math.min(1, scrollProgress));
+
+      // Calculate Topic-Matched Targets for every particle
       particles.forEach((p, i) => {
-        // DNA Helix math target
-        const angle = (i / PARTICLE_COUNT) * Math.PI * 7;
-        const strand = i % 2 === 0 ? 1 : -1;
-        const helixRadius = Math.min(currentWidth * 0.22, 180);
+        let tx = p.x;
+        let ty = p.y;
+        const normIndex = i / PARTICLE_COUNT;
 
-        const helixTargetX = centerX + Math.cos(angle + time * 0.5) * helixRadius * strand;
-        const helixTargetY = (i / PARTICLE_COUNT) * (currentHeight * 0.78) + currentHeight * 0.11;
-        const depth = Math.sin(angle + time * 0.5);
+        if (sp < 0.18) {
+          // MODE 1: HERO — DNA Double-Helix Strand Morph
+          const angle = normIndex * Math.PI * 8;
+          const strand = i % 2 === 0 ? 1 : -1;
+          const helixRadius = Math.min(currentWidth * 0.26, 220);
+          tx = centerX + Math.cos(angle + time * 0.6) * helixRadius * strand;
+          ty = normIndex * (currentHeight * 0.85) + currentHeight * 0.07;
+        } else if (sp < 0.38) {
+          // MODE 2: ABOUT — Atomic Structural Backbone & Concentric Rings
+          const ring = i % 3;
+          const r = ring === 0 ? 120 : ring === 1 ? 220 : 340;
+          const angle = normIndex * Math.PI * 4 + time * (ring === 1 ? -0.3 : 0.3);
+          tx = centerX + Math.cos(angle) * r;
+          ty = centerY + Math.sin(angle) * (r * 0.6);
+        } else if (sp < 0.58) {
+          // MODE 3: TECHNOLOGY — Cyber Matrix Data Stream Channels (4 Parallel Channels)
+          const channel = i % 4;
+          const channelY = currentHeight * (0.2 + channel * 0.2);
+          const speed = (channel + 1) * 60;
+          tx = (i * 35 + time * speed) % (currentWidth + 100) - 50;
+          ty = channelY + Math.sin(tx * 0.02 + time * 2) * 18;
+        } else if (sp < 0.73) {
+          // MODE 4: CAPABILITIES — Bento Bio-Grid Polyhedron Lattice
+          const cols = 8;
+          const col = i % cols;
+          const row = Math.floor(i / cols) % 12;
+          const gridX = (col / (cols - 1)) * (currentWidth * 0.8) + currentWidth * 0.1;
+          const gridY = (row / 11) * (currentHeight * 0.8) + currentHeight * 0.1;
+          tx = gridX + Math.sin(time * 1.5 + i) * 20;
+          ty = gridY + Math.cos(time * 1.5 + i) * 20;
+        } else if (sp < 0.88) {
+          // MODE 5: GENE PLAYGROUND — Nucleotide Sequence Wave & Concentric Light Rings
+          const waveX = (i / PARTICLE_COUNT) * currentWidth;
+          const waveY = centerY + Math.sin(waveX * 0.015 + time * 3) * 110 * Math.cos(time + i * 0.1);
+          tx = waveX;
+          ty = waveY;
+        } else if (sp < 0.96) {
+          // MODE 6: STATS — Flowing Empirical Data Telemetry Waves
+          const waveFreq = 0.008;
+          const xPos = (i / PARTICLE_COUNT) * currentWidth;
+          const yPos = centerY + Math.sin(xPos * waveFreq + time * 2) * 140 + Math.sin(xPos * 0.02 + time) * 40;
+          tx = xPos;
+          ty = yPos;
+        } else {
+          // MODE 7: FINAL CTA — Convergent Cyan Light Ray Vortex
+          const vortexRadius = (1 - normIndex) * Math.min(currentWidth, currentHeight) * 0.45;
+          const vortexAngle = normIndex * Math.PI * 12 + time * 1.2;
+          tx = centerX + Math.cos(vortexAngle) * vortexRadius;
+          ty = centerY + Math.sin(vortexAngle) * vortexRadius;
+        }
 
-        p.helixTargetX = helixTargetX;
-        p.helixTargetY = helixTargetY;
+        p.targetX = tx;
+        p.targetY = ty;
 
         if (isReducedMotion) {
-          // Static positions
-          p.x = p.helixTargetX;
-          p.y = p.helixTargetY;
+          p.x = p.targetX;
+          p.y = p.targetY;
         } else {
-          // Floating motion
-          p.x += p.vx + Math.sin(time + i * 0.1) * 0.3;
-          p.y += p.vy + Math.cos(time + i * 0.1) * 0.3;
+          // Smooth Interpolation to Section Topic Target State
+          p.x += (p.targetX - p.x) * 0.05;
+          p.y += (p.targetY - p.y) * 0.05;
 
-          // Bounce off screen boundaries when scrollProgress is 0
-          if (p.x < 0 || p.x > currentWidth) p.vx *= -1;
-          if (p.y < 0 || p.y > currentHeight) p.vy *= -1;
-
-          // Morph to DNA helix based on scrollProgress
-          if (scrollProgress > 0.05) {
-            const easeProgress = Math.min(scrollProgress * 1.5, 1);
-            p.x += (helixTargetX - p.x) * 0.08 * easeProgress;
-            p.y += (helixTargetY - p.y) * 0.08 * easeProgress;
-          }
+          // Natural floating drift offset
+          p.x += Math.sin(time + p.phase) * 0.3;
+          p.y += Math.cos(time + p.phase) * 0.3;
 
           // Mouse repulsion physics
           if (mouseRef.current.active) {
             const dx = p.x - mouseRef.current.x;
             const dy = p.y - mouseRef.current.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            const maxDist = 140;
+            const maxDist = 180;
 
             if (dist < maxDist) {
               const force = (maxDist - dist) / maxDist;
-              const pushX = (dx / dist) * force * 6;
-              const pushY = (dy / dist) * force * 6;
+              const pushX = (dx / dist) * force * 8;
+              const pushY = (dy / dist) * force * 8;
               p.x += pushX;
               p.y += pushY;
             }
           }
         }
 
-        // Depth alpha scaling in helix mode
-        const alpha =
-          scrollProgress > 0.3
-            ? p.baseAlpha * (0.4 + 0.6 * ((depth + 1) / 2))
-            : p.baseAlpha;
-
-        // Render Particle node
+        // Render Particle Node with Glow
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius * (0.8 + 0.4 * depth), 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
-        ctx.globalAlpha = Math.max(0.1, Math.min(1, alpha));
-        ctx.shadowBlur = 12;
+        ctx.globalAlpha = Math.max(0.2, Math.min(1, p.baseAlpha));
+        ctx.shadowBlur = 14;
         ctx.shadowColor = p.color;
         ctx.fill();
         ctx.shadowBlur = 0;
       });
 
-      // Draw Proximity & Base-Pair Connection Lines
-      const maxDistance = 90;
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
+      // Topic-Specific Synced Line Connections
+      const maxDistance = sp >= 0.35 && sp < 0.58 ? 130 : 95;
+      for (let i = 0; i < PARTICLE_COUNT; i += 2) {
         let connectionCount = 0;
-        for (let j = i + 1; j < PARTICLE_COUNT; j++) {
+        for (let j = i + 1; j < PARTICLE_COUNT; j += 2) {
           const p1 = particles[i];
           const p2 = particles[j];
 
@@ -186,27 +224,13 @@ export const MolecularCanvas: React.FC<MolecularCanvasProps> = ({
           const dy = p1.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          // Draw base pair rungs across helix strands when scrollProgress > 0.3
-          const isBasePair =
-            scrollProgress > 0.3 &&
-            Math.abs(i - j) === 1 &&
-            ((i % 2 === 0 && j % 2 === 1) || (i % 2 === 1 && j % 2 === 0));
-
-          if (isBasePair) {
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = "#C8FF4D";
-            ctx.globalAlpha = 0.45;
-            ctx.lineWidth = 1.2;
-            ctx.stroke();
-          } else if (dist < maxDistance && connectionCount < 3) {
+          if (dist < maxDistance && connectionCount < 2) {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.strokeStyle = p1.color;
-            ctx.globalAlpha = (1 - dist / maxDistance) * 0.25;
-            ctx.lineWidth = 0.8;
+            ctx.globalAlpha = (1 - dist / maxDistance) * 0.28;
+            ctx.lineWidth = 0.9;
             ctx.stroke();
             connectionCount++;
           }
@@ -224,8 +248,8 @@ export const MolecularCanvas: React.FC<MolecularCanvasProps> = ({
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      canvas.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, [scrollProgress, isReducedMotion]);
@@ -233,7 +257,9 @@ export const MolecularCanvas: React.FC<MolecularCanvasProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      className={`absolute inset-0 w-full h-full pointer-events-auto ${className}`}
+      className={`inset-0 w-full h-full ${className}`}
     />
   );
 };
+
+

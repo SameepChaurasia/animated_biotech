@@ -9,9 +9,9 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { ABOUT_CONTENT } from "@/data/content";
 
 const ICON_MAP: Record<string, React.ReactNode> = {
-  Target: <Target className="w-5 h-5 text-accent-lime" />,
-  Zap: <Zap className="w-5 h-5 text-accent-lime" />,
-  Layers: <Layers className="w-5 h-5 text-accent-lime" />,
+  Target: <Target className="w-5 h-5 text-accent-cyan" />,
+  Zap: <Zap className="w-5 h-5 text-accent-cyan" />,
+  Layers: <Layers className="w-5 h-5 text-accent-cyan" />,
 };
 
 export const About: React.FC = () => {
@@ -41,9 +41,9 @@ export const About: React.FC = () => {
   }, []);
 
   return (
-    <section id="about" className="py-24 md:py-32 bg-surface/50 relative overflow-hidden border-t border-border">
+    <section id="about" className="py-24 md:py-32 bg-transparent relative overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-accent-emerald/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-accent-cyan/10 rounded-full blur-[140px] pointer-events-none" />
 
       <Container>
         <SectionHeading
@@ -67,9 +67,9 @@ export const About: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
               {ABOUT_CONTENT.pillars.map((pillar, idx) => (
                 <RevealOnScroll key={pillar.title} delay={200 + idx * 100}>
-                  <GlassCard className="p-6 h-full flex flex-col justify-between">
+                  <GlassCard className="p-6 h-full flex flex-col justify-between hover:border-accent-cyan/50 hover:shadow-[0_0_30px_rgba(0,229,255,0.2)] transition-all">
                     <div>
-                      <div className="w-10 h-10 rounded-xl bg-surface-elevated border border-border flex items-center justify-center mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-surface border border-accent-cyan/30 flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(0,229,255,0.15)]">
                         {ICON_MAP[pillar.icon]}
                       </div>
                       <h3 className="font-display font-bold text-lg text-ink mb-2">
@@ -86,17 +86,17 @@ export const About: React.FC = () => {
 
             {/* Quick Metadata Bar */}
             <RevealOnScroll delay={500}>
-              <div className="flex flex-wrap items-center justify-between p-6 rounded-2xl bg-surface-elevated/80 border border-border gap-4 font-mono text-xs text-ink-muted">
+              <div className="flex flex-wrap items-center justify-between p-6 rounded-2xl bg-surface-elevated/90 border border-accent-cyan/30 gap-4 font-mono text-xs text-ink-muted shadow-[0_0_25px_rgba(0,229,255,0.1)]">
                 <div className="flex items-center gap-2">
-                  <Award className="w-4 h-4 text-accent-lime" />
+                  <Award className="w-4 h-4 text-accent-cyan" />
                   <span>{ABOUT_CONTENT.founded}</span>
                 </div>
-                <div className="h-4 w-[1px] bg-border hidden sm:block" />
+                <div className="h-4 w-[1px] bg-accent-cyan/20 hidden sm:block" />
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-accent-cyan" />
+                  <MapPin className="w-4 h-4 text-accent-lime" />
                   <span>{ABOUT_CONTENT.location}</span>
                 </div>
-                <div className="h-4 w-[1px] bg-border hidden sm:block" />
+                <div className="h-4 w-[1px] bg-accent-cyan/20 hidden sm:block" />
                 <div className="flex items-center gap-2">
                   <Users className="w-4 h-4 text-accent-emerald" />
                   <span>{ABOUT_CONTENT.scientists}</span>
@@ -108,21 +108,21 @@ export const About: React.FC = () => {
           {/* Molecular Line-Art SVG Illustration (Right ~40%) */}
           <div className="lg:col-span-5">
             <RevealOnScroll direction="left" delay={300}>
-              <GlassCard className="p-8 flex items-center justify-center relative min-h-[380px] bg-surface-elevated/60">
-                <div className="absolute top-4 left-4 font-mono text-[10px] text-accent-lime uppercase tracking-widest">
+              <GlassCard className="p-8 flex items-center justify-center relative min-h-[380px] bg-surface-elevated/80 border-accent-cyan/40">
+                <div className="absolute top-4 left-4 font-mono text-[10px] text-accent-cyan uppercase tracking-widest">
                   // STRUCTURAL MODEL: 7K9L_BINDING
                 </div>
 
                 <svg viewBox="0 0 400 400" className="w-full h-full max-w-[320px]">
                   {/* Outer circle grid */}
-                  <circle cx="200" cy="200" r="160" stroke="rgba(244,246,241,0.06)" strokeWidth="1" fill="none" strokeDasharray="4 4" />
-                  <circle cx="200" cy="200" r="110" stroke="rgba(244,246,241,0.08)" strokeWidth="1" fill="none" />
+                  <circle cx="200" cy="200" r="160" stroke="rgba(0,229,255,0.15)" strokeWidth="1" fill="none" strokeDasharray="4 4" />
+                  <circle cx="200" cy="200" r="110" stroke="rgba(0,229,255,0.25)" strokeWidth="1" fill="none" />
 
                   {/* DrawSVG Self-drawing Molecular backbone path */}
                   <path
                     ref={svgPathRef}
                     d="M 80 200 C 120 120, 160 280, 200 200 C 240 120, 280 280, 320 200 M 120 160 L 160 240 M 240 160 L 280 240 M 200 120 L 200 280"
-                    stroke="#C8FF4D"
+                    stroke="#00E5FF"
                     strokeWidth="3"
                     fill="none"
                     strokeLinecap="round"
@@ -132,12 +132,12 @@ export const About: React.FC = () => {
                   {/* Nucleotide Nodes */}
                   <circle cx="80" cy="200" r="6" fill="#00E5FF" />
                   <circle cx="200" cy="200" r="8" fill="#C8FF4D" />
-                  <circle cx="320" cy="200" r="6" fill="#0FA37F" />
-                  <circle cx="160" cy="240" r="5" fill="#4DA8FF" />
-                  <circle cx="240" cy="160" r="5" fill="#C8FF4D" />
+                  <circle cx="320" cy="200" r="6" fill="#00F5A0" />
+                  <circle cx="160" cy="240" r="5" fill="#38BDF8" />
+                  <circle cx="240" cy="160" r="5" fill="#00E5FF" />
                 </svg>
 
-                <div className="absolute bottom-4 right-4 font-mono text-[10px] text-ink-muted">
+                <div className="absolute bottom-4 right-4 font-mono text-[10px] text-accent-cyan/80">
                   CONFIRMATION: 0.38Å RMSD
                 </div>
               </GlassCard>
@@ -148,3 +148,4 @@ export const About: React.FC = () => {
     </section>
   );
 };
+

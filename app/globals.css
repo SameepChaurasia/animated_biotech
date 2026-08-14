@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-void: #05080A;
-  --color-surface: #0D1414;
-  --color-surface-elevated: #131C1C;
+  --color-void: #030712;
+  --color-surface: #07131E;
+  --color-surface-elevated: #0E1D2D;
   --color-accent-lime: #C8FF4D;
   --color-accent-cyan: #00E5FF;
-  --color-accent-emerald: #0FA37F;
+  --color-accent-emerald: #00F5A0;
   --color-accent-pink: #FF6B9D;
-  --color-ink: #F4F6F1;
-  --color-ink-muted: #8A968E;
-  --color-border: rgba(244, 246, 241, 0.08);
+  --color-ink: #F4F8FC;
+  --color-ink-muted: #8AA3B8;
+  --color-border: rgba(0, 229, 255, 0.16);
 
   --font-display: var(--font-fraunces), serif;
   --font-tech: var(--font-space-grotesk), sans-serif;
@@ -21,8 +21,8 @@
 }
 
 :root {
-  --background: #05080A;
-  --foreground: #F4F6F1;
+  --background: #030712;
+  --foreground: #F4F8FC;
 }
 
 html {
@@ -42,8 +42,8 @@ body {
 }
 
 ::selection {
-  background-color: var(--color-accent-lime);
-  color: #05080A;
+  background-color: var(--color-accent-cyan);
+  color: #030712;
 }
 
 /* Custom scrollbar */
@@ -51,14 +51,15 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #05080A;
+  background: #030712;
 }
 ::-webkit-scrollbar-thumb {
-  background: #131C1C;
+  background: #0E1D2D;
+  border: 1px solid rgba(0, 229, 255, 0.2);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent-lime);
+  background: var(--color-accent-cyan);
 }
 
 /* Skip link styling */
@@ -67,8 +68,8 @@ body {
   top: -100px;
   left: 1rem;
   z-index: 100;
-  background: var(--color-accent-lime);
-  color: #05080A;
+  background: var(--color-accent-cyan);
+  color: #030712;
   padding: 0.5rem 1rem;
   font-family: var(--font-mono);
   font-weight: bold;
@@ -79,41 +80,67 @@ body {
   top: 1rem;
 }
 
-/* Glassmorphism utility */
+/* Glassmorphism utility with Cyan Glow Tint */
 .glass-panel {
-  background: rgba(13, 20, 20, 0.65);
+  background: rgba(7, 19, 30, 0.70);
   backdrop-filter: blur(16px);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(0, 229, 255, 0.16);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .glass-panel-elevated {
-  background: rgba(19, 28, 28, 0.75);
+  background: rgba(14, 29, 45, 0.80);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(244, 246, 241, 0.12);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
 }
 
-/* Animated gradient border glow */
+/* Animated gradient border glow - Cyber Cyan & Lime */
 @keyframes borderGlow {
   0%, 100% {
-    border-color: rgba(200, 255, 77, 0.2);
-    box-shadow: 0 0 25px rgba(200, 255, 77, 0.05);
+    border-color: rgba(0, 229, 255, 0.3);
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.12), inset 0 0 15px rgba(0, 229, 255, 0.05);
   }
   50% {
-    border-color: rgba(0, 229, 255, 0.4);
-    box-shadow: 0 0 35px rgba(0, 229, 255, 0.12);
+    border-color: rgba(200, 255, 77, 0.5);
+    box-shadow: 0 0 35px rgba(200, 255, 77, 0.18), inset 0 0 20px rgba(200, 255, 77, 0.08);
   }
 }
 
 .glow-border {
-  animation: borderGlow 6s ease-in-out infinite;
+  animation: borderGlow 5s ease-in-out infinite;
+}
+
+@keyframes cyanPulseGlow {
+  0%, 100% {
+    border-color: rgba(0, 229, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
+  }
+  50% {
+    border-color: rgba(0, 229, 255, 0.6);
+    box-shadow: 0 0 35px rgba(0, 229, 255, 0.3);
+  }
+}
+
+.cyan-glow-border {
+  animation: cyanPulseGlow 4s ease-in-out infinite;
 }
 
 /* Keyframes for ambient subtle pulse */
 @keyframes pulseGlow {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.08); }
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
 }
 
 .animate-pulse-glow {
-  animation: pulseGlow 8s ease-in-out infinite;
+  animation: pulseGlow 7s ease-in-out infinite;
 }
+
+/* Cyber Grid background overlay */
+.bg-cyber-grid {
+  background-image: 
+    linear-gradient(to right, rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
