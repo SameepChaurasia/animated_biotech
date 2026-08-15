@@ -29,13 +29,13 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   };
 
   return (
-    <div className={cn("flex flex-col mb-12 md:mb-16 max-w-5xl", alignmentStyles[align], className)}>
+    <div className={cn("flex flex-col mb-8 md:mb-10 max-w-4xl", alignmentStyles[align], className)}>
       <Eyebrow label={eyebrow} />
-      <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-ink leading-[1.1] mb-4">
+      <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-ink leading-[1.15] mb-3">
         {useDecode ? <TextDecode text={headline} /> : headline}
       </h2>
       {subheading && (
-        <p className="text-base md:text-lg text-ink-muted leading-relaxed font-sans max-w-3xl">
+        <p className="text-sm md:text-base text-ink-muted leading-relaxed font-sans max-w-2xl">
           {subheading}
         </p>
       )}

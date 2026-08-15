@@ -11,48 +11,30 @@ export const DynamicScrollBackground: React.FC<DynamicScrollBackgroundProps> = (
   const sp = Math.max(0, Math.min(1, scrollProgress));
 
   // Determine active section color theme
-  let topGlowColor = "rgba(59, 130, 246, 0.35)"; // Ice/Sky Blue
+  let topGlowColor = "rgba(186, 230, 253, 0.30)"; // Soft Sky Blue Glow
   let primaryOrbColor = "rgba(59, 130, 246, 0.22)"; // Royal Blue
   let secondaryOrbColor = "rgba(99, 102, 241, 0.18)"; // Indigo
-  let gridOpacity = 0.4;
-  let heroHeaderGradientOpacity = 1;
 
-  if (sp < 0.18) {
-    // HERO: DeepPiction Ice-White & Sky Blue Top Backdrop Blend
-    topGlowColor = "rgba(186, 230, 253, 0.45)"; // Crisp Ice-White / Sky Blue
-    primaryOrbColor = "rgba(59, 130, 246, 0.28)"; // Royal Blue
-    secondaryOrbColor = "rgba(248, 250, 252, 0.15)"; // Crisp White Light Glow
-    heroHeaderGradientOpacity = 1 - sp * 4;
-  } else if (sp < 0.35) {
-    // ABOUT: Deep Pitch Black, Slate & Crisp White Accents
-    topGlowColor = "rgba(147, 197, 253, 0.25)";
-    primaryOrbColor = "rgba(99, 102, 241, 0.28)"; // Indigo
-    secondaryOrbColor = "rgba(255, 255, 255, 0.12)"; // White Light
-    heroHeaderGradientOpacity = 0;
-  } else if (sp < 0.52) {
+  if (sp < 0.25) {
+    // HERO & ABOUT: Deep Sky Blue & Electric Indigo Glow
+    topGlowColor = "rgba(186, 230, 253, 0.32)";
+    primaryOrbColor = "rgba(59, 130, 246, 0.24)";
+    secondaryOrbColor = "rgba(99, 102, 241, 0.20)";
+  } else if (sp < 0.50) {
     // PLATFORM: Electric Sapphire & Dark Cyan
     topGlowColor = "rgba(56, 189, 248, 0.25)";
-    primaryOrbColor = "rgba(2, 132, 199, 0.28)"; // Cyan
-    secondaryOrbColor = "rgba(224, 242, 254, 0.18)"; // Ice Blue
-    heroHeaderGradientOpacity = 0;
-  } else if (sp < 0.68) {
-    // RESEARCH HUB: Cyber Teal & Deep Emerald
-    topGlowColor = "rgba(45, 212, 191, 0.25)";
-    primaryOrbColor = "rgba(20, 184, 166, 0.25)"; // Teal
-    secondaryOrbColor = "rgba(56, 189, 248, 0.2)"; // Sky Blue
-    heroHeaderGradientOpacity = 0;
-  } else if (sp < 0.82) {
-    // CAPABILITIES: Amethyst Violet & White Light Highlights
-    topGlowColor = "rgba(168, 85, 247, 0.25)";
-    primaryOrbColor = "rgba(139, 92, 246, 0.28)"; // Purple
-    secondaryOrbColor = "rgba(255, 255, 255, 0.14)"; // Crisp White Glow
-    heroHeaderGradientOpacity = 0;
+    primaryOrbColor = "rgba(59, 130, 246, 0.22)";
+    secondaryOrbColor = "rgba(99, 102, 241, 0.18)";
+  } else if (sp < 0.75) {
+    // RESEARCH HUB & CAPABILITIES: Cyber Teal & Royal Indigo
+    topGlowColor = "rgba(45, 212, 191, 0.22)";
+    primaryOrbColor = "rgba(59, 130, 246, 0.22)";
+    secondaryOrbColor = "rgba(99, 102, 241, 0.18)";
   } else {
-    // STATS & FINAL CTA: Deep Obsidian Void & Ice Blue Light Ray
-    topGlowColor = "rgba(56, 189, 248, 0.25)";
-    primaryOrbColor = "rgba(59, 130, 246, 0.28)";
-    secondaryOrbColor = "rgba(224, 242, 254, 0.2)";
-    heroHeaderGradientOpacity = 0;
+    // STATS & FINAL CTA: Deep Obsidian Void & Ice Blue
+    topGlowColor = "rgba(56, 189, 248, 0.24)";
+    primaryOrbColor = "rgba(59, 130, 246, 0.22)";
+    secondaryOrbColor = "rgba(99, 102, 241, 0.18)";
   }
 
   return (
@@ -66,12 +48,12 @@ export const DynamicScrollBackground: React.FC<DynamicScrollBackgroundProps> = (
         }}
       />
 
-      {/* 2. DeepPiction Sky/Ice-Blue Top Atmospheric Backdrop Gradient Layer */}
+      {/* 2. DeepPiction Sky/Ice-Blue Top Atmospheric Backdrop Gradient Layer - Aligned with Hero Box level & ultra-smooth falloff */}
       <div
-        className="absolute top-0 left-0 right-0 h-[720px] transition-all duration-1000 ease-out pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-[320px] sm:h-[340px] md:h-[360px] transition-all duration-1000 ease-out pointer-events-none"
         style={{
-          background: `linear-gradient(to bottom, ${topGlowColor} 0%, rgba(15, 23, 42, 0.5) 45%, rgba(3, 7, 18, 0) 100%)`,
-          opacity: Math.max(0.2, heroHeaderGradientOpacity),
+          background: `radial-gradient(ellipse 130% 100% at 50% 0%, ${topGlowColor} 0%, rgba(59, 130, 246, 0.10) 40%, rgba(15, 23, 42, 0.03) 75%, transparent 100%)`,
+          opacity: 0.85,
         }}
       />
 

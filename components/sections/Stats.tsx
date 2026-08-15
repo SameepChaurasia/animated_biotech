@@ -13,7 +13,7 @@ interface StatsProps {
 
 export const Stats: React.FC<StatsProps> = ({ onOpenDetail }) => {
   return (
-    <section id="impact" className="py-24 md:py-32 bg-radar-grid bg-slate-950 relative overflow-hidden">
+    <section id="impact" className="py-16 md:py-24 bg-radar-grid bg-slate-950 relative overflow-hidden">
       {/* Decorative SVG Sparkline Data Curve */}
       <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center">
         <svg viewBox="0 0 1200 400" className="w-full h-full stroke-blue-500 fill-none stroke-[2]">

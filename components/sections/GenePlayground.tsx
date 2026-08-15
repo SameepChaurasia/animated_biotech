@@ -128,7 +128,7 @@ export const GenePlayground: React.FC = () => {
   const affinityKd = (0.15 + (100 - gcContent) * 0.004).toFixed(2);
 
   return (
-    <section id="playground" className="py-24 md:py-32 bg-dna-pattern bg-slate-950 relative overflow-hidden">
+    <section id="playground" className="py-16 md:py-24 bg-dna-pattern bg-slate-950 relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/3 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-lime-500/10 rounded-full blur-[140px] pointer-events-none" />

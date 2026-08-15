@@ -44,7 +44,7 @@ export const HeroPrecisionSlider: React.FC<HeroPrecisionSliderProps> = ({ onOpen
         onMouseLeave={() => setIsDragging(false)}
         onMouseMove={handleMouseMove}
         onTouchMove={handleTouchMove}
-        className="relative w-full h-[380px] sm:h-[460px] lg:h-[500px] rounded-[32px] overflow-hidden border-2 border-blue-500/40 bg-slate-950 shadow-[0_25px_80px_rgba(0,0,0,0.9)] select-none group cursor-ew-resize"
+        className="relative w-full h-[320px] sm:h-[400px] lg:h-[430px] rounded-[28px] overflow-hidden border-2 border-blue-500/40 bg-slate-950 shadow-[0_25px_80px_rgba(0,0,0,0.9)] select-none group cursor-ew-resize"
       >
         {/* RIGHT PANE: Codex Bio Cell-Level High-Resolution Precision */}
         <div className="absolute inset-0 bg-slate-950 flex flex-col justify-between p-6 sm:p-8 overflow-hidden">

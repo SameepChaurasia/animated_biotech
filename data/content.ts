@@ -119,11 +119,11 @@ export const ABOUT_CONTENT: AboutContent = {
 export const TECH_PANELS: TechPanel[] = [
   {
     id: "protein-engine",
-    counter: "01/04",
+    counter: "01/06",
     title: "AI Protein Folding Engine",
     subtitle: "De Novo Molecular Design",
     description:
-      "Generative diffusion network predicting novelty-optimized 3D protein structures down to 0.4Å backbone root-mean-square deviation.",
+      "Generative diffusion network predicting novelty-optimized 3D protein structures down to 0.38Å backbone root-mean-square deviation.",
     tags: ["Transformer Models", "Diffusion 3D", "Binding Affinity"],
     metrics: "250M+ Sequences Trained",
     iconName: "Dna",
@@ -131,7 +131,7 @@ export const TECH_PANELS: TechPanel[] = [
   },
   {
     id: "genomic-pipeline",
-    counter: "02/04",
+    counter: "02/06",
     title: "Genomic Sequencing Pipeline",
     subtitle: "Petabase Data Analytics",
     description:
@@ -143,7 +143,7 @@ export const TECH_PANELS: TechPanel[] = [
   },
   {
     id: "synthetic-pathway",
-    counter: "03/04",
+    counter: "03/06",
     title: "Synthetic Pathway Design",
     subtitle: "Automated Biomanufacturing",
     description:
@@ -155,14 +155,38 @@ export const TECH_PANELS: TechPanel[] = [
   },
   {
     id: "predictive-tox",
-    counter: "04/04",
-    title: "Predictive Toxicology",
+    counter: "04/06",
+    title: "Predictive Toxicology Engine",
     subtitle: "In Silico Safety Profiling",
     description:
       "Deep neural cellular toxicity simulations evaluating off-target cardiac and hepatic cross-reactivity prior to preclinical animal testing.",
     tags: ["ADMET Analysis", "Organ-on-Chip", "Safety Simulation"],
-    metrics: "94% Clinical Correlation",
+    metrics: "94.2% Clinical Correlation",
     iconName: "ShieldCheck",
+    patternType: "waveform",
+  },
+  {
+    id: "robotic-synthesis",
+    counter: "05/06",
+    title: "Closed-Loop Robotic Synthesis",
+    subtitle: "High-Throughput Microfluidics",
+    description:
+      "Automated liquid handlers and microfluidic screening chips executing 50,000 parallel synthesis reactions 24/7 without manual intervention.",
+    tags: ["Microfluidics", "Robotic Dispatch", "Closed-Loop Feedback"],
+    metrics: "50,000 Assays / Day",
+    iconName: "Bot",
+    patternType: "lattice",
+  },
+  {
+    id: "clinical-simulator",
+    counter: "06/06",
+    title: "Bayesian Clinical Trial Simulator",
+    subtitle: "In Silico Patient Cohorts",
+    description:
+      "Synthetic patient cohort stratifiers and adaptive trial design models predicting Phase I/II efficacy and reducing trial failure rates by 60%.",
+    tags: ["Synthetic Cohorts", "Bayesian Adaptive", "IND Readiness"],
+    metrics: "60% Cohort Precision Boost",
+    iconName: "Activity",
     patternType: "waveform",
   },
 ];

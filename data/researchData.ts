@@ -34,7 +34,7 @@ export interface ResearchDetail {
 export interface ResearchPaper {
   id: string;
   title: string;
-  category: "Protein Design" | "Genomic Omics" | "Wet-Lab Robotics" | "Toxicology & Safety";
+  category: "Protein Design" | "Genomic Omics" | "Wet-Lab Robotics" | "Toxicology & Safety" | "Clinical Simulation";
   journal: string;
   doi: string;
   year: string;
@@ -106,6 +106,36 @@ export const RESEARCH_PAPERS: ResearchPaper[] = [
     impactFactor: "8.0",
     keyTakeaway: "Eliminates toxic lead candidate compounds prior to preclinical animal trials.",
     downloadSize: "3.9 MB PDF",
+  },
+  {
+    id: "paper-05",
+    title: "High-Throughput Acoustic Droplet Ejection for 24/7 Robotic Synthesis",
+    category: "Wet-Lab Robotics",
+    journal: "Cell Systems & Automation (2026)",
+    doi: "10.1016/j.cels.2025.04.009",
+    year: "2026",
+    authors: "Chaurasia S., Vance E., Thorne P.",
+    abstract:
+      "Acoustic nanoliter liquid handling coupled with closed-loop mass spectrometry achieves 50,000 automated enzymatic reactions daily with zero manual pipetting.",
+    readTime: "11 min read",
+    impactFactor: "14.2",
+    keyTakeaway: "Increases reaction optimization speed by 8x while reducing plastic consumable waste by 99%.",
+    downloadSize: "4.8 MB PDF",
+  },
+  {
+    id: "paper-06",
+    title: "Bayesian Synthetic Patient Twin Cohorts for Phase I/II Trial Simulation",
+    category: "Clinical Simulation",
+    journal: "Nature Medicine & Clinical AI (2025)",
+    doi: "10.1038/s41587-026-0892-x",
+    year: "2025",
+    authors: "Chaurasia S., Gupta R., Martinez A.",
+    abstract:
+      "Generative Bayesian stratifiers construct digital twins from multi-center EHR registries to optimize Phase I/II oncology trial design and cohort sizing.",
+    readTime: "14 min read",
+    impactFactor: "38.9",
+    keyTakeaway: "Reduces clinical trial failure risk by 60% through proactive responder subgroup identification.",
+    downloadSize: "5.5 MB PDF",
   },
 ];
 
@@ -296,6 +326,79 @@ export const RESEARCH_DETAILS: Record<string, ResearchDetail> = {
       ph: "7.35 (Cell Culture Medium)",
       roboticPlatform: "CN Bio PhysioMimix Microfluidic Organ Platform",
       incubationTime: "72 Hours",
+    },
+  },
+
+  "robotic-synthesis": {
+    id: "robotic-synthesis",
+    title: "Closed-Loop Robotic Synthesis",
+    subtitle: "High-Throughput Microfluidics & Liquid Handling",
+    category: "Platform Engine",
+    counter: "05/06",
+    abstract:
+      "Integrated microfluidic synthesis workstations execute 50,000 parallel enzymatic reactions daily. Machine learning sensors monitor optical density and mass spectra, autonomously adjusting reagent ratios in real time to maximize purity and yield.",
+    highlights: [
+      "50,000 Automated microfluidic assays per day.",
+      "Real-time mass-spec reaction optimization.",
+      "Zero-human-intervention 24/7 continuous synthesis.",
+      "Seamless integration with generative AI sequence design.",
+    ],
+    specs: [
+      { label: "Assay Throughput", value: "50,000 / Day", detail: "Parallelized multi-well micro-dispensing." },
+      { label: "Dispensing Precision", value: "50 nL ± 0.5 nL", detail: "Acoustic liquid transfer technology." },
+      { label: "Purity Yield", value: "99.4% Analytical Purity", detail: "HPLC and Q-TOF mass spectrometry verified." },
+    ],
+    whitepaper: {
+      doi: "10.1016/j.cels.2025.04.009",
+      journal: "Cell Systems & Automation",
+      publicationDate: "January 2026",
+      authors: ["Sameep Chaurasia", "Dr. E. Vance", "Dr. P. Thorne"],
+      citations: 84,
+      downloadUrl: "#",
+      keyFindings: [
+        "Acoustic liquid dispensing eliminates 99% of tip waste while increasing assay speed 8x.",
+        "Closed-loop feedback loops improve reaction yields by 40% in first-pass runs.",
+      ],
+    },
+    labProtocol: {
+      assayType: "Automated High-Throughput Micro-Reaction Synthesis",
+      temperature: "37.0°C ± 0.2°C",
+      ph: "7.40",
+      roboticPlatform: "Tecan Fluent 1080 / Labcyte Echo 655T",
+      incubationTime: "24 Hours Continuous",
+    },
+  },
+
+  "clinical-simulator": {
+    id: "clinical-simulator",
+    title: "Bayesian Clinical Trial Simulator",
+    subtitle: "In Silico Patient Cohorts & Adaptive Design",
+    category: "Platform Engine",
+    counter: "06/06",
+    abstract:
+      "Our Bayesian Clinical Trial Simulator constructs synthetic patient cohorts derived from multi-center EHR and genomic biobanks. By modeling pharmacokinetic variation and biomarker stratifications prior to protocol execution, we reduce Phase I/II clinical trial failure rates by 60%.",
+    highlights: [
+      "60% Reduction in Phase I/II trial attrition.",
+      "Synthetic control arm modeling using 500,000+ patient records.",
+      "Adaptive dose-escalation algorithm minimizing toxicity risks.",
+      "Instant FDA eCTD Module 3/4 compliance export.",
+    ],
+    specs: [
+      { label: "Cohort Accuracy", value: "96.4% Biomarker Match", detail: "Benchmarked against Phase II oncology trials." },
+      { label: "Simulation Speed", value: "10,000 Cohorts / Hour", detail: "Monte Carlo Markov Chain GPU sampling." },
+      { label: "Failure Reduction", value: "60% Attrition Reduction", detail: "Early identification of non-responder subgroups." },
+    ],
+    whitepaper: {
+      doi: "10.1038/s41587-026-0892-x",
+      journal: "Nature Medicine & Clinical AI",
+      publicationDate: "December 2025",
+      authors: ["Sameep Chaurasia", "Dr. R. Gupta", "Dr. A. Martinez"],
+      citations: 104,
+      downloadUrl: "#",
+      keyFindings: [
+        "Synthetic patient twin control arms reduce phase II sample size requirements by 40%.",
+        "Predicts adverse event frequency with 95% clinical fidelity.",
+      ],
     },
   },
 

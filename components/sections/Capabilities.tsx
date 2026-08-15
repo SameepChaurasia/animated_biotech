@@ -23,7 +23,7 @@ interface CapabilitiesProps {
 
 export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
   return (
-    <section id="capabilities" className="py-24 md:py-32 bg-hex-matrix bg-slate-950 relative overflow-hidden">
+    <section id="capabilities" className="py-14 md:py-20 bg-hex-matrix bg-slate-950 relative overflow-hidden">
       <Container>
         <SectionHeading
           eyebrow="// 03 — CAPABILITIES"
@@ -32,7 +32,7 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
         />
 
         {/* Asymmetric Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {CAPABILITIES.map((cap, idx) => {
             const isLarge = cap.size === "large";
 
@@ -44,25 +44,25 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
               >
                 <GlassCard
                   onClick={() => onOpenDetail(cap.id)}
-                  className="h-full flex flex-col justify-between p-8 group border-slate-800 hover:border-blue-500/60 hover:shadow-[0_0_35px_rgba(59,130,246,0.2)] transition-all rounded-3xl cursor-pointer"
+                  className="h-full flex flex-col justify-between p-6 md:p-7 group border-slate-800 hover:border-blue-500/60 hover:shadow-[0_0_35px_rgba(59,130,246,0.25)] transition-all rounded-3xl cursor-pointer bg-slate-900/90"
                 >
                   <div>
                     {/* Header Row */}
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-blue-500/30 flex items-center justify-center group-hover:border-blue-400 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-all duration-300">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-11 h-11 rounded-xl bg-slate-900 border border-blue-500/30 flex items-center justify-center group-hover:border-blue-400 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] group-hover:scale-110 transition-all duration-300">
                         {ICON_MAP[cap.iconName]}
                       </div>
 
-                      <span className="font-mono text-xs uppercase tracking-widest text-blue-400 px-3 py-1 rounded-full bg-slate-900 border border-blue-500/30 font-semibold">
+                      <span className="font-mono text-[11px] uppercase tracking-widest text-blue-400 px-3 py-1 rounded-full bg-slate-900 border border-blue-500/30 font-semibold">
                         {cap.category}
                       </span>
                     </div>
 
-                    <h3 className="font-sans font-bold text-2xl text-white mb-3 group-hover:text-blue-400 transition-colors">
+                    <h3 className="font-sans font-bold text-xl md:text-2xl text-white mb-2 group-hover:text-blue-400 transition-colors">
                       {cap.title}
                     </h3>
 
-                    <p className="font-sans text-sm md:text-base text-slate-300 leading-relaxed mb-6">
+                    <p className="font-sans text-xs md:text-sm text-slate-300 leading-relaxed mb-4">
                       {cap.description}
                     </p>
                   </div>

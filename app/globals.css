@@ -213,5 +213,103 @@ body {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 0 24px rgba(59, 130, 246, 0.1);
 }
 
+/* Holographic Laser Scanline Keyframes */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(350%);
+    opacity: 0;
+  }
+}
 
+.animate-scanline {
+  animation: scanline 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
 
+@keyframes cyberPulse {
+  0%, 100% {
+    box-shadow: 0 0 35px rgba(59, 130, 246, 0.4), inset 0 0 15px rgba(59, 130, 246, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 55px rgba(34, 211, 238, 0.6), inset 0 0 25px rgba(34, 211, 238, 0.25);
+  }
+}
+
+.animate-cyber-pulse {
+  animation: cyberPulse 4s ease-in-out infinite;
+}
+
+/* Floating Animations for 3D Components */
+@keyframes floatSlow1 {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes floatSlow2 {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes floatSlow3 {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+.animate-float-1 {
+  animation: floatSlow1 5.5s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: floatSlow2 6.5s ease-in-out 1s infinite;
+}
+
+.animate-float-3 {
+  animation: floatSlow3 6s ease-in-out 2s infinite;
+}
+
+@keyframes rotate3dRing {
+  0% {
+    transform: rotateX(60deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(60deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate3dRingAlt {
+  0% {
+    transform: rotateY(60deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateY(60deg) rotateZ(-360deg);
+  }
+}
+
+.animate-rotate-ring-1 {
+  animation: rotate3dRing 14s linear infinite;
+}
+
+.animate-rotate-ring-2 {
+  animation: rotate3dRingAlt 18s linear infinite;
+}
