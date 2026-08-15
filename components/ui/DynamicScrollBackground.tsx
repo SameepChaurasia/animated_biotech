@@ -11,69 +11,74 @@ export const DynamicScrollBackground: React.FC<DynamicScrollBackgroundProps> = (
   const sp = Math.max(0, Math.min(1, scrollProgress));
 
   // Determine active section color theme
-  let topGlowColor = "rgba(255, 255, 255, 0.75)"; // Pure Radiant White Top Dome
+  let topGlowColor = "rgba(255, 255, 255, 0.72)"; // Pure Radiant White Top Dome
   let primaryOrbColor = "rgba(59, 130, 246, 0.26)"; // Royal Blue
   let secondaryOrbColor = "rgba(99, 102, 241, 0.18)"; // Indigo
 
   if (sp < 0.25) {
-    // HERO & ABOUT: Pure Radiant White Dome blending into Deep Dark Blue & Obsidian Black Sides
-    topGlowColor = "rgba(255, 255, 255, 0.75)";
-    primaryOrbColor = "rgba(59, 130, 246, 0.28)";
-    secondaryOrbColor = "rgba(99, 102, 241, 0.20)";
+    // HERO & ABOUT: Radiant Top Horizon smoothly fading into Deep Void Space with Blue/Indigo Ambient Lighting
+    topGlowColor = "rgba(255, 255, 255, 0.72)";
+    primaryOrbColor = "rgba(59, 130, 246, 0.25)";
+    secondaryOrbColor = "rgba(99, 102, 241, 0.18)";
   } else if (sp < 0.40) {
     // PLATFORM: Transition into Midnight Cyber Blue
-    topGlowColor = "rgba(56, 189, 248, 0.20)";
+    topGlowColor = "rgba(56, 189, 248, 0.15)";
     primaryOrbColor = "rgba(30, 64, 175, 0.18)";
     secondaryOrbColor = "rgba(99, 102, 241, 0.14)";
   } else if (sp < 0.70) {
     // 03 RESEARCH HUB & CAPABILITIES: Stealth Pitch Black & Crisp White/Platinum Grid Lighting
-    topGlowColor = "rgba(255, 255, 255, 0.14)";
+    topGlowColor = "rgba(255, 255, 255, 0.10)";
     primaryOrbColor = "rgba(255, 255, 255, 0.07)";
     secondaryOrbColor = "rgba(226, 232, 240, 0.05)";
   } else {
     // GENE PLAYGROUND, 04 IMPACT & FINAL CTA: Pure Obsidian Void with Pure White Spotlights
-    topGlowColor = "rgba(255, 255, 255, 0.16)";
+    topGlowColor = "rgba(255, 255, 255, 0.12)";
     primaryOrbColor = "rgba(255, 255, 255, 0.08)";
     secondaryOrbColor = "rgba(241, 245, 249, 0.06)";
   }
 
+  // Fade out the top horizon dome smoothly as user scrolls past hero so it never casts a horizontal line on lower sections
+  const topDomeOpacity = Math.max(0, 1 - sp * 6);
+
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden transition-all duration-1000 ease-out">
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden transition-all duration-1000 ease-out bg-[#030712]">
       {/* 1. Continuous Global Dot-Mesh Grid Layer across the whole viewport */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-25"
+        className="absolute inset-0 pointer-events-none opacity-20"
         style={{
           backgroundImage: `radial-gradient(rgba(148, 163, 184, 0.2) 1px, transparent 1px)`,
           backgroundSize: "28px 28px",
         }}
       />
 
-      {/* 2. Radiant Pure White Horizon & Dome spanning across header row (whiter around header left and right) */}
+      {/* 2. Radiant Horizon Dome at top of Hero - feathered and dissolved smoothly as you scroll */}
       <div
-        className="absolute top-0 left-0 right-0 h-[480px] sm:h-[550px] transition-all duration-1000 ease-out pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-[480px] sm:h-[550px] transition-all duration-700 ease-out pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 130% 85% at 50% -20%, ${topGlowColor} 0%, rgba(255, 255, 255, 0.45) 25%, rgba(186, 230, 253, 0.26) 50%, rgba(37, 99, 235, 0.14) 75%, transparent 100%)`,
-          opacity: 1,
+          background: `radial-gradient(ellipse 130% 85% at 50% -20%, ${topGlowColor} 0%, rgba(255, 255, 255, 0.40) 25%, rgba(186, 230, 253, 0.22) 50%, rgba(37, 99, 235, 0.10) 75%, transparent 100%)`,
+          opacity: topDomeOpacity,
+          maskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
         }}
       />
 
-      {/* 3. Deep Obsidian Darkening Vignette from Left and Right Sides below header row */}
+      {/* 3. Deep Obsidian Darkening Vignette from Left and Right Sides */}
       <div
-        className="absolute inset-0 pointer-events-none z-10 [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_80px,black_160px,black_100%)]"
+        className="absolute inset-0 pointer-events-none z-10"
         style={{
-          background: `linear-gradient(to right, #000000 0%, rgba(0,0,0,0.85) 12%, rgba(0,0,0,0.35) 24%, transparent 35%, transparent 65%, rgba(0,0,0,0.35) 76%, rgba(0,0,0,0.85) 88%, #000000 100%)`,
+          background: `linear-gradient(to right, #000000 0%, rgba(0,0,0,0.85) 10%, rgba(0,0,0,0.30) 22%, transparent 35%, transparent 65%, rgba(0,0,0,0.30) 78%, rgba(0,0,0,0.85) 90%, #000000 100%)`,
         }}
       />
 
-      {/* 3. Soft Radial Color Transition Masking Layer */}
+      {/* 4. Continuous Smooth Radial Color Transition Layer */}
       <div
         className="absolute inset-0 transition-colors duration-1000 ease-out pointer-events-none"
         style={{
-          background: `radial-gradient(1300px circle at 50% ${sp * 100}%, ${primaryOrbColor}, transparent 75%)`,
+          background: `radial-gradient(1400px circle at 50% ${Math.min(100, sp * 100)}%, ${primaryOrbColor}, transparent 75%)`,
         }}
       />
 
-      {/* 4. Primary Floating Ambient Glow Orb */}
+      {/* 5. Primary Floating Ambient Glow Orb - Continuous Motion */}
       <div
         className="absolute w-[800px] h-[800px] rounded-full blur-[190px] transition-all duration-1000 ease-out animate-pulse-glow pointer-events-none"
         style={{
@@ -83,7 +88,7 @@ export const DynamicScrollBackground: React.FC<DynamicScrollBackgroundProps> = (
         }}
       />
 
-      {/* 5. Secondary Floating Accent Glow Orb */}
+      {/* 6. Secondary Floating Accent Glow Orb - Continuous Motion */}
       <div
         className="absolute w-[800px] h-[800px] rounded-full blur-[190px] transition-all duration-1000 ease-out animate-pulse-glow pointer-events-none"
         style={{

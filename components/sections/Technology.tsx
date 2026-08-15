@@ -1,29 +1,100 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Dna, Atom, Sprout, ShieldCheck, Bot, Activity, CheckCircle2 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { TECH_PANELS } from "@/data/content";
 import { soundManager } from "@/lib/audio";
+import {
+  Dna,
+  Zap,
+  Activity,
+  Layers,
+  Search,
+  Lock,
+  CheckCircle2,
+  Sliders,
+  Cpu,
+} from "lucide-react";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
+const TECH_PANELS = [
+  {
+    id: "spatial-diffusion",
+    counter: "01",
+    subtitle: "3D GENERATIVE DIFFUSION",
+    title: "Spatial Diffusion Transformer",
+    description: "1.4B parameter structural diffusion network predicting 0.38Å crystal-resolution backbone alignments de novo.",
+    tags: ["0.38Å RMSD", "1.4B Weights", "72h Lead Cycle"],
+    iconName: "Dna",
+    metrics: "72h Synthesis",
+  },
+  {
+    id: "petabase-scale",
+    counter: "02",
+    subtitle: "DISTRIBUTED PETABASE INDEX",
+    title: "Petabase Multi-Omics Pipeline",
+    description: "Cloud infrastructure indexing 250M+ non-coding and coding sequence embeddings across 50,000 organism lineages.",
+    tags: ["250M+ Genomes", "Sub-ms Query", "Vector Embeddings"],
+    iconName: "Layers",
+    metrics: "250M+ Sequences",
+  },
+  {
+    id: "crispr-flux",
+    counter: "03",
+    subtitle: "METABOLIC PATHWAY COMPILER",
+    title: "Closed-Loop CRISPR Flux Engine",
+    description: "Automated guide RNA design paired with high-throughput acoustic droplet robotics delivering zero off-target edits.",
+    tags: ["Zero Off-Target", "Acoustic Dispense", "100K Cells/hr"],
+    iconName: "Zap",
+    metrics: "99.8% On-Target",
+  },
+  {
+    id: "bayesian-toxicology",
+    counter: "04",
+    subtitle: "IN SILICO PHARMACOKINETICS",
+    title: "Bayesian Clinical Risk Engine",
+    description: "Predictive neural ordinary differential equations (ODEs) modeling human organoid metabolic degradation.",
+    tags: ["Organoid Validated", "94% Safety Hit", "Neural ODEs"],
+    iconName: "Activity",
+    metrics: "94% In Silico Safety",
+  },
+  {
+    id: "epigenetic-compiler",
+    counter: "05",
+    subtitle: "CHROMATIN LANDSCAPE PREDICTOR",
+    title: "Epigenetic State Simulator",
+    description: "Simulating nucleosome positioning and histone modifications to forecast tissue-specific expression dynamics.",
+    tags: ["Histone Profiling", "ATAC-seq Trained", "Single-Cell Res"],
+    iconName: "Search",
+    metrics: "96.4% Cell-Type Spec",
+  },
+  {
+    id: "autonomous-wetlab",
+    counter: "06",
+    subtitle: "ROBOTIC VALIDATION FOUNDRY",
+    title: "Closed-Loop Wet Lab Synthesis",
+    description: "Physical acoustic dispensing robotics verifying digital constructs in 96-well and 384-well arrays 24/7.",
+    tags: ["Acoustic Robotics", "384-Well Arrays", "Closed-Loop Loop"],
+    iconName: "Cpu",
+    metrics: "100K Wells / Day",
+  },
+];
+
 const ICON_MAP: Record<string, React.ReactNode> = {
-  Dna: <Dna className="w-7 h-7 text-blue-400" />,
-  Atom: <Atom className="w-7 h-7 text-indigo-400" />,
-  Sprout: <Sprout className="w-7 h-7 text-purple-400" />,
-  ShieldCheck: <ShieldCheck className="w-7 h-7 text-blue-400" />,
-  Bot: <Bot className="w-7 h-7 text-cyan-400" />,
-  Activity: <Activity className="w-7 h-7 text-teal-400" />,
+  Dna: <Dna className="w-5 h-5" />,
+  Layers: <Layers className="w-5 h-5" />,
+  Zap: <Zap className="w-5 h-5" />,
+  Activity: <Activity className="w-5 h-5" />,
+  Search: <Search className="w-5 h-5" />,
+  Cpu: <Cpu className="w-5 h-5" />,
 };
 
 interface TechnologyProps {
@@ -34,88 +105,95 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const isMobile = useIsMobile(1024);
   const isReducedMotion = useReducedMotion();
 
   useGSAP(
     () => {
-      if (isMobile || isReducedMotion || !sectionRef.current || !triggerRef.current) {
+      if (isReducedMotion || !sectionRef.current || !triggerRef.current) {
         return;
       }
 
-      const panels = gsap.utils.toArray<HTMLElement>(".tech-panel-item");
-      if (panels.length < 2) return;
+      // Use ScrollTrigger MatchMedia to cleanly isolate >=1024px horizontal pin without React DOM unmount crashes
+      const mm = gsap.matchMedia();
 
-      const getShift = () => {
-        const first = panels[0];
-        const last = panels[panels.length - 1];
-        return last.offsetLeft - first.offsetLeft;
-      };
+      mm.add("(min-width: 1024px)", () => {
+        const panels = gsap.utils.toArray<HTMLElement>(".tech-panel-item");
+        if (panels.length < 2) return;
 
-      const pinTimeline = gsap.timeline({
-        scrollTrigger: {
-          id: "tech-scroll",
-          trigger: triggerRef.current,
-          pin: true,
-          start: "top 120px",
-          scrub: 0.8,
-          snap: {
-            snapTo: 1 / (panels.length - 1),
-            duration: 0.3,
-            ease: "power1.inOut",
-          },
-          end: () => `+=${getShift() + 100}`,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const progress = self.progress;
-            const floatIndex = progress * (panels.length - 1);
-            const nearestIdx = Math.round(floatIndex);
-            setActiveIndex(nearestIdx);
+        const getShift = () => {
+          const first = panels[0];
+          const last = panels[panels.length - 1];
+          return last.offsetLeft - first.offsetLeft;
+        };
 
-            panels.forEach((panel, i) => {
-              const distance = Math.abs(floatIndex - i);
-              const isCenter = distance < 0.45;
+        const pinTimeline = gsap.timeline({
+          scrollTrigger: {
+            id: "tech-scroll",
+            trigger: triggerRef.current,
+            pin: true,
+            start: "top 120px",
+            scrub: 0.8,
+            snap: {
+              snapTo: 1 / (panels.length - 1),
+              duration: 0.3,
+              ease: "power1.inOut",
+            },
+            end: () => `+=${getShift() + 100}`,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              const progress = self.progress;
+              const floatIndex = progress * (panels.length - 1);
+              const nearestIdx = Math.round(floatIndex);
+              setActiveIndex(nearestIdx);
 
-              const scale = isCenter ? 1.04 : 0.93;
-              const opacity = isCenter ? 1.0 : 0.85;
-              const yOffset = isCenter ? -8 : 6;
+              panels.forEach((panel, i) => {
+                const distance = Math.abs(floatIndex - i);
+                const isCenter = distance < 0.45;
 
-              gsap.to(panel, {
-                scale: scale,
-                opacity: opacity,
-                y: yOffset,
-                boxShadow: isCenter
-                  ? "0 0 50px rgba(59, 130, 246, 0.5), 0 20px 45px rgba(0, 0, 0, 0.9)"
-                  : "0 10px 25px rgba(0, 0, 0, 0.65)",
-                borderColor: isCenter ? "rgba(59, 130, 246, 0.9)" : "rgba(51, 65, 85, 0.8)",
-                duration: 0.25,
-                ease: "power2.out",
-                overwrite: "auto",
+                const scale = isCenter ? 1.04 : 0.93;
+                const opacity = isCenter ? 1.0 : 0.85;
+                const yOffset = isCenter ? -8 : 6;
+
+                gsap.to(panel, {
+                  scale: scale,
+                  opacity: opacity,
+                  y: yOffset,
+                  boxShadow: isCenter
+                    ? "0 0 50px rgba(59, 130, 246, 0.5), 0 20px 45px rgba(0, 0, 0, 0.9)"
+                    : "0 10px 25px rgba(0, 0, 0, 0.65)",
+                  borderColor: isCenter ? "rgba(59, 130, 246, 0.9)" : "rgba(51, 65, 85, 0.8)",
+                  duration: 0.25,
+                  ease: "power2.out",
+                  overwrite: "auto",
+                });
               });
-            });
+            },
           },
-        },
-      });
+        });
 
-      pinTimeline.to(sectionRef.current, {
-        x: () => -getShift(),
-        ease: "none",
+        pinTimeline.to(sectionRef.current, {
+          x: () => -getShift(),
+          ease: "none",
+        });
+
+        return () => {
+          pinTimeline.kill();
+        };
       });
 
       return () => {
-        pinTimeline.kill();
-        ScrollTrigger.getAll().forEach((t) => t.kill());
+        mm.revert();
       };
     },
-    { scope: triggerRef, dependencies: [isMobile, isReducedMotion] }
+    { scope: triggerRef, dependencies: [isReducedMotion] }
   );
 
   const handleNavClick = (idx: number, panelId: string) => {
     soundManager.playClickSound();
     setActiveIndex(idx);
 
-    if (!isMobile && !isReducedMotion) {
-      const st = ScrollTrigger.getById("tech-scroll") || ScrollTrigger.getAll().find((s) => s.trigger === triggerRef.current);
+    if (typeof window !== "undefined" && window.innerWidth >= 1024 && !isReducedMotion) {
+      const st = ScrollTrigger.getById("tech-scroll");
       if (st) {
         const targetScroll = st.start + (idx / (TECH_PANELS.length - 1)) * (st.end - st.start) + 2;
         window.scrollTo({ top: targetScroll, behavior: "smooth" });
@@ -123,7 +201,8 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
       }
     }
 
-    const el = document.getElementById(isMobile ? `tech-panel-mobile-${panelId}` : `tech-panel-${panelId}`);
+    const isMobileView = typeof window !== "undefined" && window.innerWidth < 1024;
+    const el = document.getElementById(isMobileView ? `tech-panel-mobile-${panelId}` : `tech-panel-${panelId}`);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "center" });
     }
@@ -162,21 +241,15 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
                   <button
                     key={panel.id}
                     onClick={() => handleNavClick(idx, panel.id)}
-                    className={`px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full font-mono text-xs transition-all duration-300 flex items-center gap-1.5 sm:gap-2 cursor-pointer ${
+                    className={`flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full font-mono text-[10px] sm:text-xs uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                       isActive
-                        ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white font-extrabold shadow-[0_0_20px_rgba(34,211,238,0.55)] scale-105 border border-cyan-300/80"
-                        : "text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent hover:border-slate-800"
+                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold shadow-[0_0_20px_rgba(59,130,246,0.6)] scale-105"
+                        : "text-slate-400 hover:text-white hover:bg-slate-900/80 font-medium"
                     }`}
                   >
-                    {isActive && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-pulse shadow-[0_0_8px_#38BDF8]" />
-                    )}
-                    <span className={`text-[10px] sm:text-[11px] ${isActive ? "text-cyan-200 font-bold" : "text-slate-400"}`}>
-                      {panel.counter}
-                    </span>
-                    <span className="text-[11px] sm:text-xs font-semibold">
-                      {panel.title.split(" ")[0]}
-                    </span>
+                    <span className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-cyan-300 animate-pulse" : "bg-slate-600"}`} />
+                    <span className="hidden sm:inline">{panel.counter}.</span>
+                    <span>{panel.title.split(" ")[0]}</span>
                   </button>
                 );
               })}
@@ -185,97 +258,97 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
         </div>
       </Container>
 
-      {/* Desktop Compact Centered Floating Deck (>=1024px) */}
-      {!isMobile && !isReducedMotion ? (
-        <div ref={triggerRef} className="overflow-hidden w-full flex items-center justify-start pt-2 pb-6">
-          <div
-            ref={sectionRef}
-            className="flex gap-6 items-center w-max"
-            style={{
-              paddingLeft: "calc(50vw - 195px)",
-              paddingRight: "calc(50vw - 195px)",
-            }}
-          >
-            {TECH_PANELS.map((panel, idx) => {
-              const isActive = activeIndex === idx;
-              return (
-                <div
-                  key={panel.id}
-                  id={`tech-panel-${panel.id}`}
-                  className={`tech-panel-item flex-shrink-0 w-[32vw] max-w-[390px] transition-all duration-300 rounded-[22px] overflow-hidden relative group p-[2px] ${
-                    isActive
-                      ? "bg-gradient-to-b from-blue-400 via-indigo-500 to-cyan-400 shadow-2xl shadow-blue-900/40"
-                      : "bg-slate-800/80 hover:bg-slate-700/80"
-                  }`}
+      {/* Desktop Horizontal Pinned Deck (>=1024px) */}
+      <div ref={triggerRef} className="hidden lg:block overflow-hidden w-full pt-2 pb-6">
+        <div
+          ref={sectionRef}
+          className="flex gap-6 items-center w-max"
+          style={{
+            paddingLeft: "calc(50vw - 195px)",
+            paddingRight: "calc(50vw - 195px)",
+          }}
+        >
+          {TECH_PANELS.map((panel, idx) => {
+            const isActive = activeIndex === idx;
+            return (
+              <div
+                key={panel.id}
+                id={`tech-panel-${panel.id}`}
+                className={`tech-panel-item flex-shrink-0 w-[32vw] max-w-[390px] transition-all duration-300 rounded-[22px] overflow-hidden relative group p-[2px] ${
+                  isActive
+                    ? "bg-gradient-to-b from-blue-400 via-indigo-500 to-cyan-400 shadow-2xl shadow-blue-900/40"
+                    : "bg-slate-800/80 hover:bg-slate-700/80"
+                }`}
+              >
+                {/* Cybernetic Corner Crosshairs */}
+                <div className="absolute top-2 left-2 text-[9px] font-mono text-blue-400/50 pointer-events-none z-20">+</div>
+                <div className="absolute bottom-2 right-2 text-[9px] font-mono text-blue-400/50 pointer-events-none z-20">+</div>
+
+                <GlassCard
+                  onClick={() => onOpenDetail(panel.id)}
+                  className="p-5 sm:p-6 h-full flex flex-col justify-between border-none transition-all rounded-[22px] cursor-pointer bg-slate-950/96 relative overflow-hidden"
                 >
-                  {/* Cybernetic Corner Crosshairs */}
-                  <div className="absolute top-2 left-2 text-[9px] font-mono text-blue-400/50 pointer-events-none z-20">+</div>
-                  <div className="absolute bottom-2 right-2 text-[9px] font-mono text-blue-400/50 pointer-events-none z-20">+</div>
+                  {/* Subtle Holographic Laser Scanline */}
+                  {isActive && (
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent h-12 w-full animate-scanline pointer-events-none" />
+                  )}
 
-                  <GlassCard
-                    onClick={() => onOpenDetail(panel.id)}
-                    className="p-5 sm:p-6 h-full flex flex-col justify-between border-none transition-all rounded-[22px] cursor-pointer bg-slate-950/96 relative overflow-hidden"
-                  >
-                    {/* Subtle Holographic Laser Scanline */}
-                    {isActive && (
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent h-12 w-full animate-scanline pointer-events-none" />
-                    )}
+                  {/* Top Bar */}
+                  <div className="flex items-center justify-between mb-3.5 pb-3 border-b border-slate-800/90 relative z-10">
+                    <div className="flex items-center gap-2.5">
+                      <span className="font-mono text-xl md:text-2xl font-black text-blue-400 bg-slate-900 px-2.5 py-0.5 rounded-lg border border-blue-500/30">
+                        {panel.counter}
+                      </span>
+                      <span className="font-mono text-[10px] text-indigo-300 uppercase tracking-widest px-2 py-0.5 rounded-full bg-slate-900 border border-indigo-500/30 font-semibold truncate max-w-[170px]">
+                        {panel.subtitle}
+                      </span>
+                    </div>
+                    <div className={`p-2.5 rounded-xl transition-all ${
+                      isActive
+                        ? "bg-blue-600/20 border border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.4)] text-blue-300 scale-110"
+                        : "bg-slate-900 border border-slate-800 text-slate-400 group-hover:border-blue-500/40"
+                    }`}>
+                      {ICON_MAP[panel.iconName]}
+                    </div>
+                  </div>
 
-                    {/* Top Bar */}
-                    <div className="flex items-center justify-between mb-3.5 pb-3 border-b border-slate-800/90 relative z-10">
-                      <div className="flex items-center gap-2.5">
-                        <span className="font-mono text-xl md:text-2xl font-black text-blue-400 bg-slate-900 px-2.5 py-0.5 rounded-lg border border-blue-500/30">
-                          {panel.counter}
+                  {/* Content */}
+                  <div className="space-y-2 mb-4 relative z-10">
+                    <h3 className="font-sans text-lg md:text-xl font-extrabold text-white leading-snug group-hover:text-blue-400 transition-colors">
+                      {panel.title}
+                    </h3>
+                    <p className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-3">
+                      {panel.description}
+                    </p>
+                  </div>
+
+                  {/* Metrics & Tags */}
+                  <div className="pt-3 border-t border-slate-800/90 flex flex-wrap items-center justify-between gap-2 font-mono text-xs relative z-10">
+                    <div className="flex flex-wrap gap-1.5">
+                      {panel.tags.slice(0, 2).map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2 py-0.5 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300 text-[10px] font-medium"
+                        >
+                          {tag}
                         </span>
-                        <span className="font-mono text-[10px] text-indigo-300 uppercase tracking-widest px-2 py-0.5 rounded-full bg-slate-900 border border-indigo-500/30 font-semibold truncate max-w-[170px]">
-                          {panel.subtitle}
-                        </span>
-                      </div>
-                      <div className={`p-2.5 rounded-xl transition-all ${
-                        isActive
-                          ? "bg-blue-600/20 border border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.4)] text-blue-300 scale-110"
-                          : "bg-slate-900 border border-slate-800 text-slate-400 group-hover:border-blue-500/40"
-                      }`}>
-                        {ICON_MAP[panel.iconName]}
-                      </div>
+                      ))}
                     </div>
 
-                    {/* Content */}
-                    <div className="space-y-2 mb-4 relative z-10">
-                      <h3 className="font-sans text-lg md:text-xl font-extrabold text-white leading-snug group-hover:text-blue-400 transition-colors">
-                        {panel.title}
-                      </h3>
-                      <p className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-3">
-                        {panel.description}
-                      </p>
+                    <div className="flex items-center gap-1.5 text-blue-300 font-bold text-[10px] bg-blue-950/80 px-2.5 py-1 rounded-full border border-blue-400/40 shadow-sm">
+                      <CheckCircle2 className="w-3 h-3 text-blue-400 shrink-0" />
+                      <span>{panel.metrics}</span>
                     </div>
-
-                    {/* Metrics & Tags */}
-                    <div className="pt-3 border-t border-slate-800/90 flex flex-wrap items-center justify-between gap-2 font-mono text-xs relative z-10">
-                      <div className="flex flex-wrap gap-1.5">
-                        {panel.tags.slice(0, 2).map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2 py-0.5 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300 text-[10px] font-medium"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center gap-1.5 text-blue-300 font-bold text-[10px] bg-blue-950/80 px-2.5 py-1 rounded-full border border-blue-400/40 shadow-sm">
-                        <CheckCircle2 className="w-3 h-3 text-blue-400 shrink-0" />
-                        <span>{panel.metrics}</span>
-                      </div>
-                    </div>
-                  </GlassCard>
-                </div>
-              );
-            })}
-          </div>
+                  </div>
+                </GlassCard>
+              </div>
+            );
+          })}
         </div>
-      ) : (
-        /* Mobile / Reduced Motion Vertical Stack Fallback (<1024px) */
+      </div>
+
+      {/* Mobile / Tablet Vertical Stack Fallback (<1024px) */}
+      <div className="block lg:hidden">
         <Container className="space-y-5">
           {TECH_PANELS.map((panel) => (
             <div key={panel.id} id={`tech-panel-mobile-${panel.id}`}>
@@ -326,8 +399,7 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
             </div>
           ))}
         </Container>
-      )}
+      </div>
     </section>
   );
 };
-

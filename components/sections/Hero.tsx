@@ -20,29 +20,23 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
   return (
     <section
       id="main"
-      className="relative min-h-[90vh] md:min-h-screen flex flex-col justify-between pt-24 pb-2 md:pt-28 md:pb-3 overflow-hidden"
+      className="relative min-h-[90vh] md:min-h-screen flex flex-col justify-between pt-24 pb-2 md:pt-28 md:pb-4 overflow-x-clip bg-transparent"
     >
-      {/* Top Radiant Pure White & Ice-Blue Horizon spanning left & right around header */}
+      {/* Top Radiant Pure White & Ice-Blue Horizon spanning left & right around header with smooth downward fade */}
       <div
-        className="absolute top-0 inset-x-0 h-[480px] pointer-events-none z-0"
+        className="absolute top-0 inset-x-0 h-[480px] pointer-events-none z-0 [mask-image:linear-gradient(to_bottom,black_50%,transparent_100%)]"
         style={{
           background:
-            "radial-gradient(ellipse 130% 85% at 50% -20%, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.42) 25%, rgba(186, 230, 253, 0.26) 50%, rgba(37, 99, 235, 0.14) 75%, transparent 100%)",
+            "radial-gradient(ellipse 130% 85% at 50% -20%, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.40) 25%, rgba(186, 230, 253, 0.22) 50%, rgba(37, 99, 235, 0.12) 75%, transparent 100%)",
         }}
       />
 
-      {/* Dark Side Vignettes below the header line (darker from sides on body) */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0 [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_80px,black_160px,black_100%)]"
-        style={{
-          background:
-            "linear-gradient(to right, #000000 0%, rgba(0,0,0,0.85) 12%, rgba(0,0,0,0.35) 24%, transparent 35%, transparent 65%, rgba(0,0,0,0.35) 76%, rgba(0,0,0,0.85) 88%, #000000 100%)",
-        }}
-      />
+      {/* Local Ambient Glow Orbs with soft dissolution */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-blue-600/[0.18] rounded-full blur-[180px] pointer-events-none [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]" />
+      <div className="absolute bottom-1/4 right-1/4 w-[550px] h-[550px] bg-indigo-600/15 rounded-full blur-[160px] pointer-events-none [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]" />
 
-      {/* Black & Dark Blue Theme Ambient Glow Orbs */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-blue-600/[0.22] rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[550px] h-[550px] bg-indigo-600/18 rounded-full blur-[160px] pointer-events-none" />
+      {/* Atmospheric Soft Seamless Blend Layer Bridging Hero & Mission Sections */}
+      <div className="absolute -bottom-24 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-blue-950/15 to-transparent blur-3xl pointer-events-none z-0" />
 
       <Container className="relative z-10 flex-1 flex flex-col justify-between">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center my-auto">
@@ -55,7 +49,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
               </span>
             </div>
 
-            {/* Headline matching reference image: Systemic Insights | Programmable Therapy */}
+            {/* Headline: Systemic Insights | Programmable Therapy */}
             <h1 className="font-sans text-3xl sm:text-5xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.12] mb-4 sm:mb-5">
               Systemic Insights <span className="text-slate-500 font-light mx-0.5">|</span>
               <br className="hidden sm:inline" />
@@ -145,6 +139,3 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
     </section>
   );
 };
-
-
-
