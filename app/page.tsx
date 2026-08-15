@@ -16,10 +16,7 @@ import { SectionDivider } from "@/components/ui/SectionDivider";
 import { DetailModal } from "@/components/ui/DetailModal";
 import { PartnerModal } from "@/components/ui/PartnerModal";
 import { MissionVideoModal } from "@/components/ui/MissionVideoModal";
-
 import { DynamicScrollBackground } from "@/components/ui/DynamicScrollBackground";
-
-import { CurvedSectionTransition } from "@/components/ui/CurvedSectionTransition";
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
@@ -62,13 +59,13 @@ export default function Home() {
 
   return (
     <>
-      {/* Whole-Page Interactive Molecular Canvas Backdrop */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-90">
+      {/* 1. Atmospheric Dynamic Scroll Background Layer (Base) */}
+      <DynamicScrollBackground scrollProgress={scrollProgress} />
+
+      {/* 2. Whole-Page Interactive Molecular Canvas Particle Network Backdrop (Layered on top of background) */}
+      <div className="fixed inset-0 z-[1] pointer-events-none opacity-95">
         <MolecularCanvas scrollProgress={scrollProgress} />
       </div>
-
-      {/* Atmospheric Dynamic Scroll Color Transition Background Layer */}
-      <DynamicScrollBackground scrollProgress={scrollProgress} />
 
       {/* Top Scroll Progress Indicator */}
       <div className="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-slate-950 pointer-events-none">

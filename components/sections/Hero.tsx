@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import { Play, ArrowRight, ChevronDown } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
@@ -9,6 +10,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ParticleBurstContainer } from "@/components/ui/ParticleBurst";
 import { HeroPrecisionSlider } from "@/components/sections/HeroPrecisionSlider";
 import { HERO_CONTENT } from "@/data/content";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface HeroProps {
   onOpenPartner: () => void;
@@ -17,6 +19,8 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, onOpenDetail }) => {
+  const isReducedMotion = useReducedMotion();
+
   return (
     <section
       id="main"
@@ -31,9 +35,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
         }}
       />
 
-      {/* Local Ambient Glow Orbs with soft dissolution */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-blue-600/[0.18] rounded-full blur-[180px] pointer-events-none [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]" />
-      <div className="absolute bottom-1/4 right-1/4 w-[550px] h-[550px] bg-indigo-600/15 rounded-full blur-[160px] pointer-events-none [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]" />
+      {/* Local Ambient Glow Orbs with organic pulsing animation & soft dissolution */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-blue-600/[0.18] rounded-full blur-[180px] pointer-events-none animate-pulse-glow [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]" />
+      <div
+        className="absolute bottom-1/4 right-1/4 w-[550px] h-[550px] bg-indigo-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]"
+        style={{ animationDelay: "3.5s" }}
+      />
 
       {/* Atmospheric Soft Seamless Blend Layer Bridging Hero & Mission Sections */}
       <div className="absolute -bottom-24 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-blue-950/15 to-transparent blur-3xl pointer-events-none z-0" />
@@ -42,32 +49,57 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center my-auto">
           {/* Content Column (Left ~55%) */}
           <div className="lg:col-span-6 flex flex-col items-start">
-            <div className="flex items-center gap-3 mb-4 sm:mb-5">
-              <Eyebrow label={HERO_CONTENT.eyebrow} className="mb-0 text-blue-400 font-semibold" />
-              <span className="font-mono text-[10px] sm:text-[11px] text-indigo-300 bg-slate-900/90 border border-indigo-500/30 px-3 py-1 rounded-full uppercase tracking-wider font-semibold shadow-md">
+            {/* Eyebrow & Recruiter Badge */}
+            <motion.div
+              initial={isReducedMotion ? {} : { opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex items-center gap-3 mb-4 sm:mb-5"
+            >
+              <Eyebrow label={HERO_CONTENT.eyebrow} className="mb-0 text-cyan-400 font-semibold" />
+              <span className="font-mono text-[10px] sm:text-[11px] text-indigo-300 bg-slate-900/90 border border-indigo-500/30 px-3 py-1 rounded-full uppercase tracking-wider font-semibold shadow-md flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                 BY SAMEEP CHAURASIA
               </span>
-            </div>
+            </motion.div>
 
             {/* Headline: Systemic Insights | Programmable Therapy */}
-            <h1 className="font-sans text-3xl sm:text-5xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.12] mb-4 sm:mb-5">
+            <motion.h1
+              initial={isReducedMotion ? {} : { opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="font-sans text-3xl sm:text-5xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.12] mb-4 sm:mb-5"
+            >
               Systemic Insights <span className="text-slate-500 font-light mx-0.5">|</span>
               <br className="hidden sm:inline" />
-              <span className="text-[#38BDF8] font-extrabold">Programmable Therapy</span>
-            </h1>
+              <span className="text-[#38BDF8] font-extrabold drop-shadow-[0_0_25px_rgba(56,189,248,0.3)]">
+                Programmable Therapy
+              </span>
+            </motion.h1>
 
-            <p className="font-sans text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl mb-6 font-normal">
+            {/* Subtitle */}
+            <motion.p
+              initial={isReducedMotion ? {} : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="font-sans text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl mb-6 font-normal"
+            >
               {HERO_CONTENT.subheadline}
-            </p>
+            </motion.p>
 
             {/* CTA Action Row with Particle Burst */}
-            <div className="flex flex-wrap items-center gap-3.5 mb-8">
+            <motion.div
+              initial={isReducedMotion ? {} : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-wrap items-center gap-3.5 mb-8"
+            >
               <ParticleBurstContainer>
                 <Button
                   onClick={onOpenPartner}
                   variant="primary"
                   size="md"
-                  className="rounded-full bg-white text-slate-950 font-bold hover:bg-slate-200 transition-all border-none px-7 py-2.5 text-sm shadow-xl cursor-pointer"
+                  className="rounded-full bg-white text-slate-950 font-bold hover:bg-slate-200 transition-all border-none px-7 py-2.5 text-sm shadow-xl cursor-pointer hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
                   icon={<ArrowRight className="w-4 h-4 text-slate-950" />}
                 >
                   Partner with us
@@ -79,41 +111,57 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
                   onClick={onOpenMissionVideo}
                   variant="ghost"
                   size="md"
-                  className="rounded-full border border-white/20 text-white hover:bg-white/10 px-5 py-2.5 text-sm font-semibold cursor-pointer"
-                  icon={<Play className="w-3.5 h-3.5 fill-current text-blue-400" />}
+                  className="rounded-full border border-white/20 text-white hover:bg-white/10 px-5 py-2.5 text-sm font-semibold cursor-pointer hover:border-cyan-400/50 transition-colors"
+                  icon={<Play className="w-3.5 h-3.5 fill-current text-cyan-400" />}
                 >
                   {HERO_CONTENT.secondaryCta}
                 </Button>
               </MagneticButton>
-            </div>
+            </motion.div>
 
             {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-3 gap-4 pt-5 border-t border-slate-800/80 w-full max-w-md">
-              {HERO_CONTENT.statsQuick.map((stat) => (
-                <div
+            <motion.div
+              initial={isReducedMotion ? {} : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="grid grid-cols-3 gap-4 pt-5 border-t border-slate-800/80 w-full max-w-md"
+            >
+              {HERO_CONTENT.statsQuick.map((stat, idx) => (
+                <motion.div
                   key={stat.label}
+                  whileHover={isReducedMotion ? {} : { y: -3, scale: 1.02 }}
                   onClick={() => onOpenDetail("protein-engine")}
-                  className="flex flex-col p-3 rounded-2xl bg-slate-950/60 border border-slate-800/90 hover:border-blue-500/50 hover:bg-slate-900/60 transition-all cursor-pointer group"
+                  className="flex flex-col p-3 rounded-2xl bg-slate-950/60 border border-slate-800/90 hover:border-cyan-500/50 hover:bg-slate-900/70 transition-all cursor-pointer group shadow-sm hover:shadow-[0_0_15px_rgba(56,189,248,0.25)]"
                 >
-                  <span className="font-sans text-lg sm:text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
+                  <span className="font-sans text-lg sm:text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
                     {stat.value}
                   </span>
-                  <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-wider mt-0.5 font-medium">
+                  <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-wider mt-0.5 font-medium group-hover:text-slate-300 transition-colors">
                     {stat.label}
                   </span>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
 
           {/* Interactive Split-Comparison Precision Showcase (Right ~45%) */}
-          <div className="lg:col-span-6">
+          <motion.div
+            initial={isReducedMotion ? {} : { opacity: 0, scale: 0.95, y: 22 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6"
+          >
             <HeroPrecisionSlider onOpenDetail={onOpenDetail} />
-          </div>
+          </motion.div>
         </div>
 
         {/* Institutional Partner Brand Wall & Scroll Indicator */}
-        <div className="mt-4 mb-2 flex flex-col items-center gap-4 w-full">
+        <motion.div
+          initial={isReducedMotion ? {} : { opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="mt-4 mb-2 flex flex-col items-center gap-4 w-full"
+        >
           <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-65 hover:opacity-100 transition-opacity font-mono text-xs sm:text-sm tracking-widest font-black text-slate-300">
             <span>DENALI</span>
             <span>REGENERON</span>
@@ -129,12 +177,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
             }}
             className="group flex flex-col items-center gap-1 pointer-events-auto cursor-pointer transition-colors"
           >
-            <span className="font-mono text-[10px] uppercase tracking-widest text-blue-400 font-bold group-hover:text-white transition-colors">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-cyan-400 font-bold group-hover:text-white transition-colors">
               Scroll To Explore
             </span>
-            <ChevronDown className="w-3.5 h-3.5 text-blue-400 group-hover:text-white animate-bounce transition-colors" />
+            <ChevronDown className="w-3.5 h-3.5 text-cyan-400 group-hover:text-white animate-bounce transition-colors" />
           </a>
-        </div>
+        </motion.div>
       </Container>
     </section>
   );
