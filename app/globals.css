@@ -367,3 +367,65 @@ body {
 .animate-rotate-ring-2 {
   animation: rotate3dRingAlt 18s linear infinite;
 }
+
+/* Capabilities Radial SVG Line Pulse & Flow */
+@keyframes flowPulse {
+  0% {
+    stroke-dashoffset: 40;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-spoke-flow {
+  animation: flowPulse 2.4s linear infinite;
+}
+
+/* Creative Animated Gradient Border Utilities */
+@keyframes gradientBorderFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-border-flow {
+  background-size: 200% 200%;
+  animation: gradientBorderFlow 6s ease infinite;
+}
+
+@keyframes cyberBorderPulse {
+  0%, 100% {
+    opacity: 0.75;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.35);
+  }
+}
+
+.animate-border-pulse {
+  animation: cyberBorderPulse 3.5s ease-in-out infinite;
+}
+
+/* Rotating Conic Border Ray */
+@keyframes conicRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-conic-spin {
+  animation: conicRotate 8s linear infinite;
+}
+

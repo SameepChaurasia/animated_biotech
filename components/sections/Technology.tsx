@@ -274,19 +274,26 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
               <div
                 key={panel.id}
                 id={`tech-panel-${panel.id}`}
-                className={`tech-panel-item flex-shrink-0 w-[32vw] max-w-[390px] transition-all duration-300 rounded-[22px] overflow-hidden relative group p-[2px] ${
+                className={`tech-panel-item flex-shrink-0 w-[32vw] max-w-[390px] transition-all duration-300 rounded-[22px] overflow-hidden relative group p-[1.5px] ${
                   isActive
-                    ? "bg-gradient-to-b from-blue-400 via-indigo-500 to-cyan-400 shadow-2xl shadow-blue-900/40"
-                    : "bg-slate-800/80 hover:bg-slate-700/80"
+                    ? "bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 animate-border-flow shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(34,211,238,0.45)] scale-[1.02]"
+                    : "bg-gradient-to-br from-slate-800/80 via-slate-700/60 to-slate-900/80 hover:from-cyan-500/50 hover:to-blue-600/50"
                 }`}
               >
-                {/* Cybernetic Corner Crosshairs */}
-                <div className="absolute top-2 left-2 text-[9px] font-mono text-blue-400/50 pointer-events-none z-20">+</div>
-                <div className="absolute bottom-2 right-2 text-[9px] font-mono text-blue-400/50 pointer-events-none z-20">+</div>
+                {/* Top Specular Rim */}
+                <div className={`absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-400/90 to-transparent rounded-full z-20 pointer-events-none ${isActive ? "opacity-100" : "opacity-0 group-hover:opacity-70"} transition-opacity`} />
+
+                {/* Precision HUD Corner Brackets */}
+                <div className="absolute top-2 left-2 w-3.5 h-3.5 border-t-2 border-l-2 rounded-tl-sm border-cyan-400/70 pointer-events-none z-20" />
+                <div className="absolute top-2 right-2 w-3.5 h-3.5 border-t-2 border-r-2 rounded-tr-sm border-cyan-400/70 pointer-events-none z-20 flex items-start justify-end p-0.5">
+                  <div className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-cyan-400 shadow-[0_0_8px_#22d3ee] animate-pulse" : "bg-slate-600"}`} />
+                </div>
+                <div className="absolute bottom-2 left-2 w-3.5 h-3.5 border-b-2 border-l-2 rounded-bl-sm border-cyan-400/70 pointer-events-none z-20" />
+                <div className="absolute bottom-2 right-2 w-3.5 h-3.5 border-b-2 border-r-2 rounded-br-sm border-cyan-400/70 pointer-events-none z-20" />
 
                 <GlassCard
                   onClick={() => onOpenDetail(panel.id)}
-                  className="p-5 sm:p-6 h-full flex flex-col justify-between border-none transition-all rounded-[22px] cursor-pointer bg-slate-950/96 relative overflow-hidden"
+                  className="p-5 sm:p-6 h-full flex flex-col justify-between border border-slate-800/80 group-hover:border-slate-700/80 transition-all rounded-[20.5px] cursor-pointer bg-slate-950/96 relative overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_0_-1px_1px_rgba(0,0,0,0.8)]"
                 >
                   {/* Subtle Holographic Laser Scanline */}
                   {isActive && (
@@ -296,17 +303,17 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
                   {/* Top Bar */}
                   <div className="flex items-center justify-between mb-3.5 pb-3 border-b border-slate-800/90 relative z-10">
                     <div className="flex items-center gap-2.5">
-                      <span className="font-mono text-xl md:text-2xl font-black text-blue-400 bg-slate-900 px-2.5 py-0.5 rounded-lg border border-blue-500/30">
+                      <span className="font-mono text-xl md:text-2xl font-black text-cyan-400 bg-slate-900/90 px-2.5 py-0.5 rounded-lg border border-cyan-500/30 shadow-sm">
                         {panel.counter}
                       </span>
-                      <span className="font-mono text-[10px] text-indigo-300 uppercase tracking-widest px-2 py-0.5 rounded-full bg-slate-900 border border-indigo-500/30 font-semibold truncate max-w-[170px]">
+                      <span className="font-mono text-[10px] text-indigo-300 uppercase tracking-widest px-2 py-0.5 rounded-full bg-slate-900/90 border border-indigo-500/30 font-semibold truncate max-w-[170px]">
                         {panel.subtitle}
                       </span>
                     </div>
                     <div className={`p-2.5 rounded-xl transition-all ${
                       isActive
-                        ? "bg-blue-600/20 border border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.4)] text-blue-300 scale-110"
-                        : "bg-slate-900 border border-slate-800 text-slate-400 group-hover:border-blue-500/40"
+                        ? "bg-blue-600/30 border border-cyan-400 shadow-[0_0_18px_rgba(34,211,238,0.4)] text-cyan-300 scale-110"
+                        : "bg-slate-900 border border-slate-800 text-slate-400 group-hover:border-cyan-500/40"
                     }`}>
                       {ICON_MAP[panel.iconName]}
                     </div>
@@ -314,7 +321,7 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
 
                   {/* Content */}
                   <div className="space-y-2 mb-4 relative z-10">
-                    <h3 className="font-sans text-lg md:text-xl font-extrabold text-white leading-snug group-hover:text-blue-400 transition-colors">
+                    <h3 className="font-sans text-lg md:text-xl font-extrabold text-white leading-snug group-hover:text-cyan-300 transition-colors">
                       {panel.title}
                     </h3>
                     <p className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-3">
@@ -328,15 +335,15 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
                       {panel.tags.slice(0, 2).map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-0.5 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300 text-[10px] font-medium"
+                          className="px-2 py-0.5 rounded-full bg-slate-900/90 border border-slate-800 text-[10px] text-slate-300"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-blue-300 font-bold text-[10px] bg-blue-950/80 px-2.5 py-1 rounded-full border border-blue-400/40 shadow-sm">
-                      <CheckCircle2 className="w-3 h-3 text-blue-400 shrink-0" />
+                    <div className="flex items-center gap-1.5 text-cyan-400 text-[11px] font-bold">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
                       <span>{panel.metrics}</span>
                     </div>
                   </div>
@@ -351,16 +358,16 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
       <div className="block lg:hidden">
         <Container className="space-y-5">
           {TECH_PANELS.map((panel) => (
-            <div key={panel.id} id={`tech-panel-mobile-${panel.id}`}>
+            <div key={panel.id} id={`tech-panel-mobile-${panel.id}`} className="group relative p-[1.5px] rounded-2xl bg-gradient-to-br from-slate-800 via-slate-700/60 to-slate-900 hover:from-cyan-400 hover:to-blue-600 transition-all duration-300 shadow-lg">
               <GlassCard
                 onClick={() => onOpenDetail(panel.id)}
-                className="p-5 space-y-3.5 border-slate-800 rounded-2xl cursor-pointer group hover:border-blue-500/50 bg-slate-900/95"
+                className="p-5 space-y-3.5 border-none rounded-[14.5px] cursor-pointer bg-slate-950/95 relative overflow-hidden"
               >
                 <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-                  <span className="font-mono text-xl font-bold text-blue-400">
+                  <span className="font-mono text-xl font-bold text-cyan-400">
                     {panel.counter}
                   </span>
-                  <div className="p-2 rounded-xl bg-slate-900 border border-blue-500/30">
+                  <div className="p-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-cyan-300">
                     {ICON_MAP[panel.iconName]}
                   </div>
                 </div>
@@ -369,7 +376,7 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
                   <span className="font-mono text-[10px] text-indigo-300 uppercase tracking-widest block mb-1">
                     // {panel.subtitle}
                   </span>
-                  <h3 className="font-sans text-lg font-bold text-white mb-1.5 group-hover:text-blue-400 transition-colors">
+                  <h3 className="font-sans text-lg font-bold text-white mb-1.5 group-hover:text-cyan-300 transition-colors">
                     {panel.title}
                   </h3>
                   <p className="font-sans text-xs text-slate-300 leading-relaxed">
@@ -388,12 +395,12 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between text-blue-400 font-mono text-xs font-bold pt-1">
+                <div className="flex items-center justify-between text-cyan-400 font-mono text-xs font-bold pt-1">
                   <div className="flex items-center gap-1.5 text-[11px]">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>{panel.metrics}</span>
                   </div>
-                  <span className="text-[11px]">EXPLORE SPECS →</span>
+                  <span className="text-[11px] group-hover:underline">EXPLORE SPECS →</span>
                 </div>
               </GlassCard>
             </div>

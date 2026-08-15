@@ -20,6 +20,12 @@ const PILLARS = [
     ringColor: "border-cyan-400/50",
     satelliteColor: "bg-cyan-400 shadow-[0_0_10px_#38BDF8]",
     floatClass: "animate-float-1",
+    borderRest: "from-cyan-500/50 via-blue-600/40 to-teal-400/50",
+    borderHover: "group-hover:from-cyan-400 group-hover:via-sky-400 group-hover:to-blue-400",
+    cornerColor: "border-cyan-400 text-cyan-400 group-hover:border-cyan-300",
+    glowShadow: "shadow-[0_16px_36px_-8px_rgba(0,0,0,0.95),0_0_20px_rgba(34,211,238,0.18)] hover:shadow-[0_28px_60px_-10px_rgba(0,0,0,0.98),0_0_40px_rgba(34,211,238,0.45)]",
+    dotGlow: "bg-cyan-400 shadow-[0_0_8px_#22d3ee]",
+    specular: "from-transparent via-cyan-400/90 to-transparent",
   },
   {
     id: "pillar-velocity",
@@ -32,6 +38,12 @@ const PILLARS = [
     ringColor: "border-amber-400/50",
     satelliteColor: "bg-amber-400 shadow-[0_0_10px_#F59E0B]",
     floatClass: "animate-float-2",
+    borderRest: "from-amber-500/50 via-orange-600/40 to-rose-500/50",
+    borderHover: "group-hover:from-amber-400 group-hover:via-orange-400 group-hover:to-rose-400",
+    cornerColor: "border-amber-400 text-amber-400 group-hover:border-amber-300",
+    glowShadow: "shadow-[0_16px_36px_-8px_rgba(0,0,0,0.95),0_0_20px_rgba(245,158,11,0.18)] hover:shadow-[0_28px_60px_-10px_rgba(0,0,0,0.98),0_0_40px_rgba(245,158,11,0.45)]",
+    dotGlow: "bg-amber-400 shadow-[0_0_8px_#f59e0b]",
+    specular: "from-transparent via-amber-400/90 to-transparent",
   },
   {
     id: "pillar-scale",
@@ -44,6 +56,12 @@ const PILLARS = [
     ringColor: "border-purple-400/50",
     satelliteColor: "bg-purple-400 shadow-[0_0_10px_#C084FC]",
     floatClass: "animate-float-3",
+    borderRest: "from-purple-500/50 via-fuchsia-600/40 to-indigo-500/50",
+    borderHover: "group-hover:from-purple-400 group-hover:via-fuchsia-400 group-hover:to-indigo-400",
+    cornerColor: "border-purple-400 text-purple-400 group-hover:border-purple-300",
+    glowShadow: "shadow-[0_16px_36px_-8px_rgba(0,0,0,0.95),0_0_20px_rgba(168,85,247,0.18)] hover:shadow-[0_28px_60px_-10px_rgba(0,0,0,0.98),0_0_40px_rgba(168,85,247,0.45)]",
+    dotGlow: "bg-purple-400 shadow-[0_0_8px_#a855f7]",
+    specular: "from-transparent via-purple-400/90 to-transparent",
   },
 ];
 
@@ -88,14 +106,13 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
   return (
     <section id="about" className="pt-6 pb-14 md:pt-10 md:pb-20 bg-transparent relative overflow-x-clip">
       {/* Ambient background glow seamlessly fading in */}
-      <div className="absolute top-1/4 left-10 w-[550px] h-[550px] bg-blue-600/12 rounded-full blur-[170px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[550px] h-[550px] bg-indigo-600/12 rounded-full blur-[170px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      <Container>
+      <Container className="relative z-10">
         <SectionHeading
-          eyebrow="// 01 — THE MISSION"
-          headline="Synthetic Biology Is No Longer An Art. It Is A Computation."
-          subheading="Traditional drug discovery relies on serendipitous screening across billions of molecules. We treat biology as a deterministic compiler — turning genetic blueprints into executable code."
+          eyebrow="// 01 — MISSION & CONVERGENCE"
+          headline="Bridging Generative In Silico Models and High-Throughput Wet Labs."
+          subheading="Codex Bio creates autonomous closed-loop discovery engines that iterate from synthetic gene candidate to validated protein crystal in hours."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center mb-10">
@@ -107,7 +124,7 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
               </p>
             </RevealOnScroll>
 
-            {/* Three Compact Square Cyber-Orbit Modules */}
+            {/* Three Compact Square Cyber-Orbit Modules with Creative HUD Borders */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1" style={{ perspective: "1000px" }}>
               {PILLARS.map((pillar, idx) => (
                 <RevealOnScroll key={pillar.id} delay={120 + idx * 80}>
@@ -116,17 +133,30 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
                       soundManager.playClickSound();
                       onOpenDetail(pillar.id);
                     }}
-                    className={`${pillar.floatClass} group relative p-[1.5px] rounded-2xl bg-gradient-to-br from-slate-750 via-slate-850 to-slate-950 hover:from-cyan-400 hover:via-blue-500 hover:to-indigo-500 transition-all duration-300 shadow-[0_16px_36px_-8px_rgba(0,0,0,0.95),0_0_20px_rgba(59,130,246,0.15)] hover:shadow-[0_28px_60px_-10px_rgba(0,0,0,0.98),0_0_40px_rgba(34,211,238,0.45),inset_0_1px_2px_rgba(255,255,255,0.3)] hover:-translate-y-2.5 hover:scale-[1.02] cursor-pointer h-full overflow-hidden`}
+                    className={`${pillar.floatClass} group relative p-[1.5px] rounded-2xl bg-gradient-to-br ${pillar.borderRest} ${pillar.borderHover} animate-border-flow transition-all duration-500 ${pillar.glowShadow} hover:-translate-y-2.5 hover:scale-[1.02] cursor-pointer h-full`}
                   >
+                    {/* Top Specular Rim */}
+                    <div className={`absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r ${pillar.specular} rounded-full z-20 pointer-events-none opacity-70 group-hover:opacity-100 transition-opacity`} />
+
+                    {/* Top-Edge Tech Code Notch */}
+                    <div className="absolute -top-[1px] right-4 px-2 py-0.5 rounded-b-md bg-slate-950 border-x border-b border-slate-700/60 group-hover:border-cyan-400/50 font-mono text-[7px] tracking-wider text-slate-400 group-hover:text-cyan-300 transition-colors z-20 pointer-events-none shadow-sm flex items-center gap-1">
+                      <span className="w-1 h-1 rounded-full bg-cyan-400 animate-pulse" />
+                      <span>{pillar.tag}</span>
+                    </div>
+
+                    {/* Sci-Fi HUD Corner Brackets */}
+                    <div className={`absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 rounded-tl-sm ${pillar.cornerColor} transition-all duration-300 pointer-events-none z-20 group-hover:w-3.5 group-hover:h-3.5`} />
+                    <div className={`absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 rounded-tr-sm ${pillar.cornerColor} transition-all duration-300 pointer-events-none z-20 group-hover:w-3.5 group-hover:h-3.5 flex items-start justify-end p-0.5`}>
+                      <div className={`w-1 h-1 rounded-full ${pillar.dotGlow} animate-pulse`} />
+                    </div>
+                    <div className={`absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 rounded-bl-sm ${pillar.cornerColor} transition-all duration-300 pointer-events-none z-20 group-hover:w-3.5 group-hover:h-3.5`} />
+                    <div className={`absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 rounded-br-sm ${pillar.cornerColor} transition-all duration-300 pointer-events-none z-20 group-hover:w-3.5 group-hover:h-3.5`} />
+
                     {/* Subtle Holographic Laser Scanline on Hover */}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/15 to-transparent h-12 w-full animate-scanline pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
-                    {/* Cybernetic Corner Crosshairs */}
-                    <div className="absolute top-2 left-2 text-[8px] font-mono text-cyan-400/40 pointer-events-none z-10">+</div>
-                    <div className="absolute bottom-2 right-2 text-[8px] font-mono text-cyan-400/40 pointer-events-none z-10">+</div>
-
                     {/* 3D Interior Slab */}
-                    <div className="p-4 sm:p-4.5 h-full flex flex-col justify-between rounded-[14.5px] bg-slate-950/96 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.8)] backdrop-blur-2xl relative z-0">
+                    <div className="p-4 sm:p-4.5 h-full flex flex-col justify-between rounded-[14.5px] bg-slate-950/96 border border-slate-800/80 group-hover:border-slate-700/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.8)] backdrop-blur-2xl relative z-0 transition-colors">
                       <div>
                         {/* Top Revolving Gyroscope Icon & Badge */}
                         <div className="flex items-center justify-between mb-3">
@@ -148,7 +178,7 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
 
                           {/* Node Step Tag */}
                           <span className="font-mono text-[9px] font-bold text-cyan-300 px-2 py-0.5 rounded-full bg-cyan-950/70 border border-cyan-500/30 shadow-sm">
-                            {pillar.tag}
+                            {pillar.badge}
                           </span>
                         </div>
 
