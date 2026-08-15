@@ -14,10 +14,6 @@ interface StatsProps {
 export const Stats: React.FC<StatsProps> = ({ onOpenDetail }) => {
   return (
     <section id="impact" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
-      {/* Level 4: Progressive Macro Architectural Grid (60px Squares) - Edge to Edge */}
-      <div className="absolute inset-0 bg-slate-950 pointer-events-none z-0" />
-      <div className="absolute inset-0 bg-grid-macro opacity-90 pointer-events-none z-0" />
-
       {/* Decorative SVG Sparkline Data Curve */}
       <div className="absolute inset-0 opacity-25 pointer-events-none flex items-center justify-center z-0">
         <svg viewBox="0 0 1200 400" className="w-full h-full stroke-white/40 fill-none stroke-[2]">

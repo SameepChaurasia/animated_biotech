@@ -26,15 +26,15 @@ export const DynamicScrollBackground: React.FC<DynamicScrollBackgroundProps> = (
     primaryOrbColor = "rgba(30, 64, 175, 0.18)";
     secondaryOrbColor = "rgba(99, 102, 241, 0.14)";
   } else if (sp < 0.70) {
-    // 03 RESEARCH HUB & CAPABILITIES: Stealth Pitch Black & Crisp White/Platinum Grid Lighting
-    topGlowColor = "rgba(255, 255, 255, 0.10)";
-    primaryOrbColor = "rgba(255, 255, 255, 0.07)";
-    secondaryOrbColor = "rgba(226, 232, 240, 0.05)";
+    // 03 RESEARCH HUB & CAPABILITIES (System A handles primary atmosphere)
+    topGlowColor = "rgba(255, 255, 255, 0.06)";
+    primaryOrbColor = "rgba(30, 64, 175, 0.04)";
+    secondaryOrbColor = "rgba(139, 92, 246, 0.03)";
   } else {
-    // GENE PLAYGROUND, 04 IMPACT & FINAL CTA: Pure Obsidian Void with Pure White Spotlights
-    topGlowColor = "rgba(255, 255, 255, 0.12)";
-    primaryOrbColor = "rgba(255, 255, 255, 0.08)";
-    secondaryOrbColor = "rgba(241, 245, 249, 0.06)";
+    // GENE PLAYGROUND, 04 IMPACT & FINAL CTA (System B handles primary atmosphere)
+    topGlowColor = "rgba(255, 255, 255, 0.06)";
+    primaryOrbColor = "rgba(20, 184, 166, 0.04)";
+    secondaryOrbColor = "rgba(168, 85, 247, 0.03)";
   }
 
   // Fade out the top horizon dome smoothly as user scrolls past hero so it never casts a horizontal line on lower sections

@@ -17,6 +17,8 @@ import { DetailModal } from "@/components/ui/DetailModal";
 import { PartnerModal } from "@/components/ui/PartnerModal";
 import { MissionVideoModal } from "@/components/ui/MissionVideoModal";
 import { DynamicScrollBackground } from "@/components/ui/DynamicScrollBackground";
+import { SectionBackgroundSystemA } from "@/components/ui/SectionBackgroundSystemA";
+import { SectionBackgroundSystemB } from "@/components/ui/SectionBackgroundSystemB";
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
@@ -87,10 +89,19 @@ export default function Home() {
         />
         <About onOpenDetail={handleOpenDetail} />
         <Technology onOpenDetail={handleOpenDetail} />
-        <ResearchKnowledgeHub onOpenDetail={handleOpenDetail} />
-        <Capabilities onOpenDetail={handleOpenDetail} />
-        <GenePlayground />
-        <Stats onOpenDetail={handleOpenDetail} />
+
+        {/* SYSTEM A — Continuous background: Sections 03 (Research Hub) + 04 (Capabilities) */}
+        <SectionBackgroundSystemA>
+          <ResearchKnowledgeHub onOpenDetail={handleOpenDetail} />
+          <Capabilities onOpenDetail={handleOpenDetail} />
+        </SectionBackgroundSystemA>
+
+        {/* SYSTEM B — Continuous background: Sections 05 (Gene Sandbox) + 06 (Impact) */}
+        <SectionBackgroundSystemB>
+          <GenePlayground />
+          <Stats onOpenDetail={handleOpenDetail} />
+        </SectionBackgroundSystemB>
+
         <FinalCta onOpenPartner={handleOpenPartner} />
       </main>
 

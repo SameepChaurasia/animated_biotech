@@ -129,14 +129,6 @@ export const GenePlayground: React.FC = () => {
 
   return (
     <section id="playground" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
-      {/* Level 3: Progressive Expanded Cyber-Grid (42px Squares) - Edge to Edge */}
-      <div className="absolute inset-0 bg-slate-950 pointer-events-none z-0" />
-      <div className="absolute inset-0 bg-grid-expanded opacity-90 pointer-events-none z-0" />
-
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/3 left-10 w-96 h-96 bg-white/[0.04] rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-slate-300/[0.035] rounded-full blur-[140px] pointer-events-none" />
-
       <Container className="relative z-10">
         <SectionHeading
           eyebrow="// 05 — INTERACTIVE GENE PLAYGROUND"
