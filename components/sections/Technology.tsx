@@ -130,17 +130,20 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
   };
 
   return (
-    <section id="technology" className="pt-20 pb-16 md:pt-24 md:pb-20 bg-transparent relative overflow-hidden">
-      {/* Seamless Feathered Blueprint Schematic with Smooth Fade */}
-      <div className="absolute inset-0 bg-blueprint-schematic bg-slate-950/90 [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%,black_82%,transparent_100%)] pointer-events-none z-0" />
+    <section id="technology" className="pt-20 pb-16 md:pt-24 md:pb-20 bg-[#020617] relative overflow-hidden">
+      {/* Deep Midnight Slate-950/Navy Base */}
+      <div className="absolute inset-0 bg-[#020617] pointer-events-none z-0" />
 
-      {/* Deep Top & Bottom Shadow Merging Transitions */}
-      <div className="absolute top-0 inset-x-0 h-48 bg-gradient-to-b from-[#030712] via-[#030712]/70 to-transparent pointer-events-none z-10" />
-      <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-[#030712] via-[#030712]/70 to-transparent pointer-events-none z-10" />
+      {/* Seamless Feathered Blueprint Schematic with Dark Blue Tone */}
+      <div className="absolute inset-0 bg-blueprint-schematic opacity-80 [mask-image:linear-gradient(to_bottom,transparent_0%,black_15%,black_85%,transparent_100%)] pointer-events-none z-0" />
 
-      {/* Background Cybernetic Gradient Orbs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-blue-600/10 rounded-full blur-[160px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
+      {/* Top & Bottom Shadow Merging Transitions */}
+      <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#020617] via-[#020617]/80 to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent pointer-events-none z-10" />
+
+      {/* Background Dark Blue Cybernetic Ambient Glow Orbs */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-blue-700/10 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[160px] pointer-events-none" />
 
       <Container className="relative z-10 mb-6 md:mb-8">
         <SectionHeading

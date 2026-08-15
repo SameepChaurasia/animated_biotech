@@ -11,19 +11,19 @@ export const DynamicScrollBackground: React.FC<DynamicScrollBackgroundProps> = (
   const sp = Math.max(0, Math.min(1, scrollProgress));
 
   // Determine active section color theme
-  let topGlowColor = "rgba(186, 230, 253, 0.30)"; // Soft Sky Blue Glow
-  let primaryOrbColor = "rgba(59, 130, 246, 0.22)"; // Royal Blue
+  let topGlowColor = "rgba(255, 255, 255, 0.75)"; // Pure Radiant White Top Dome
+  let primaryOrbColor = "rgba(59, 130, 246, 0.26)"; // Royal Blue
   let secondaryOrbColor = "rgba(99, 102, 241, 0.18)"; // Indigo
 
   if (sp < 0.25) {
-    // HERO & ABOUT: Deep Sky Blue & Electric Indigo Glow
-    topGlowColor = "rgba(186, 230, 253, 0.32)";
-    primaryOrbColor = "rgba(59, 130, 246, 0.24)";
+    // HERO & ABOUT: Pure Radiant White Dome blending into Deep Dark Blue & Obsidian Black Sides
+    topGlowColor = "rgba(255, 255, 255, 0.75)";
+    primaryOrbColor = "rgba(59, 130, 246, 0.28)";
     secondaryOrbColor = "rgba(99, 102, 241, 0.20)";
   } else if (sp < 0.40) {
-    // PLATFORM: Transition into Stealth Dark
+    // PLATFORM: Transition into Midnight Cyber Blue
     topGlowColor = "rgba(56, 189, 248, 0.20)";
-    primaryOrbColor = "rgba(59, 130, 246, 0.16)";
+    primaryOrbColor = "rgba(30, 64, 175, 0.18)";
     secondaryOrbColor = "rgba(99, 102, 241, 0.14)";
   } else if (sp < 0.70) {
     // 03 RESEARCH HUB & CAPABILITIES: Stealth Pitch Black & Crisp White/Platinum Grid Lighting
@@ -48,12 +48,20 @@ export const DynamicScrollBackground: React.FC<DynamicScrollBackgroundProps> = (
         }}
       />
 
-      {/* 2. DeepPiction Sky/Ice-Blue Top Atmospheric Backdrop Gradient Layer - Aligned with Hero Box level & ultra-smooth falloff */}
+      {/* 2. Radiant Pure White Horizon & Dome spanning across header row (whiter around header left and right) */}
       <div
-        className="absolute top-0 left-0 right-0 h-[320px] sm:h-[340px] md:h-[360px] transition-all duration-1000 ease-out pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-[480px] sm:h-[550px] transition-all duration-1000 ease-out pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 130% 100% at 50% 0%, ${topGlowColor} 0%, rgba(59, 130, 246, 0.10) 40%, rgba(15, 23, 42, 0.03) 75%, transparent 100%)`,
-          opacity: 0.85,
+          background: `radial-gradient(ellipse 130% 85% at 50% -20%, ${topGlowColor} 0%, rgba(255, 255, 255, 0.45) 25%, rgba(186, 230, 253, 0.26) 50%, rgba(37, 99, 235, 0.14) 75%, transparent 100%)`,
+          opacity: 1,
+        }}
+      />
+
+      {/* 3. Deep Obsidian Darkening Vignette from Left and Right Sides below header row */}
+      <div
+        className="absolute inset-0 pointer-events-none z-10 [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_80px,black_160px,black_100%)]"
+        style={{
+          background: `linear-gradient(to right, #000000 0%, rgba(0,0,0,0.85) 12%, rgba(0,0,0,0.35) 24%, transparent 35%, transparent 65%, rgba(0,0,0,0.35) 76%, rgba(0,0,0,0.85) 88%, #000000 100%)`,
         }}
       />
 

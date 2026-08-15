@@ -143,18 +143,10 @@ export const HeroPrecisionSlider: React.FC<HeroPrecisionSliderProps> = ({ onOpen
             soundManager.playClickSound();
             if (onOpenDetail) onOpenDetail("pillar-velocity");
           }}
-          className="px-5 py-2 rounded-full bg-slate-900/80 border border-slate-800 text-slate-200 hover:text-white hover:border-blue-400 transition-all font-semibold hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+          className="px-5 py-2 rounded-full bg-slate-900/80 border border-slate-800 text-slate-200 hover:text-white hover:border-blue-400 transition-all font-semibold hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] cursor-pointer"
         >
           Our Impact
         </button>
-      </div>
-
-      {/* Institutional Partner Brand Wall (DENALI, REGENERON, BAVARIAN NORDIC, GENENTECH) */}
-      <div className="pt-4 flex flex-wrap items-center justify-center gap-8 sm:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all font-mono text-xs sm:text-sm tracking-widest font-black text-slate-300">
-        <span>DENALI</span>
-        <span>REGENERON</span>
-        <span>BAVARIAN NORDIC</span>
-        <span>GENENTECH</span>
       </div>
     </div>
   );

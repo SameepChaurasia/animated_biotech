@@ -22,9 +22,27 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
       id="main"
       className="relative min-h-[90vh] md:min-h-screen flex flex-col justify-between pt-24 pb-2 md:pt-28 md:pb-3 overflow-hidden"
     >
-      {/* Deep Piction Ambient Glow Blobs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "3s" }} />
+      {/* Top Radiant Pure White & Ice-Blue Horizon spanning left & right around header */}
+      <div
+        className="absolute top-0 inset-x-0 h-[480px] pointer-events-none z-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 130% 85% at 50% -20%, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.42) 25%, rgba(186, 230, 253, 0.26) 50%, rgba(37, 99, 235, 0.14) 75%, transparent 100%)",
+        }}
+      />
+
+      {/* Dark Side Vignettes below the header line (darker from sides on body) */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0 [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_80px,black_160px,black_100%)]"
+        style={{
+          background:
+            "linear-gradient(to right, #000000 0%, rgba(0,0,0,0.85) 12%, rgba(0,0,0,0.35) 24%, transparent 35%, transparent 65%, rgba(0,0,0,0.35) 76%, rgba(0,0,0,0.85) 88%, #000000 100%)",
+        }}
+      />
+
+      {/* Black & Dark Blue Theme Ambient Glow Orbs */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-blue-600/[0.22] rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[550px] h-[550px] bg-indigo-600/18 rounded-full blur-[160px] pointer-events-none" />
 
       <Container className="relative z-10 flex-1 flex flex-col justify-between">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center my-auto">
@@ -37,9 +55,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
               </span>
             </div>
 
-            {/* DeepPiction Headline Style: Systemic Insights | Programmable Therapy */}
+            {/* Headline matching reference image: Systemic Insights | Programmable Therapy */}
             <h1 className="font-sans text-3xl sm:text-5xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.12] mb-4 sm:mb-5">
-              Systemic Insights <span className="text-slate-500 font-light mx-0.5">|</span> <span className="text-blue-400">Programmable Therapy</span>
+              Systemic Insights <span className="text-slate-500 font-light mx-0.5">|</span>
+              <br className="hidden sm:inline" />
+              <span className="text-[#38BDF8] font-extrabold">Programmable Therapy</span>
             </h1>
 
             <p className="font-sans text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl mb-6 font-normal">
@@ -98,8 +118,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
           </div>
         </div>
 
-        {/* Scroll Indicator Chevron Link */}
-        <div className="mt-2 mb-1 flex justify-center w-full">
+        {/* Institutional Partner Brand Wall & Scroll Indicator */}
+        <div className="mt-4 mb-2 flex flex-col items-center gap-4 w-full">
+          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-65 hover:opacity-100 transition-opacity font-mono text-xs sm:text-sm tracking-widest font-black text-slate-300">
+            <span>DENALI</span>
+            <span>REGENERON</span>
+            <span>BAVARIAN NORDIC</span>
+            <span>GENENTECH</span>
+          </div>
+
           <a
             href="#about"
             onClick={(e) => {

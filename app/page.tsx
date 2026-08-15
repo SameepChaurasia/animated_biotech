@@ -63,7 +63,7 @@ export default function Home() {
   return (
     <>
       {/* Whole-Page Interactive Molecular Canvas Backdrop */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-75">
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-90">
         <MolecularCanvas scrollProgress={scrollProgress} />
       </div>
 

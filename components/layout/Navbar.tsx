@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { NAV_LINKS } from "@/data/content";
+import { soundManager } from "@/lib/audio";
 
 interface NavbarProps {
   onOpenPartner: () => void;
@@ -20,15 +21,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
     const sectionIds = ["main", "about", "technology", "research", "capabilities", "playground", "impact", "cta"];
 
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+      setScrolled(window.scrollY > 20);
 
-      const scrollPosition = window.scrollY + 250;
+      const scrollPosition = window.scrollY + 180;
 
       for (let i = sectionIds.length - 1; i >= 0; i--) {
         const el = document.getElementById(sectionIds[i]);
-        if (el && el.offsetTop <= scrollPosition) {
-          setActiveSection(sectionIds[i]);
-          break;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const elementTop = rect.top + window.scrollY;
+          if (elementTop <= scrollPosition) {
+            setActiveSection(sectionIds[i]);
+            break;
+          }
         }
       }
     };
@@ -46,39 +51,55 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
     }
   }, [mobileMenuOpen]);
 
+  const handleNavClick = (href: string, e: React.MouseEvent) => {
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      const id = href.replace("#", "");
+      const el = document.getElementById(id);
+      if (el) {
+        soundManager.playClickSound();
+        const rect = el.getBoundingClientRect();
+        const targetY = rect.top + window.scrollY - 60;
+        window.scrollTo({ top: targetY, behavior: "smooth" });
+        setActiveSection(id);
+      }
+    }
+  };
+
   return (
-    <header className="fixed top-4 left-4 right-4 z-50 max-w-[1500px] mx-auto">
+    <header className="fixed top-3 left-3 right-3 z-50 max-w-5xl mx-auto">
       <div
-        className={`w-full rounded-full transition-all duration-300 px-5 md:px-7 py-3 flex items-center justify-between backdrop-blur-2xl border ${
+        className={`w-full rounded-full transition-all duration-300 px-3.5 md:px-4 py-1.5 md:py-2 flex items-center justify-between backdrop-blur-2xl border ${
           scrolled
-            ? "bg-slate-950/90 border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.85)]"
-            : "bg-slate-950/70 border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.65)]"
+            ? "bg-slate-950/90 border-white/20 shadow-[0_12px_32px_rgba(0,0,0,0.85)]"
+            : "bg-slate-950/75 border-white/15 shadow-[0_8px_24px_rgba(0,0,0,0.65)]"
         }`}
       >
         {/* Logo Monogram with Recruiter Attribution Pill */}
         <Link
           href="#main"
-          className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-full px-2 py-1"
+          onClick={(e) => handleNavClick("#main", e)}
+          className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-full px-1 py-0.5"
         >
-          <div className="w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 group-hover:border-blue-400 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all">
-            <svg viewBox="0 0 100 100" className="w-5 h-5 stroke-current fill-none stroke-[8]">
+          <div className="w-7 h-7 rounded-full bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 group-hover:border-blue-400 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all shrink-0">
+            <svg viewBox="0 0 100 100" className="w-3.5 h-3.5 stroke-current fill-none stroke-[8]">
               <path d="M 75 30 C 40 10, 20 40, 35 70 C 50 90, 80 75, 80 75" strokeLinecap="round" />
               <path d="M 65 20 C 30 30, 30 70, 65 80" stroke="#38BDF8" strokeLinecap="round" />
               <circle cx="50" cy="50" r="7" fill="#6366F1" stroke="none" />
             </svg>
           </div>
           <div className="flex flex-col">
-            <span className="font-sans font-bold text-base sm:text-lg text-white tracking-tight flex items-center gap-1.5">
-              Codex <span className="text-blue-400 font-mono text-xs uppercase tracking-wider font-semibold">Bio</span>
+            <span className="font-sans font-bold text-xs sm:text-sm text-white tracking-tight flex items-center gap-1">
+              Codex <span className="text-blue-400 font-mono text-[10px] uppercase tracking-wider font-semibold">Bio</span>
             </span>
-            <span className="font-mono text-[9px] uppercase tracking-widest text-indigo-400 font-semibold -mt-1 hidden sm:inline-block">
+            <span className="font-mono text-[7.5px] uppercase tracking-widest text-indigo-400 font-semibold -mt-0.5 hidden sm:inline-block">
               BY SAMEEP CHAURASIA
             </span>
           </div>
         </Link>
 
-        {/* Desktop Navigation Links with Active Scroll-Spy & Increased Font Size */}
-        <nav className="hidden md:flex items-center gap-1.5 lg:gap-3 px-2 py-1">
+        {/* Desktop Navigation Links with Active Scroll-Spy */}
+        <nav className="hidden md:flex items-center gap-1 lg:gap-1.5 px-1 py-0.5">
           {NAV_LINKS.map((link) => {
             const sectionId = link.href.replace("#", "");
             const isActive = activeSection === sectionId;
@@ -87,14 +108,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
               <Link
                 key={link.label}
                 href={link.href}
-                className={`font-sans text-sm lg:text-base font-bold px-3.5 py-1.5 rounded-full transition-all duration-200 flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+                onClick={(e) => handleNavClick(link.href, e)}
+                className={`font-sans text-xs lg:text-[13px] font-semibold px-2.5 py-1 rounded-full transition-all duration-200 flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
                   isActive
-                    ? "bg-blue-600 text-white shadow-[0_0_18px_rgba(59,130,246,0.6)] border border-blue-400/60"
-                    : "text-slate-200 hover:text-blue-400 hover:bg-slate-900/70"
+                    ? "bg-blue-600 text-white shadow-[0_0_12px_rgba(59,130,246,0.6)] border border-blue-400/60"
+                    : "text-slate-300 hover:text-white hover:bg-slate-900/70"
                 }`}
               >
                 {isActive && (
-                  <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                 )}
                 {link.label}
               </Link>
@@ -103,13 +125,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
         </nav>
 
         {/* CTA Button & Mobile Toggle */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Button
             onClick={onOpenPartner}
             variant="primary"
             size="sm"
-            className="hidden sm:inline-flex rounded-full bg-white text-slate-950 font-bold hover:bg-slate-200 transition-all border-none text-sm px-5 py-2 cursor-pointer"
-            icon={<ArrowUpRight className="w-4 h-4 text-slate-950" />}
+            className="hidden sm:inline-flex rounded-full bg-white text-slate-950 font-bold hover:bg-slate-200 transition-all border-none text-xs px-3.5 py-1.5 cursor-pointer shadow-sm"
+            icon={<ArrowUpRight className="w-3 h-3 text-slate-950" />}
           >
             Partner with us
           </Button>
@@ -118,9 +140,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            className="md:hidden p-2.5 rounded-full bg-slate-900 border border-white/20 text-white hover:text-blue-400 focus-visible:outline-none"
+            className="md:hidden p-1.5 rounded-full bg-slate-900 border border-white/20 text-white hover:text-blue-400 focus-visible:outline-none"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </div>
@@ -146,7 +168,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
                   <Link
                     key={link.label}
                     href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={(e) => {
+                      setMobileMenuOpen(false);
+                      handleNavClick(link.href, e);
+                    }}
                     className={`font-sans text-xl font-bold transition-all py-2.5 px-4 rounded-2xl flex items-center justify-between ${
                       isActive
                         ? "bg-blue-600/40 text-blue-300 border border-blue-500/50 shadow-md"
