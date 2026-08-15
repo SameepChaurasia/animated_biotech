@@ -20,14 +20,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
   return (
     <section
       id="main"
-      className="relative min-h-screen flex flex-col justify-center pt-24 pb-10 md:pt-32 md:pb-14 overflow-hidden"
+      className="relative min-h-[90vh] md:min-h-screen flex flex-col justify-between pt-24 pb-2 md:pt-28 md:pb-3 overflow-hidden"
     >
       {/* Deep Piction Ambient Glow Blobs */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "3s" }} />
 
-      <Container className="relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+      <Container className="relative z-10 flex-1 flex flex-col justify-between">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center my-auto">
           {/* Content Column (Left ~55%) */}
           <div className="lg:col-span-6 flex flex-col items-start">
             <div className="flex items-center gap-3 mb-4 sm:mb-5">
@@ -99,19 +99,19 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPartner, onOpenMissionVideo, o
         </div>
 
         {/* Scroll Indicator Chevron Link */}
-        <div className="mt-8 md:mt-10 flex justify-center w-full">
+        <div className="mt-2 mb-1 flex justify-center w-full">
           <a
             href="#about"
             onClick={(e) => {
               e.preventDefault();
               document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="group flex flex-col items-center gap-1.5 pointer-events-auto cursor-pointer transition-colors"
+            className="group flex flex-col items-center gap-1 pointer-events-auto cursor-pointer transition-colors"
           >
-            <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-blue-400 font-bold group-hover:text-white transition-colors">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-blue-400 font-bold group-hover:text-white transition-colors">
               Scroll To Explore
             </span>
-            <ChevronDown className="w-4 h-4 text-blue-400 group-hover:text-white animate-bounce transition-colors" />
+            <ChevronDown className="w-3.5 h-3.5 text-blue-400 group-hover:text-white animate-bounce transition-colors" />
           </a>
         </div>
       </Container>

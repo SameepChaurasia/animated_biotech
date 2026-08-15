@@ -12,34 +12,37 @@ const PILLARS = [
   {
     id: "pillar-precision",
     number: "01",
-    tag: "ARCHITECTURE",
+    tag: "ENGINE.01",
     title: "Precision Engineering",
-    description: "Model-guided target selection and atomic-resolution ligand binding optimization.",
-    icon: <Target className="w-5 h-5 text-blue-400" />,
+    description: "Atomic-resolution ligand binding & sub-angstrom structural target optimization.",
+    icon: <Target className="w-4 h-4 text-cyan-400" />,
     badge: "0.38Å RMSD",
-    gradient: "from-blue-500/20 to-cyan-500/20",
+    ringColor: "border-cyan-400/50",
+    satelliteColor: "bg-cyan-400 shadow-[0_0_10px_#38BDF8]",
     floatClass: "animate-float-1",
   },
   {
     id: "pillar-velocity",
     number: "02",
-    tag: "SIMULATION",
+    tag: "SIMULATION.02",
     title: "Algorithmic Velocity",
-    description: "Parallelized cloud bio-simulation reducing multi-year discovery pipelines into weeks.",
-    icon: <Zap className="w-5 h-5 text-indigo-400" />,
+    description: "Massively parallel cloud bio-simulation reducing multi-year pipelines to 72 hours.",
+    icon: <Zap className="w-4 h-4 text-amber-400" />,
     badge: "72h Lead Cycle",
-    gradient: "from-indigo-500/20 to-blue-500/20",
+    ringColor: "border-amber-400/50",
+    satelliteColor: "bg-amber-400 shadow-[0_0_10px_#F59E0B]",
     floatClass: "animate-float-2",
   },
   {
     id: "pillar-scale",
     number: "03",
-    tag: "COMPUTATION",
+    tag: "DATABASE.03",
     title: "Petabase Scale",
-    description: "Cloud-native compute pipelines processing petabytes of spatial multi-omics data.",
-    icon: <Layers className="w-5 h-5 text-purple-400" />,
-    badge: "250M+ Sequences",
-    gradient: "from-purple-500/20 to-indigo-500/20",
+    description: "Distributed infrastructure indexing petabytes of spatial multi-omics sequence data.",
+    icon: <Layers className="w-4 h-4 text-purple-400" />,
+    badge: "250M+ Genomes",
+    ringColor: "border-purple-400/50",
+    satelliteColor: "bg-purple-400 shadow-[0_0_10px_#C084FC]",
     floatClass: "animate-float-3",
   },
 ];
@@ -83,7 +86,7 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
   };
 
   return (
-    <section id="about" className="py-14 md:py-20 bg-transparent relative overflow-hidden">
+    <section id="about" className="pt-2 pb-14 md:pt-4 md:pb-20 bg-transparent relative overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute top-1/3 left-10 w-[550px] h-[550px] bg-blue-600/15 rounded-full blur-[170px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-[550px] h-[550px] bg-indigo-600/15 rounded-full blur-[170px] pointer-events-none" />
@@ -104,8 +107,8 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
               </p>
             </RevealOnScroll>
 
-            {/* Three Floating Cyber Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+            {/* Three Compact Square Cyber-Orbit Modules */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1" style={{ perspective: "1000px" }}>
               {PILLARS.map((pillar, idx) => (
                 <RevealOnScroll key={pillar.id} delay={120 + idx * 80}>
                   <div
@@ -113,35 +116,59 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
                       soundManager.playClickSound();
                       onOpenDetail(pillar.id);
                     }}
-                    className={`${pillar.floatClass} group relative p-[1px] rounded-2xl bg-gradient-to-b from-slate-800 via-slate-850 to-slate-900 hover:from-blue-400 hover:via-indigo-500 hover:to-cyan-400 transition-all duration-300 shadow-xl hover:shadow-[0_15px_35px_rgba(59,130,246,0.3)] hover:-translate-y-2 cursor-pointer h-full`}
+                    className={`${pillar.floatClass} group relative p-[1.5px] rounded-2xl bg-gradient-to-br from-slate-750 via-slate-850 to-slate-950 hover:from-cyan-400 hover:via-blue-500 hover:to-indigo-500 transition-all duration-300 shadow-[0_16px_36px_-8px_rgba(0,0,0,0.95),0_0_20px_rgba(59,130,246,0.15)] hover:shadow-[0_28px_60px_-10px_rgba(0,0,0,0.98),0_0_40px_rgba(34,211,238,0.45),inset_0_1px_2px_rgba(255,255,255,0.3)] hover:-translate-y-2.5 hover:scale-[1.02] cursor-pointer h-full overflow-hidden`}
                   >
-                    {/* Corner Crosshairs */}
-                    <div className="absolute top-2 left-2 text-[8px] font-mono text-blue-400/40 pointer-events-none">+</div>
-                    <div className="absolute bottom-2 right-2 text-[8px] font-mono text-blue-400/40 pointer-events-none">+</div>
+                    {/* Subtle Holographic Laser Scanline on Hover */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/15 to-transparent h-12 w-full animate-scanline pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
-                    <div className="p-4 sm:p-4.5 h-full flex flex-col justify-between rounded-[15px] bg-slate-950/95 backdrop-blur-xl">
+                    {/* Cybernetic Corner Crosshairs */}
+                    <div className="absolute top-2 left-2 text-[8px] font-mono text-cyan-400/40 pointer-events-none z-10">+</div>
+                    <div className="absolute bottom-2 right-2 text-[8px] font-mono text-cyan-400/40 pointer-events-none z-10">+</div>
+
+                    {/* 3D Interior Slab */}
+                    <div className="p-4 sm:p-4.5 h-full flex flex-col justify-between rounded-[14.5px] bg-slate-950/96 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.8)] backdrop-blur-2xl relative z-0">
                       <div>
-                        {/* Top Header */}
+                        {/* Top Revolving Gyroscope Icon & Badge */}
                         <div className="flex items-center justify-between mb-3">
-                          <div className="w-9 h-9 rounded-xl bg-slate-900/90 border border-blue-500/30 flex items-center justify-center shadow-md group-hover:border-blue-400 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] transition-all">
-                            {pillar.icon}
+                          {/* Revolving Orbital Chamber */}
+                          <div className="relative w-10 h-10 flex items-center justify-center">
+                            {/* Revolving 3D Outer Ring with Satellite */}
+                            <div
+                              className={`absolute inset-0 rounded-full border border-dashed ${pillar.ringColor} animate-rotate-ring-1 flex items-center justify-center`}
+                              style={{ transformStyle: "preserve-3d" }}
+                            >
+                              <div className={`w-2 h-2 rounded-full ${pillar.satelliteColor} absolute -top-0.5`} />
+                            </div>
+
+                            {/* Inner Glass Icon Vault */}
+                            <div className="w-7 h-7 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-center shadow-md group-hover:scale-110 group-hover:border-cyan-400 transition-all duration-300">
+                              {pillar.icon}
+                            </div>
                           </div>
-                          <span className="font-mono text-[10px] font-bold text-blue-400/80 px-2 py-0.5 rounded-full bg-slate-900 border border-blue-500/20">
+
+                          {/* Node Step Tag */}
+                          <span className="font-mono text-[9px] font-bold text-cyan-300 px-2 py-0.5 rounded-full bg-cyan-950/70 border border-cyan-500/30 shadow-sm">
                             {pillar.badge}
                           </span>
                         </div>
 
-                        <h3 className="font-sans font-bold text-base text-white mb-1.5 group-hover:text-blue-400 transition-colors">
+                        {/* Title with Step Tag */}
+                        <div className="font-mono text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-0.5">
+                          // {pillar.tag}
+                        </div>
+                        <h3 className="font-sans font-bold text-sm sm:text-base text-white group-hover:text-cyan-300 transition-colors leading-snug mb-1.5">
                           {pillar.title}
                         </h3>
 
-                        <p className="font-sans text-xs text-slate-400 leading-relaxed mb-3">
+                        {/* Crisp Concise Bio-Spec Text */}
+                        <p className="font-sans text-[11px] sm:text-xs text-slate-400 leading-relaxed line-clamp-3 mb-2">
                           {pillar.description}
                         </p>
                       </div>
 
-                      <div className="pt-2 border-t border-slate-850 flex items-center justify-between font-mono text-[10px] text-blue-400 font-semibold">
-                        <span>EXPLORE</span>
+                      {/* Mini Telemetry Footer Action */}
+                      <div className="pt-2.5 border-t border-slate-850/90 flex items-center justify-between font-mono text-[10px] text-cyan-400 font-semibold group-hover:text-cyan-300">
+                        <span className="text-[9px] tracking-wider uppercase">LAUNCH NODE</span>
                         <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                       </div>
                     </div>
@@ -197,7 +224,7 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
                         style={{ transformStyle: "preserve-3d" }}
                       >
                         <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_12px_#38BDF8] absolute -top-1" />
-                        <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_10px_#3B82F6] absolute -bottom-1" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_#3B82F6] absolute -bottom-1" />
                       </div>
 
                       {/* 3D Rotating Inner Ring (Y-Axis) */}
@@ -206,7 +233,7 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
                         style={{ transformStyle: "preserve-3d" }}
                       >
                         <div className="w-2.5 h-2.5 rounded-full bg-indigo-400 shadow-[0_0_12px_#818CF8] absolute -left-1" />
-                        <div className="w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_10px_#C084FC] absolute -right-1" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-purple-400 shadow-[0_0_10px_#C084FC] absolute -right-1" />
                       </div>
 
                       {/* Central Glowing Core Sphere */}
@@ -239,20 +266,39 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
           </div>
         </div>
 
-        {/* Authentic Bio-Compute Architecture Capabilities Ribbon */}
+        {/* 3D Cybernetic Bio-Compute Capabilities Dock */}
         <RevealOnScroll delay={300}>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 sm:p-5 rounded-3xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-xl shadow-xl">
-            {BIO_METRICS.map((metric, idx) => (
-              <div key={idx} className="flex items-center gap-3 p-2">
-                <div className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0">
-                  {metric.icon}
-                </div>
-                <div>
-                  <div className="font-sans font-extrabold text-white text-xs sm:text-sm">{metric.value}</div>
-                  <div className="font-mono text-[10px] text-slate-400">{metric.label}</div>
-                </div>
+          <div style={{ perspective: "1000px" }} className="w-full">
+            <div className="group relative p-[1.5px] rounded-2xl bg-gradient-to-r from-blue-500/50 via-cyan-400/60 to-indigo-500/50 shadow-[0_16px_36px_-6px_rgba(0,0,0,0.95),0_0_30px_rgba(34,211,238,0.25)] hover:shadow-[0_24px_50px_-8px_rgba(0,0,0,0.98),0_0_45px_rgba(34,211,238,0.45)] transition-all duration-300 overflow-hidden">
+              {/* Moving Laser Beam */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent w-48 h-full animate-scanline pointer-events-none opacity-80" />
+
+              {/* Corner Crosshairs */}
+              <div className="absolute top-2 left-2 text-[8px] font-mono text-cyan-400/50 pointer-events-none z-10">+</div>
+              <div className="absolute bottom-2 right-2 text-[8px] font-mono text-cyan-400/50 pointer-events-none z-10">+</div>
+
+              {/* 3D Interior Slab */}
+              <div className="rounded-[14.5px] bg-slate-950/95 shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_0_-1px_1px_rgba(0,0,0,0.8)] backdrop-blur-2xl px-4 py-3 sm:px-6 sm:py-3.5 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-0 items-center justify-between divide-y md:divide-y-0 md:divide-x divide-slate-800/80 relative z-0">
+                {BIO_METRICS.map((metric, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-3 px-2 md:px-4 py-1.5 md:py-0 group/metric hover:scale-105 transition-transform cursor-default"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-center shrink-0 shadow-md group-hover/metric:border-cyan-400/60 group-hover/metric:shadow-[0_0_15px_rgba(34,211,238,0.35)] transition-all">
+                      {metric.icon}
+                    </div>
+                    <div>
+                      <div className="font-sans font-extrabold text-white text-xs sm:text-sm group-hover/metric:text-cyan-300 transition-colors">
+                        {metric.value}
+                      </div>
+                      <div className="font-mono text-[10px] text-slate-400 uppercase tracking-wide">
+                        {metric.label}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </RevealOnScroll>
       </Container>

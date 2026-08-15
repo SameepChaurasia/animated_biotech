@@ -11,6 +11,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { TECH_PANELS } from "@/data/content";
+import { soundManager } from "@/lib/audio";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -53,6 +54,7 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
 
       const pinTimeline = gsap.timeline({
         scrollTrigger: {
+          id: "tech-scroll",
           trigger: triggerRef.current,
           pin: true,
           start: "top 120px",
@@ -108,6 +110,25 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
     { scope: triggerRef, dependencies: [isMobile, isReducedMotion] }
   );
 
+  const handleNavClick = (idx: number, panelId: string) => {
+    soundManager.playClickSound();
+    setActiveIndex(idx);
+
+    if (!isMobile && !isReducedMotion) {
+      const st = ScrollTrigger.getById("tech-scroll") || ScrollTrigger.getAll().find((s) => s.trigger === triggerRef.current);
+      if (st) {
+        const targetScroll = st.start + (idx / (TECH_PANELS.length - 1)) * (st.end - st.start) + 2;
+        window.scrollTo({ top: targetScroll, behavior: "smooth" });
+        return;
+      }
+    }
+
+    const el = document.getElementById(isMobile ? `tech-panel-mobile-${panelId}` : `tech-panel-${panelId}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   return (
     <section id="technology" className="pt-20 pb-16 md:pt-24 md:pb-20 bg-blueprint-schematic bg-slate-950 relative overflow-hidden">
       {/* Background Cybernetic Gradient Orbs */}
@@ -121,42 +142,37 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
           subheading="Our platform unifies 3D generative diffusion, petabase multi-omics, CRISPR metabolic flux, and Bayesian clinical simulation."
         />
 
-        {/* Interactive Cybernetic Engine Nav Bar (Desktop) */}
-        {!isMobile && !isReducedMotion && (
-          <div className="flex items-center justify-center mt-6">
-            <div className="inline-flex items-center gap-1.5 p-1.5 rounded-full bg-slate-900/90 border border-slate-800/80 backdrop-blur-xl shadow-xl">
-              {TECH_PANELS.map((panel, idx) => (
-                <button
-                  key={panel.id}
-                  onClick={() => {
-                    const panels = gsap.utils.toArray<HTMLElement>(".tech-panel-item");
-                    if (panels.length > idx && triggerRef.current) {
-                      const first = panels[0];
-                      const target = panels[idx];
-                      const totalShift = (panels[panels.length - 1] as HTMLElement).offsetLeft - first.offsetLeft;
-                      const targetShift = target.offsetLeft - first.offsetLeft;
-                      const targetProgress = totalShift > 0 ? targetShift / totalShift : 0;
-                      
-                      const st = ScrollTrigger.getById("tech-scroll") || ScrollTrigger.getAll().find(s => s.trigger === triggerRef.current);
-                      if (st) {
-                        const targetScroll = st.start + targetProgress * (st.end - st.start);
-                        gsap.to(window, { scrollTo: targetScroll, duration: 0.6, ease: "power2.out" });
-                      }
-                    }
-                  }}
-                  className={`px-3 py-1.5 rounded-full font-mono text-xs transition-all flex items-center gap-2 ${
-                    activeIndex === idx
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold shadow-[0_0_20px_rgba(59,130,246,0.5)] scale-105"
-                      : "text-slate-400 hover:text-white hover:bg-slate-800/60"
-                  }`}
-                >
-                  <span className="text-[10px] opacity-80">{panel.counter}</span>
-                  <span className="hidden sm:inline text-[11px] font-medium">{panel.title.split(" ")[0]}</span>
-                </button>
-              ))}
+        {/* Interactive 3D Cybernetic Engine Navigation Bar */}
+        <div className="flex items-center justify-center mt-6">
+          <div className="p-[1.5px] rounded-full bg-gradient-to-r from-blue-500/50 via-cyan-400/60 to-indigo-500/50 shadow-[0_12px_32px_rgba(0,0,0,0.85),0_0_25px_rgba(34,211,238,0.3)]">
+            <div className="inline-flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 p-1.5 rounded-full bg-slate-950/95 backdrop-blur-2xl">
+              {TECH_PANELS.map((panel, idx) => {
+                const isActive = activeIndex === idx;
+                return (
+                  <button
+                    key={panel.id}
+                    onClick={() => handleNavClick(idx, panel.id)}
+                    className={`px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full font-mono text-xs transition-all duration-300 flex items-center gap-1.5 sm:gap-2 cursor-pointer ${
+                      isActive
+                        ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white font-extrabold shadow-[0_0_20px_rgba(34,211,238,0.55)] scale-105 border border-cyan-300/80"
+                        : "text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent hover:border-slate-800"
+                    }`}
+                  >
+                    {isActive && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-pulse shadow-[0_0_8px_#38BDF8]" />
+                    )}
+                    <span className={`text-[10px] sm:text-[11px] ${isActive ? "text-cyan-200 font-bold" : "text-slate-400"}`}>
+                      {panel.counter}
+                    </span>
+                    <span className="text-[11px] sm:text-xs font-semibold">
+                      {panel.title.split(" ")[0]}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
-        )}
+        </div>
       </Container>
 
       {/* Desktop Compact Centered Floating Deck (>=1024px) */}
@@ -175,6 +191,7 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
               return (
                 <div
                   key={panel.id}
+                  id={`tech-panel-${panel.id}`}
                   className={`tech-panel-item flex-shrink-0 w-[32vw] max-w-[390px] transition-all duration-300 rounded-[22px] overflow-hidden relative group p-[2px] ${
                     isActive
                       ? "bg-gradient-to-b from-blue-400 via-indigo-500 to-cyan-400 shadow-2xl shadow-blue-900/40"
@@ -251,51 +268,52 @@ export const Technology: React.FC<TechnologyProps> = ({ onOpenDetail }) => {
         /* Mobile / Reduced Motion Vertical Stack Fallback (<1024px) */
         <Container className="space-y-5">
           {TECH_PANELS.map((panel) => (
-            <GlassCard
-              key={panel.id}
-              onClick={() => onOpenDetail(panel.id)}
-              className="p-5 space-y-3.5 border-slate-800 rounded-2xl cursor-pointer group hover:border-blue-500/50 bg-slate-900/95"
-            >
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-                <span className="font-mono text-xl font-bold text-blue-400">
-                  {panel.counter}
-                </span>
-                <div className="p-2 rounded-xl bg-slate-900 border border-blue-500/30">
-                  {ICON_MAP[panel.iconName]}
-                </div>
-              </div>
-
-              <div>
-                <span className="font-mono text-[10px] text-indigo-300 uppercase tracking-widest block mb-1">
-                  // {panel.subtitle}
-                </span>
-                <h3 className="font-sans text-lg font-bold text-white mb-1.5 group-hover:text-blue-400 transition-colors">
-                  {panel.title}
-                </h3>
-                <p className="font-sans text-xs text-slate-300 leading-relaxed">
-                  {panel.description}
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 pt-2.5 border-t border-slate-800 font-mono text-[10px]">
-                {panel.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-0.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300"
-                  >
-                    {tag}
+            <div key={panel.id} id={`tech-panel-mobile-${panel.id}`}>
+              <GlassCard
+                onClick={() => onOpenDetail(panel.id)}
+                className="p-5 space-y-3.5 border-slate-800 rounded-2xl cursor-pointer group hover:border-blue-500/50 bg-slate-900/95"
+              >
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                  <span className="font-mono text-xl font-bold text-blue-400">
+                    {panel.counter}
                   </span>
-                ))}
-              </div>
-
-              <div className="flex items-center justify-between text-blue-400 font-mono text-xs font-bold pt-1">
-                <div className="flex items-center gap-1.5 text-[11px]">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>{panel.metrics}</span>
+                  <div className="p-2 rounded-xl bg-slate-900 border border-blue-500/30">
+                    {ICON_MAP[panel.iconName]}
+                  </div>
                 </div>
-                <span className="text-[11px]">EXPLORE SPECS →</span>
-              </div>
-            </GlassCard>
+
+                <div>
+                  <span className="font-mono text-[10px] text-indigo-300 uppercase tracking-widest block mb-1">
+                    // {panel.subtitle}
+                  </span>
+                  <h3 className="font-sans text-lg font-bold text-white mb-1.5 group-hover:text-blue-400 transition-colors">
+                    {panel.title}
+                  </h3>
+                  <p className="font-sans text-xs text-slate-300 leading-relaxed">
+                    {panel.description}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5 pt-2.5 border-t border-slate-800 font-mono text-[10px]">
+                  {panel.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between text-blue-400 font-mono text-xs font-bold pt-1">
+                  <div className="flex items-center gap-1.5 text-[11px]">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>{panel.metrics}</span>
+                  </div>
+                  <span className="text-[11px]">EXPLORE SPECS →</span>
+                </div>
+              </GlassCard>
+            </div>
           ))}
         </Container>
       )}
