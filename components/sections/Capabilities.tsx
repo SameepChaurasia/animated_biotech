@@ -23,10 +23,18 @@ interface CapabilitiesProps {
 
 export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
   return (
-    <section id="capabilities" className="py-14 md:py-20 bg-hex-matrix bg-slate-950 relative overflow-hidden">
-      <Container>
+    <section id="capabilities" className="py-14 md:py-20 bg-transparent relative overflow-hidden">
+      {/* Level 2: Progressive Medium Cyber-Grid (26px Squares) - Edge to Edge */}
+      <div className="absolute inset-0 bg-slate-950 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-grid-medium opacity-90 pointer-events-none z-0" />
+
+      {/* Background Ambient White & Silver Lighting Flares */}
+      <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-white/[0.045] rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-slate-300/[0.04] rounded-full blur-[160px] pointer-events-none" />
+
+      <Container className="relative z-10">
         <SectionHeading
-          eyebrow="// 03 — CAPABILITIES"
+          eyebrow="// 04 — CAPABILITIES"
           headline="Full-Stack Synthetic Biology & High-Performance Bio-Compute."
           subheading="Our infrastructure spans in silico generative modeling, wet-lab robotic synthesis, and Bayesian clinical pipeline design."
         />

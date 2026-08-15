@@ -13,18 +13,22 @@ interface StatsProps {
 
 export const Stats: React.FC<StatsProps> = ({ onOpenDetail }) => {
   return (
-    <section id="impact" className="py-16 md:py-24 bg-radar-grid bg-slate-950 relative overflow-hidden">
+    <section id="impact" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
+      {/* Level 4: Progressive Macro Architectural Grid (60px Squares) - Edge to Edge */}
+      <div className="absolute inset-0 bg-slate-950 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-grid-macro opacity-90 pointer-events-none z-0" />
+
       {/* Decorative SVG Sparkline Data Curve */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center">
-        <svg viewBox="0 0 1200 400" className="w-full h-full stroke-blue-500 fill-none stroke-[2]">
+      <div className="absolute inset-0 opacity-25 pointer-events-none flex items-center justify-center z-0">
+        <svg viewBox="0 0 1200 400" className="w-full h-full stroke-white/40 fill-none stroke-[2]">
           <path d="M 0 300 Q 300 350, 600 150 T 1200 50" />
-          <path d="M 0 250 Q 400 100, 800 220 T 1200 120" stroke="#818CF8" strokeDasharray="6 6" />
+          <path d="M 0 250 Q 400 100, 800 220 T 1200 120" stroke="#CBD5E1" strokeDasharray="6 6" />
         </svg>
       </div>
 
       <Container className="relative z-10">
         <SectionHeading
-          eyebrow="// 04 — IMPACT"
+          eyebrow="// 06 — IMPACT"
           headline="Empirical Milestones Across Clinical & Commercial Discovery."
           subheading="Our AI platform consistently delivers validated predictive accuracy and accelerated development timelines."
         />

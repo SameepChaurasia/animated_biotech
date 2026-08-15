@@ -17,7 +17,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
   const [activeSection, setActiveSection] = useState<string>("main");
 
   useEffect(() => {
-    const sectionIds = ["main", "about", "technology", "capabilities", "playground", "impact", "cta"];
+    const sectionIds = ["main", "about", "technology", "research", "capabilities", "playground", "impact", "cta"];
 
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);

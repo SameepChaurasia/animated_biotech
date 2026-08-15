@@ -302,6 +302,9 @@ export const About: React.FC<AboutProps> = ({ onOpenDetail }) => {
           </div>
         </RevealOnScroll>
       </Container>
+
+      {/* Seamless Deep Shadow Merging Gradient into Section 02 */}
+      <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent pointer-events-none z-0" />
     </section>
   );
 };

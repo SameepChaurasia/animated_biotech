@@ -20,21 +20,21 @@ export const DynamicScrollBackground: React.FC<DynamicScrollBackgroundProps> = (
     topGlowColor = "rgba(186, 230, 253, 0.32)";
     primaryOrbColor = "rgba(59, 130, 246, 0.24)";
     secondaryOrbColor = "rgba(99, 102, 241, 0.20)";
-  } else if (sp < 0.50) {
-    // PLATFORM: Electric Sapphire & Dark Cyan
-    topGlowColor = "rgba(56, 189, 248, 0.25)";
-    primaryOrbColor = "rgba(59, 130, 246, 0.22)";
-    secondaryOrbColor = "rgba(99, 102, 241, 0.18)";
-  } else if (sp < 0.75) {
-    // RESEARCH HUB & CAPABILITIES: Cyber Teal & Royal Indigo
-    topGlowColor = "rgba(45, 212, 191, 0.22)";
-    primaryOrbColor = "rgba(59, 130, 246, 0.22)";
-    secondaryOrbColor = "rgba(99, 102, 241, 0.18)";
+  } else if (sp < 0.40) {
+    // PLATFORM: Transition into Stealth Dark
+    topGlowColor = "rgba(56, 189, 248, 0.20)";
+    primaryOrbColor = "rgba(59, 130, 246, 0.16)";
+    secondaryOrbColor = "rgba(99, 102, 241, 0.14)";
+  } else if (sp < 0.70) {
+    // 03 RESEARCH HUB & CAPABILITIES: Stealth Pitch Black & Crisp White/Platinum Grid Lighting
+    topGlowColor = "rgba(255, 255, 255, 0.14)";
+    primaryOrbColor = "rgba(255, 255, 255, 0.07)";
+    secondaryOrbColor = "rgba(226, 232, 240, 0.05)";
   } else {
-    // STATS & FINAL CTA: Deep Obsidian Void & Ice Blue
-    topGlowColor = "rgba(56, 189, 248, 0.24)";
-    primaryOrbColor = "rgba(59, 130, 246, 0.22)";
-    secondaryOrbColor = "rgba(99, 102, 241, 0.18)";
+    // GENE PLAYGROUND, 04 IMPACT & FINAL CTA: Pure Obsidian Void with Pure White Spotlights
+    topGlowColor = "rgba(255, 255, 255, 0.16)";
+    primaryOrbColor = "rgba(255, 255, 255, 0.08)";
+    secondaryOrbColor = "rgba(241, 245, 249, 0.06)";
   }
 
   return (

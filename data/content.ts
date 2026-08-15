@@ -66,11 +66,12 @@ export interface FooterColumn {
 }
 
 export const NAV_LINKS: NavLink[] = [
+  { label: "Mission", href: "#about" },
   { label: "Platform", href: "#technology" },
   { label: "Research Hub", href: "#research" },
   { label: "Capabilities", href: "#capabilities" },
-  { label: "Impact", href: "#impact" },
   { label: "Gene Sandbox", href: "#playground" },
+  { label: "Impact", href: "#impact" },
 ];
 
 export const HERO_CONTENT: HeroContent = {

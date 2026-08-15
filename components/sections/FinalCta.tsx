@@ -22,9 +22,14 @@ export const FinalCta: React.FC<FinalCtaProps> = ({ onOpenPartner }) => {
   };
 
   return (
-    <section id="cta" className="py-18 md:py-24 bg-vortex-glow bg-slate-950 relative overflow-hidden">
-      {/* Background Radial Glow Blobs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[160px] pointer-events-none animate-pulse-glow" />
+    <section id="cta" className="py-18 md:py-24 bg-transparent relative overflow-hidden">
+      {/* Deep Obsidian Black Backdrop with Subtle White Matrix Texture */}
+      <div className="absolute inset-0 bg-slate-950 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-grid-macro opacity-60 pointer-events-none z-0" />
+
+      {/* Background White & Silver Radial Glow Flares */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-white/[0.06] rounded-full blur-[180px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-slate-300/[0.04] rounded-full blur-[140px] pointer-events-none" />
 
       <Container className="relative z-10">
         <GlassCard className="p-10 md:p-16 max-w-6xl mx-auto text-center border-2 border-blue-500/40 bg-slate-950/90 shadow-[0_25px_80px_rgba(0,0,0,0.8)] rounded-[36px]">

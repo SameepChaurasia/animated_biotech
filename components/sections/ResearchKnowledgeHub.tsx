@@ -141,9 +141,13 @@ export const ResearchKnowledgeHub: React.FC<ResearchKnowledgeHubProps> = ({ onOp
 
   return (
     <section id="research" className="py-14 md:py-20 bg-transparent relative overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/4 right-10 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-[550px] h-[550px] bg-indigo-600/15 rounded-full blur-[170px] pointer-events-none" />
+      {/* Level 1: Progressive Micro Cyber-Grid (14px Squares) - Edge to Edge */}
+      <div className="absolute inset-0 bg-slate-950 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-grid-micro opacity-90 pointer-events-none z-0" />
+
+      {/* Synchronized Ambient Volumetric White & Silver Glow Flares */}
+      <div className="absolute top-1/4 right-10 w-[600px] h-[600px] bg-white/[0.05] rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[550px] h-[550px] bg-slate-300/[0.04] rounded-full blur-[170px] pointer-events-none" />
 
       <Container className="relative z-10">
         <SectionHeading
