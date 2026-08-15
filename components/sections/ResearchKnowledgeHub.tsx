@@ -1,13 +1,81 @@
 "use client";
 
 import React, { useState } from "react";
-import { BookOpen, Search, Download, ExternalLink, Sparkles, FileText, CheckCircle2 } from "lucide-react";
+import {
+  Search,
+  Download,
+  ExternalLink,
+  Sparkles,
+  CheckCircle2,
+  Dna,
+  Atom,
+  Bot,
+  ShieldCheck,
+  Activity,
+  ArrowUpRight,
+  FileCheck,
+  FileText,
+  Target,
+  Unlock,
+} from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { RESEARCH_PAPERS, ResearchPaper } from "@/data/researchData";
 import { soundManager } from "@/lib/audio";
+
+const CATEGORY_THEMES: Record<
+  string,
+  {
+    icon: React.ReactNode;
+    color: string;
+    badgeBg: string;
+    borderGlow: string;
+    accentGradient: string;
+    coordTag: string;
+  }
+> = {
+  "Protein Design": {
+    icon: <Atom className="w-3.5 h-3.5 text-cyan-400" />,
+    color: "text-cyan-400",
+    badgeBg: "bg-cyan-950/70 border-cyan-500/40 text-cyan-300",
+    borderGlow: "group-hover:border-cyan-400 group-hover:shadow-[0_0_35px_rgba(34,211,238,0.35)]",
+    accentGradient: "from-cyan-500/30 via-blue-500/20 to-indigo-500/30",
+    coordTag: "DIFFUSION · 0.38Å",
+  },
+  "Genomic Omics": {
+    icon: <Dna className="w-3.5 h-3.5 text-indigo-400" />,
+    color: "text-indigo-400",
+    badgeBg: "bg-indigo-950/70 border-indigo-500/40 text-indigo-300",
+    borderGlow: "group-hover:border-indigo-400 group-hover:shadow-[0_0_35px_rgba(99,102,241,0.35)]",
+    accentGradient: "from-indigo-500/30 via-purple-500/20 to-blue-500/30",
+    coordTag: "PETABASE · 100K/HR",
+  },
+  "Wet-Lab Robotics": {
+    icon: <Bot className="w-3.5 h-3.5 text-emerald-400" />,
+    color: "text-emerald-400",
+    badgeBg: "bg-emerald-950/70 border-emerald-500/40 text-emerald-300",
+    borderGlow: "group-hover:border-emerald-400 group-hover:shadow-[0_0_35px_rgba(16,185,129,0.35)]",
+    accentGradient: "from-emerald-500/30 via-teal-500/20 to-blue-500/30",
+    coordTag: "AUTONOMOUS · 24/7",
+  },
+  "Toxicology & Safety": {
+    icon: <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />,
+    color: "text-amber-400",
+    badgeBg: "bg-amber-950/70 border-amber-500/40 text-amber-300",
+    borderGlow: "group-hover:border-amber-400 group-hover:shadow-[0_0_35px_rgba(245,158,11,0.35)]",
+    accentGradient: "from-amber-500/30 via-rose-500/20 to-indigo-500/30",
+    coordTag: "IN SILICO · ADMET",
+  },
+  "Clinical Simulation": {
+    icon: <Activity className="w-3.5 h-3.5 text-purple-400" />,
+    color: "text-purple-400",
+    badgeBg: "bg-purple-950/70 border-purple-500/40 text-purple-300",
+    borderGlow: "group-hover:border-purple-400 group-hover:shadow-[0_0_35px_rgba(168,85,247,0.35)]",
+    accentGradient: "from-purple-500/30 via-fuchsia-500/20 to-blue-500/30",
+    coordTag: "TWIN COHORT · BAYES",
+  },
+};
 
 interface ResearchKnowledgeHubProps {
   onOpenDetail: (detailId: string) => void;
@@ -72,10 +140,10 @@ export const ResearchKnowledgeHub: React.FC<ResearchKnowledgeHubProps> = ({ onOp
   };
 
   return (
-    <section id="research" className="py-14 md:py-20 bg-slate-950 relative overflow-hidden">
+    <section id="research" className="py-14 md:py-20 bg-transparent relative overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute top-1/4 right-10 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/4 right-10 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[550px] h-[550px] bg-indigo-600/15 rounded-full blur-[170px] pointer-events-none" />
 
       <Container className="relative z-10">
         <SectionHeading
@@ -84,26 +152,77 @@ export const ResearchKnowledgeHub: React.FC<ResearchKnowledgeHubProps> = ({ onOp
           subheading="Explore empirical benchmarks, generative model architectures, and closed-loop wet-lab validation papers published by Codex Bio scientists."
         />
 
-        {/* Quick Metrics Ribbon */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8 max-w-4xl mx-auto">
-          {[
-            { label: "Peer-Reviewed Papers", value: "6 Major Articles", icon: "📄" },
-            { label: "Cumulative Impact", value: "136.7 Impact Factor", icon: "⭐" },
-            { label: "Empirical Precision", value: "99.99% Accuracy", icon: "🎯" },
-            { label: "Data Accessibility", value: "100% Open Access", icon: "🔓" },
-          ].map((stat, i) => (
-            <div
-              key={i}
-              className="p-3 rounded-2xl bg-slate-900/80 border border-slate-800/80 backdrop-blur-xl flex items-center gap-3 shadow-md hover:border-blue-500/30 transition-colors"
-            >
-              <span className="text-lg">{stat.icon}</span>
-              <div>
-                <div className="font-sans font-extrabold text-white text-xs sm:text-sm">{stat.value}</div>
-                <div className="font-mono text-[10px] text-slate-400">{stat.label}</div>
+        {/* Compact 3D Holographic Cyber-Console Metrics Dock */}
+        <RevealOnScroll delay={80}>
+          <div
+            style={{ perspective: "1000px" }}
+            className="max-w-4xl mx-auto mb-8"
+          >
+            <div className="group relative p-[1.5px] rounded-2xl bg-gradient-to-r from-blue-500/50 via-cyan-400/60 to-indigo-500/50 shadow-[0_16px_36px_-6px_rgba(0,0,0,0.9),0_0_30px_rgba(34,211,238,0.25)] hover:shadow-[0_22px_50px_-8px_rgba(0,0,0,0.95),0_0_45px_rgba(34,211,238,0.45)] transition-all duration-300 overflow-hidden">
+              {/* Moving Holographic Laser Beam */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent w-48 h-full animate-scanline pointer-events-none opacity-80" />
+
+              {/* Corner Alignment Crosshairs */}
+              <div className="absolute top-2 left-2 text-[8px] font-mono text-cyan-400/50 pointer-events-none z-10">+</div>
+              <div className="absolute bottom-2 right-2 text-[8px] font-mono text-cyan-400/50 pointer-events-none z-10">+</div>
+
+              {/* Console Interior Slab */}
+              <div className="rounded-[14.5px] bg-slate-950/95 shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),inset_0_-1px_1px_rgba(0,0,0,0.8)] backdrop-blur-2xl px-3 py-2.5 sm:px-5 sm:py-3 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-0 items-center justify-between divide-y md:divide-y-0 md:divide-x divide-slate-800/80 relative z-0">
+                {/* Node 1 */}
+                <div className="flex items-center gap-2.5 px-2 py-1 md:py-0 group/node hover:scale-105 transition-transform cursor-default">
+                  <div className="w-8 h-8 rounded-lg bg-cyan-950/60 border border-cyan-500/40 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(34,211,238,0.3)]">
+                    <FileText className="w-4 h-4 text-cyan-400" />
+                  </div>
+                  <div>
+                    <div className="font-sans font-black text-white text-xs sm:text-sm group-hover/node:text-cyan-300 transition-colors flex items-center gap-1">
+                      <span>6 Articles</span>
+                    </div>
+                    <div className="font-mono text-[9px] sm:text-[10px] text-slate-400">Peer-Reviewed</div>
+                  </div>
+                </div>
+
+                {/* Node 2 */}
+                <div className="flex items-center gap-2.5 px-2 md:px-4 py-1 md:py-0 group/node hover:scale-105 transition-transform cursor-default">
+                  <div className="w-8 h-8 rounded-lg bg-amber-950/60 border border-amber-500/40 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(245,158,11,0.3)]">
+                    <Sparkles className="w-4 h-4 text-amber-400" />
+                  </div>
+                  <div>
+                    <div className="font-sans font-black text-white text-xs sm:text-sm group-hover/node:text-amber-300 transition-colors flex items-center gap-1">
+                      <span>136.7 IF</span>
+                    </div>
+                    <div className="font-mono text-[9px] sm:text-[10px] text-slate-400">Cumulative Impact</div>
+                  </div>
+                </div>
+
+                {/* Node 3 */}
+                <div className="flex items-center gap-2.5 px-2 md:px-4 py-1 md:py-0 group/node hover:scale-105 transition-transform cursor-default">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-950/60 border border-emerald-500/40 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.3)]">
+                    <Target className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <div>
+                    <div className="font-sans font-black text-white text-xs sm:text-sm group-hover/node:text-emerald-300 transition-colors flex items-center gap-1">
+                      <span>99.99%</span>
+                    </div>
+                    <div className="font-mono text-[9px] sm:text-[10px] text-slate-400">Precision Accuracy</div>
+                  </div>
+                </div>
+
+                {/* Node 4 */}
+                <div className="flex items-center gap-2.5 px-2 md:px-4 py-1 md:py-0 group/node hover:scale-105 transition-transform cursor-default">
+                  <div className="w-8 h-8 rounded-lg bg-purple-950/60 border border-purple-500/40 flex items-center justify-center shrink-0 shadow-[0_0_10px_rgba(168,85,247,0.3)]">
+                    <Unlock className="w-4 h-4 text-purple-400" />
+                  </div>
+                  <div>
+                    <div className="font-sans font-black text-white text-xs sm:text-sm group-hover/node:text-purple-300 transition-colors flex items-center gap-1">
+                      <span>100% Open</span>
+                    </div>
+                    <div className="font-mono text-[9px] sm:text-[10px] text-slate-400">Data Accessibility</div>
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        </RevealOnScroll>
 
         {/* Filter Controls & Search Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 mb-8">
@@ -116,16 +235,14 @@ export const ResearchKnowledgeHub: React.FC<ResearchKnowledgeHubProps> = ({ onOp
                   soundManager.playClickSound();
                   setSelectedCategory(cat.label);
                 }}
-                className={`px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 text-xs font-semibold ${
-                  selectedCategory === cat.label
-                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-400/80 shadow-[0_0_20px_rgba(59,130,246,0.4)] scale-105"
+                className={`px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 text-xs font-semibold ${selectedCategory === cat.label
+                    ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.45)] scale-105"
                     : "bg-slate-900/90 border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white"
-                }`}
+                  }`}
               >
                 <span>{cat.label}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                  selectedCategory === cat.label ? "bg-white/20 text-white" : "bg-slate-800 text-slate-400"
-                }`}>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${selectedCategory === cat.label ? "bg-white/20 text-white font-bold" : "bg-slate-800 text-slate-400"
+                  }`}>
                   {cat.count}
                 </span>
               </button>
@@ -140,90 +257,103 @@ export const ResearchKnowledgeHub: React.FC<ResearchKnowledgeHubProps> = ({ onOp
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search papers, DOI, author..."
-              className="w-full pl-9 pr-3 py-2 rounded-full bg-slate-900/90 border border-slate-800 text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 font-sans text-xs transition-all"
+              className="w-full pl-9 pr-3 py-2 rounded-full bg-slate-900/90 border border-slate-800 text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 font-sans text-xs transition-all shadow-inner"
             />
           </div>
         </div>
 
-        {/* Compact & Creative 3-Column Paper Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filteredPapers.map((paper, idx) => (
-            <RevealOnScroll key={paper.id} delay={idx * 60}>
-              <div
-                onClick={() => {
-                  soundManager.playClickSound();
-                  onOpenDetail(getMapId(paper.id));
-                }}
-                className="group relative p-[1px] rounded-2xl bg-gradient-to-b from-slate-800/80 to-slate-900/80 hover:from-blue-500/60 hover:to-indigo-600/60 transition-all duration-300 shadow-xl hover:shadow-[0_0_30px_rgba(59,130,246,0.25)] cursor-pointer h-full"
-              >
-                {/* Cybernetic Alignment Crosshairs */}
-                <div className="absolute top-2 left-2 text-[8px] font-mono text-blue-400/40 pointer-events-none">+</div>
-                <div className="absolute bottom-2 right-2 text-[8px] font-mono text-blue-400/40 pointer-events-none">+</div>
+        {/* Dynamic Glowing 3-Column Paper Grid with 3D Depth & Shadows */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ perspective: "1200px" }}>
+          {filteredPapers.map((paper, idx) => {
+            const theme = CATEGORY_THEMES[paper.category] || CATEGORY_THEMES["Protein Design"];
 
-                <div className="p-5 h-full flex flex-col justify-between rounded-[15px] bg-slate-950/95 backdrop-blur-xl">
-                  <div className="space-y-2.5">
-                    {/* Top Metadata Row */}
-                    <div className="flex items-center justify-between font-mono text-xs">
-                      <span className="px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 font-bold text-[10px] tracking-wide flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                        {paper.category}
-                      </span>
-                      
-                      <span className="px-2 py-0.5 rounded-full bg-indigo-950/80 border border-indigo-400/40 text-indigo-300 font-extrabold text-[10px]">
-                        IF {paper.impactFactor}
-                      </span>
+            return (
+              <RevealOnScroll key={paper.id} delay={idx * 60}>
+                <div
+                  onClick={() => {
+                    soundManager.playClickSound();
+                    onOpenDetail(getMapId(paper.id));
+                  }}
+                  className={`group relative p-[1.5px] rounded-2xl bg-gradient-to-br from-slate-750 via-slate-850 to-slate-950 hover:from-cyan-400 hover:via-blue-500 hover:to-indigo-500 transition-all duration-300 shadow-[0_18px_40px_-8px_rgba(0,0,0,0.9),0_0_24px_rgba(59,130,246,0.14)] hover:shadow-[0_32px_65px_-12px_rgba(0,0,0,0.98),0_0_45px_rgba(34,211,238,0.45),inset_0_1px_2px_rgba(255,255,255,0.3)] hover:-translate-y-2.5 hover:scale-[1.015] cursor-pointer h-full overflow-hidden`}
+                >
+                  {/* Subtle Holographic Laser Scanline on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/15 to-transparent h-12 w-full animate-scanline pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+
+                  {/* Corner Crosshair Badges */}
+                  <div className="absolute top-2 left-2 text-[8px] font-mono text-cyan-400/40 pointer-events-none z-10">+</div>
+                  <div className="absolute bottom-2 right-2 text-[8px] font-mono text-cyan-400/40 pointer-events-none z-10">+</div>
+
+                  {/* Card Interior with 3D Specular Top Rim */}
+                  <div className="p-5 h-full flex flex-col justify-between rounded-[14.5px] bg-slate-950/96 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12),inset_0_-1px_1px_rgba(0,0,0,0.6)] backdrop-blur-2xl relative z-0">
+                    <div className="space-y-3">
+                      {/* Top Header Row */}
+                      <div className="flex items-center justify-between font-mono text-xs">
+                        {/* Category Badge with Icon */}
+                        <div className={`px-2.5 py-1 rounded-full border flex items-center gap-1.5 text-[10px] font-bold tracking-wider shadow-sm ${theme.badgeBg}`}>
+                          {theme.icon}
+                          <span>{paper.category}</span>
+                        </div>
+
+                        {/* Impact Factor Glowing Pill */}
+                        <div className="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-950 to-indigo-950 border border-cyan-400/50 text-cyan-300 font-mono font-black text-[10px] shadow-[0_0_10px_rgba(34,211,238,0.25)] flex items-center gap-1">
+                          <span className="text-[8px] text-slate-400 font-normal">IF</span>
+                          <span>{paper.impactFactor}</span>
+                        </div>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="font-sans font-extrabold text-base text-white group-hover:text-cyan-300 transition-colors leading-snug">
+                        {paper.title}
+                      </h3>
+
+                      {/* Journal Citation & Year */}
+                      <div className="font-mono text-[10px] text-indigo-300/90 flex flex-wrap items-center gap-1.5 pb-1">
+                        <span className="truncate max-w-[170px] text-slate-300 font-medium">{paper.journal}</span>
+                        <span className="text-slate-600">·</span>
+                        <span className="text-cyan-400/90 font-bold">{paper.year}</span>
+                      </div>
+
+                      {/* Abstract Preview */}
+                      <p className="font-sans text-xs text-slate-400 leading-relaxed line-clamp-2">
+                        {paper.abstract}
+                      </p>
+
+                      {/* Key Finding Breakthrough Callout */}
+                      <div className="p-2.5 rounded-xl bg-gradient-to-r from-slate-900/90 to-blue-950/60 border-l-2 border-l-cyan-400 border-y border-r border-slate-800 font-sans text-[11px] text-cyan-200 flex items-start gap-2 shadow-sm group-hover:border-cyan-500/40 transition-colors">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5 animate-pulse" />
+                        <span className="line-clamp-2 leading-tight">
+                          <strong className="text-white font-bold">Key Finding:</strong> {paper.keyTakeaway}
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="font-sans font-extrabold text-base text-white group-hover:text-blue-400 transition-colors leading-snug">
-                      {paper.title}
-                    </h3>
-
-                    {/* Journal & DOI */}
-                    <div className="font-mono text-[10px] text-indigo-300/80 flex flex-wrap items-center gap-1.5">
-                      <span className="truncate max-w-[180px]">{paper.journal}</span>
-                      <span>·</span>
-                      <span>{paper.year}</span>
-                    </div>
-
-                    {/* Abstract preview */}
-                    <p className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-2">
-                      {paper.abstract}
-                    </p>
-
-                    {/* Key Finding Box */}
-                    <div className="p-2 rounded-xl bg-slate-900/90 border border-slate-800 font-sans text-[11px] text-blue-200 flex items-start gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
-                      <span className="line-clamp-2">
-                        <strong className="text-white font-semibold">Key Finding:</strong> {paper.keyTakeaway}
+                    {/* Footer Action Row */}
+                    <div className="pt-3.5 mt-3.5 border-t border-slate-850 flex items-center justify-between font-mono text-xs text-slate-400">
+                      <span className="truncate max-w-[130px] text-[10px] text-slate-400 font-medium">
+                        {paper.authors.split(",")[0]}, et al.
                       </span>
-                    </div>
-                  </div>
 
-                  {/* Footer Action Row */}
-                  <div className="pt-3.5 mt-3.5 border-t border-slate-800/80 flex items-center justify-between font-mono text-xs text-slate-400">
-                    <span className="truncate max-w-[140px] text-[10px] text-slate-400">
-                      {paper.authors.split(",")[0]}, et al.
-                    </span>
+                      <div className="flex items-center gap-1.5">
+                        {/* Download Whitepaper Button */}
+                        <button
+                          onClick={(e) => handleDownload(paper, e)}
+                          className="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-cyan-400 hover:bg-cyan-950/40 text-slate-300 hover:text-white flex items-center gap-1 transition-all text-[10px] font-semibold shadow-sm"
+                        >
+                          <Download className="w-3 h-3 text-cyan-400" />
+                          <span>{downloadingId === paper.id ? "SAVING..." : paper.downloadSize}</span>
+                        </button>
 
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={(e) => handleDownload(paper, e)}
-                        className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-blue-400 text-slate-200 hover:text-white flex items-center gap-1 transition-all text-[10px] font-semibold"
-                      >
-                        <Download className="w-3 h-3 text-blue-400" />
-                        <span>{downloadingId === paper.id ? "SAVING..." : paper.downloadSize}</span>
-                      </button>
-
-                      <div className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-blue-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-400 transition-all shadow-sm">
-                        <ExternalLink className="w-3.5 h-3.5" />
+                        {/* Open Dossier Modal Icon */}
+                        <div className="p-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-cyan-400 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-cyan-500 group-hover:text-white group-hover:border-cyan-400 transition-all shadow-sm">
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </RevealOnScroll>
-          ))}
+              </RevealOnScroll>
+            );
+          })}
         </div>
       </Container>
     </section>
