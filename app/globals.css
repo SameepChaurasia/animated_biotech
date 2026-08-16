@@ -429,3 +429,164 @@ body {
   animation: conicRotate 8s linear infinite;
 }
 
+/* ── AMBIENT SECTION BACKGROUND ANIMATIONS (Sections 03-06) ── */
+
+@keyframes driftBlob {
+  0%, 100% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(45px, -35px, 0) scale(1.08);
+  }
+  66% {
+    transform: translate3d(-30px, 25px, 0) scale(0.95);
+  }
+}
+
+@keyframes driftBlobAlt {
+  0%, 100% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(-50px, 40px, 0) scale(1.12);
+  }
+  66% {
+    transform: translate3d(35px, -30px, 0) scale(0.92);
+  }
+}
+
+@keyframes driftBlobWarm {
+  0%, 100% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(30px, -45px, 0) scale(1.15);
+  }
+}
+
+.animate-drift-blob-1 {
+  animation: driftBlob 24s ease-in-out infinite;
+}
+
+.animate-drift-blob-2 {
+  animation: driftBlobAlt 28s ease-in-out infinite;
+}
+
+.animate-drift-blob-3 {
+  animation: driftBlobWarm 22s ease-in-out infinite;
+}
+
+@keyframes horizonSweep {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(1200px);
+    opacity: 0;
+  }
+}
+
+.animate-horizon-sweep {
+  animation: horizonSweep 14s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes gridFade {
+  0%, 100% {
+    opacity: 0.035;
+  }
+  50% {
+    opacity: 0.085;
+  }
+}
+
+.animate-grid-fade {
+  animation: gridFade 8s ease-in-out infinite;
+}
+
+@keyframes orbitalRingSlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitalRingReverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-orbital-ring-slow {
+  animation: orbitalRingSlow 48s linear infinite;
+  transform-origin: center center;
+}
+
+.animate-orbital-ring-reverse {
+  animation: orbitalRingReverse 60s linear infinite;
+  transform-origin: center center;
+}
+
+@keyframes dataStreamFlow {
+  0% {
+    stroke-dashoffset: 120;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-data-stream-1 {
+  animation: dataStreamFlow 3.5s linear infinite;
+}
+
+.animate-data-stream-2 {
+  animation: dataStreamFlow 5s linear infinite;
+}
+
+.animate-data-stream-3 {
+  animation: dataStreamFlow 4.2s linear infinite;
+}
+
+@keyframes helixGlowPulse {
+  0%, 100% {
+    opacity: 0.03;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    opacity: 0.07;
+    stroke-dashoffset: 30;
+  }
+}
+
+.animate-helix-wave {
+  animation: helixGlowPulse 10s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-drift-blob-1,
+  .animate-drift-blob-2,
+  .animate-drift-blob-3,
+  .animate-horizon-sweep,
+  .animate-grid-fade,
+  .animate-orbital-ring-slow,
+  .animate-orbital-ring-reverse,
+  .animate-data-stream-1,
+  .animate-data-stream-2,
+  .animate-data-stream-3,
+  .animate-helix-wave {
+    animation: none !important;
+  }
+}
+
