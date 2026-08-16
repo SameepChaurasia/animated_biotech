@@ -429,17 +429,17 @@ body {
   animation: conicRotate 8s linear infinite;
 }
 
-/* ── AMBIENT SECTION BACKGROUND ANIMATIONS (Sections 03-06) ── */
+/* ── ADVANCED AMBIENT BIOTECH & CYBER ANIMATIONS (Sections 03-06) ── */
 
 @keyframes driftBlob {
   0%, 100% {
     transform: translate3d(0px, 0px, 0) scale(1);
   }
   33% {
-    transform: translate3d(45px, -35px, 0) scale(1.08);
+    transform: translate3d(60px, -45px, 0) scale(1.18);
   }
   66% {
-    transform: translate3d(-30px, 25px, 0) scale(0.95);
+    transform: translate3d(-40px, 35px, 0) scale(0.9);
   }
 }
 
@@ -448,10 +448,10 @@ body {
     transform: translate3d(0px, 0px, 0) scale(1);
   }
   33% {
-    transform: translate3d(-50px, 40px, 0) scale(1.12);
+    transform: translate3d(-70px, 50px, 0) scale(1.22);
   }
   66% {
-    transform: translate3d(35px, -30px, 0) scale(0.92);
+    transform: translate3d(50px, -40px, 0) scale(0.88);
   }
 }
 
@@ -460,54 +460,68 @@ body {
     transform: translate3d(0px, 0px, 0) scale(1);
   }
   50% {
-    transform: translate3d(30px, -45px, 0) scale(1.15);
+    transform: translate3d(45px, -60px, 0) scale(1.25);
   }
 }
 
 .animate-drift-blob-1 {
-  animation: driftBlob 24s ease-in-out infinite;
+  animation: driftBlob 18s ease-in-out infinite;
 }
 
 .animate-drift-blob-2 {
-  animation: driftBlobAlt 28s ease-in-out infinite;
+  animation: driftBlobAlt 22s ease-in-out infinite;
 }
 
 .animate-drift-blob-3 {
-  animation: driftBlobWarm 22s ease-in-out infinite;
+  animation: driftBlobWarm 16s ease-in-out infinite;
 }
 
-@keyframes horizonSweep {
+@keyframes radarSweep {
   0% {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.8;
-  }
-  85% {
-    opacity: 0.8;
+    transform: rotate(0deg);
   }
   100% {
-    transform: translateY(1200px);
+    transform: rotate(360deg);
+  }
+}
+
+.animate-radar-sweep {
+  animation: radarSweep 10s linear infinite;
+  transform-origin: center center;
+}
+
+@keyframes laserSweepVertical {
+  0% {
+    top: -2%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 102%;
     opacity: 0;
   }
 }
 
-.animate-horizon-sweep {
-  animation: horizonSweep 14s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+.animate-laser-sweep {
+  animation: laserSweepVertical 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @keyframes gridFade {
   0%, 100% {
-    opacity: 0.035;
+    opacity: 0.08;
   }
   50% {
-    opacity: 0.085;
+    opacity: 0.18;
   }
 }
 
 .animate-grid-fade {
-  animation: gridFade 8s ease-in-out infinite;
+  animation: gridFade 6s ease-in-out infinite;
 }
 
 @keyframes orbitalRingSlow {
@@ -529,64 +543,229 @@ body {
 }
 
 .animate-orbital-ring-slow {
-  animation: orbitalRingSlow 48s linear infinite;
+  animation: orbitalRingSlow 30s linear infinite;
   transform-origin: center center;
 }
 
 .animate-orbital-ring-reverse {
-  animation: orbitalRingReverse 60s linear infinite;
+  animation: orbitalRingReverse 40s linear infinite;
   transform-origin: center center;
 }
 
-@keyframes dataStreamFlow {
+@keyframes sonarRipple {
   0% {
-    stroke-dashoffset: 120;
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.animate-sonar-pulse-1 {
+  animation: sonarRipple 4s cubic-bezier(0.1, 0.7, 0.1, 1) infinite;
+}
+
+.animate-sonar-pulse-2 {
+  animation: sonarRipple 4s cubic-bezier(0.1, 0.7, 0.1, 1) 2s infinite;
+}
+
+@keyframes geneMatrixRain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(1000px);
+    opacity: 0;
+  }
+}
+
+.animate-gene-stream-1 {
+  animation: geneMatrixRain 8s linear infinite;
+}
+
+.animate-gene-stream-2 {
+  animation: geneMatrixRain 11s linear 2.5s infinite;
+}
+
+.animate-gene-stream-3 {
+  animation: geneMatrixRain 9.5s linear 5s infinite;
+}
+
+.animate-gene-stream-4 {
+  animation: geneMatrixRain 13s linear 1.2s infinite;
+}
+
+@keyframes helixTravelingGlow {
+  0% {
+    stroke-dashoffset: 200;
   }
   100% {
     stroke-dashoffset: 0;
   }
 }
 
-.animate-data-stream-1 {
-  animation: dataStreamFlow 3.5s linear infinite;
+.animate-helix-traveling-1 {
+  animation: helixTravelingGlow 8s linear infinite;
 }
 
-.animate-data-stream-2 {
-  animation: dataStreamFlow 5s linear infinite;
+.animate-helix-traveling-2 {
+  animation: helixTravelingGlow 8s linear 4s infinite;
 }
 
-.animate-data-stream-3 {
-  animation: dataStreamFlow 4.2s linear infinite;
-}
-
-@keyframes helixGlowPulse {
+@keyframes floatCluster {
   0%, 100% {
-    opacity: 0.03;
-    stroke-dashoffset: 0;
+    transform: translateY(0px) rotate(0deg);
   }
   50% {
-    opacity: 0.07;
-    stroke-dashoffset: 30;
+    transform: translateY(-20px) rotate(8deg);
   }
 }
 
-.animate-helix-wave {
-  animation: helixGlowPulse 10s ease-in-out infinite;
+.animate-float-cluster-1 {
+  animation: floatCluster 8s ease-in-out infinite;
+}
+
+.animate-float-cluster-2 {
+  animation: floatCluster 10s ease-in-out 3s infinite;
+}
+
+@keyframes hudBlink {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-hud-blink {
+  animation: hudBlink 2.5s ease-in-out infinite;
+}
+
+/* ── CAPABILITIES ORBITAL COMMAND HUB ANIMATIONS ── */
+
+@keyframes pulseSpokePacket {
+  0% {
+    stroke-dashoffset: 280;
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.2;
+  }
+}
+
+.animate-spoke-packet {
+  animation: pulseSpokePacket 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes perimeterFlowClockwise {
+  0% {
+    stroke-dashoffset: 360;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-perimeter-flow {
+  animation: perimeterFlowClockwise 12s linear infinite;
+}
+
+@keyframes coreReactorPulse {
+  0%, 100% {
+    box-shadow: 0 0 35px rgba(56, 189, 248, 0.35), inset 0 0 20px rgba(56, 189, 248, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 65px rgba(34, 211, 238, 0.65), 0 0 100px rgba(99, 102, 241, 0.4), inset 0 0 35px rgba(34, 211, 238, 0.4);
+    transform: scale(1.03);
+  }
+}
+
+.animate-core-reactor {
+  animation: coreReactorPulse 4s ease-in-out infinite;
+}
+
+@keyframes spinClockwise {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinCounterClockwise {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-20s {
+  animation: spinClockwise 20s linear infinite;
+  transform-origin: center center;
+}
+
+.animate-spin-32s-reverse {
+  animation: spinCounterClockwise 32s linear infinite;
+  transform-origin: center center;
+}
+
+@keyframes satelliteOrbit {
+  0% {
+    transform: rotate(0deg) translateX(285px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(285px) rotate(-360deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-drift-blob-1,
   .animate-drift-blob-2,
   .animate-drift-blob-3,
-  .animate-horizon-sweep,
+  .animate-radar-sweep,
+  .animate-laser-sweep,
   .animate-grid-fade,
   .animate-orbital-ring-slow,
   .animate-orbital-ring-reverse,
-  .animate-data-stream-1,
-  .animate-data-stream-2,
-  .animate-data-stream-3,
-  .animate-helix-wave {
+  .animate-sonar-pulse-1,
+  .animate-sonar-pulse-2,
+  .animate-gene-stream-1,
+  .animate-gene-stream-2,
+  .animate-gene-stream-3,
+  .animate-gene-stream-4,
+  .animate-helix-traveling-1,
+  .animate-helix-traveling-2,
+  .animate-float-cluster-1,
+  .animate-float-cluster-2,
+  .animate-hud-blink,
+  .animate-spoke-packet,
+  .animate-perimeter-flow,
+  .animate-core-reactor,
+  .animate-spin-20s,
+  .animate-spin-32s-reverse {
     animation: none !important;
   }
 }
+
 

@@ -9,15 +9,17 @@ export interface ParticleFieldProps {
   speed?: number;
   bondDist?: number;
   maxBonds?: number;
+  size?: number;
   className?: string;
 }
 
 export const ParticleField: React.FC<ParticleFieldProps> = ({
   palette = ["#4a6cf7", "#8b7cf6"],
   count = 150,
-  speed = 0.02,
-  bondDist = 40,
-  maxBonds = 20,
+  speed = 0.025,
+  bondDist = 65,
+  maxBonds = 35,
+  size = 3.2,
   className = "",
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -35,6 +37,8 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
   bondDistRef.current = bondDist;
   const maxBondsRef = useRef(maxBonds);
   maxBondsRef.current = maxBonds;
+  const sizeRef = useRef(size);
+  sizeRef.current = size;
 
   useEffect(() => {
     const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -57,6 +61,7 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
     let pMat: THREE.PointsMaterial | null = null;
     let lGeo: THREE.BufferGeometry | null = null;
     let lMat: THREE.LineBasicMaterial | null = null;
+    let spriteTex: THREE.CanvasTexture | null = null;
     let isVisible = false;
     let rafId = 0;
 
@@ -71,8 +76,8 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
       pos[i * 3] = (Math.random() - 0.5) * width;
       pos[i * 3 + 1] = (Math.random() - 0.5) * height;
       const angle = Math.random() * Math.PI * 2;
-      vel[i * 2] = Math.cos(angle) * (15 + Math.random() * 25);
-      vel[i * 2 + 1] = Math.sin(angle) * (15 + Math.random() * 25);
+      vel[i * 2] = Math.cos(angle) * (18 + Math.random() * 28);
+      vel[i * 2 + 1] = Math.sin(angle) * (18 + Math.random() * 28);
       const c = colors[i % colors.length];
       pCol[i * 3] = c.r;
       pCol[i * 3 + 1] = c.g;
@@ -96,11 +101,28 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       renderer.setSize(width, height, false);
 
+      // Create glowing circular particle sprite
+      const spriteCanvas = document.createElement("canvas");
+      spriteCanvas.width = 32;
+      spriteCanvas.height = 32;
+      const ctx = spriteCanvas.getContext("2d");
+      if (ctx) {
+        const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+        grad.addColorStop(0, "rgba(255, 255, 255, 1)");
+        grad.addColorStop(0.35, "rgba(255, 255, 255, 0.85)");
+        grad.addColorStop(0.7, "rgba(255, 255, 255, 0.25)");
+        grad.addColorStop(1, "rgba(255, 255, 255, 0)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 32, 32);
+      }
+      spriteTex = new THREE.CanvasTexture(spriteCanvas);
+
       pGeo = new THREE.BufferGeometry();
       pGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
       pGeo.setAttribute("color", new THREE.BufferAttribute(pCol, 3));
       pMat = new THREE.PointsMaterial({
-        size: 1.5,
+        size: sizeRef.current,
+        map: spriteTex,
         vertexColors: true,
         transparent: true,
         blending: THREE.AdditiveBlending,
@@ -145,7 +167,7 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
         pos[i * 3 + 1] += vel[i * 2 + 1] * curSpeed;
         if (pos[i * 3] > halfW) pos[i * 3] = -halfW;
         else if (pos[i * 3] < -halfW) pos[i * 3] = halfW;
-        if (pos[i * 3 + 1] > halfH) pos[i * 3 + 1] = -halfH;
+        if (pos[i * 3] > halfH) pos[i * 3 + 1] = -halfH;
         else if (pos[i * 3 + 1] < -halfH) pos[i * 3 + 1] = halfH;
       }
       pGeo.attributes.position.needsUpdate = true;
@@ -228,6 +250,7 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
       canvas.removeEventListener("webglcontextlost", handleContextLost);
       pGeo?.dispose(); pMat?.dispose();
       lGeo?.dispose(); lMat?.dispose();
+      spriteTex?.dispose();
       try {
         renderer?.dispose();
         renderer?.forceContextLoss();
@@ -241,7 +264,7 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
     <div
       ref={containerRef}
       aria-hidden="true"
-      className={`absolute inset-0 pointer-events-none overflow-hidden z-10 opacity-25 ${className}`}
+      className={`absolute inset-0 pointer-events-none overflow-hidden z-10 opacity-75 ${className}`}
       style={{ background: "transparent", backgroundColor: "transparent" }}
     >
       <canvas
@@ -254,3 +277,4 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
 };
 
 export default ParticleField;
+

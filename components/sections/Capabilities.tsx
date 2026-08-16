@@ -11,6 +11,7 @@ import {
   ArrowUpRight,
   ChevronRight,
   ShieldCheck,
+  Zap,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -33,98 +34,105 @@ interface NodeTheme {
   gradientId: string;
   colorFrom: string;
   colorTo: string;
+  telemetryTag: string;
 }
 
 const THEME_MAP: Record<string, NodeTheme> = {
   "drug-discovery": {
     icon: <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-sky-400" />,
     accentHex: "#38bdf8",
-    glowColor: "rgba(56, 189, 248, 0.4)",
-    badgeBg: "bg-sky-950/70",
+    glowColor: "rgba(56, 189, 248, 0.45)",
+    badgeBg: "bg-sky-950/80",
     badgeText: "text-sky-300",
-    badgeBorder: "border-sky-500/40",
+    badgeBorder: "border-sky-500/50",
     hoverBorder: "group-hover:border-sky-400",
-    hoverGlow: "group-hover:shadow-[0_0_30px_rgba(56,189,248,0.35)]",
+    hoverGlow: "group-hover:shadow-[0_0_35px_rgba(56,189,248,0.5)]",
     gradientId: "spoke-sky",
     colorFrom: "#38bdf8",
     colorTo: "#3b82f6",
+    telemetryTag: "AFFINITY: < 0.01 nM",
   },
   "genomic-analytics": {
     icon: <Binary className="w-5 h-5 md:w-6 md:h-6 text-indigo-400" />,
     accentHex: "#818cf8",
-    glowColor: "rgba(129, 140, 248, 0.4)",
-    badgeBg: "bg-indigo-950/70",
+    glowColor: "rgba(129, 140, 248, 0.45)",
+    badgeBg: "bg-indigo-950/80",
     badgeText: "text-indigo-300",
-    badgeBorder: "border-indigo-500/40",
+    badgeBorder: "border-indigo-500/50",
     hoverBorder: "group-hover:border-indigo-400",
-    hoverGlow: "group-hover:shadow-[0_0_30px_rgba(129,140,248,0.35)]",
+    hoverGlow: "group-hover:shadow-[0_0_35px_rgba(129,140,248,0.5)]",
     gradientId: "spoke-indigo",
     colorFrom: "#818cf8",
     colorTo: "#6366f1",
+    telemetryTag: "PETABASE STREAM: 4.8 TB/s",
   },
   "synthetic-design": {
     icon: <Dna className="w-5 h-5 md:w-6 md:h-6 text-purple-400" />,
     accentHex: "#c084fc",
-    glowColor: "rgba(192, 132, 252, 0.4)",
-    badgeBg: "bg-purple-950/70",
+    glowColor: "rgba(192, 132, 252, 0.45)",
+    badgeBg: "bg-purple-950/80",
     badgeText: "text-purple-300",
-    badgeBorder: "border-purple-500/40",
+    badgeBorder: "border-purple-500/50",
     hoverBorder: "group-hover:border-purple-400",
-    hoverGlow: "group-hover:shadow-[0_0_30px_rgba(192,132,252,0.35)]",
+    hoverGlow: "group-hover:shadow-[0_0_35px_rgba(192,132,252,0.5)]",
     gradientId: "spoke-purple",
     colorFrom: "#c084fc",
     colorTo: "#a855f7",
+    telemetryTag: "CRISPR-Cas12a: ONLINE",
   },
   "clinical-accel": {
     icon: <Activity className="w-5 h-5 md:w-6 md:h-6 text-teal-400" />,
     accentHex: "#2dd4bf",
-    glowColor: "rgba(45, 212, 191, 0.4)",
-    badgeBg: "bg-teal-950/70",
+    glowColor: "rgba(45, 212, 191, 0.45)",
+    badgeBg: "bg-teal-950/80",
     badgeText: "text-teal-300",
-    badgeBorder: "border-teal-500/40",
+    badgeBorder: "border-teal-500/50",
     hoverBorder: "group-hover:border-teal-400",
-    hoverGlow: "group-hover:shadow-[0_0_30px_rgba(45,212,191,0.35)]",
+    hoverGlow: "group-hover:shadow-[0_0_35px_rgba(45,212,191,0.5)]",
     gradientId: "spoke-teal",
     colorFrom: "#2dd4bf",
     colorTo: "#14b8a6",
+    telemetryTag: "BAYESIAN ACCEL: 6.4x",
   },
   "regulatory-intel": {
     icon: <FileCheck className="w-5 h-5 md:w-6 md:h-6 text-amber-400" />,
     accentHex: "#fbbf24",
-    glowColor: "rgba(251, 191, 36, 0.4)",
-    badgeBg: "bg-amber-950/70",
+    glowColor: "rgba(251, 191, 36, 0.45)",
+    badgeBg: "bg-amber-950/80",
     badgeText: "text-amber-300",
-    badgeBorder: "border-amber-500/40",
+    badgeBorder: "border-amber-500/50",
     hoverBorder: "group-hover:border-amber-400",
-    hoverGlow: "group-hover:shadow-[0_0_30px_rgba(251,191,36,0.35)]",
+    hoverGlow: "group-hover:shadow-[0_0_35px_rgba(251,191,36,0.5)]",
     gradientId: "spoke-amber",
     colorFrom: "#fbbf24",
     colorTo: "#f59e0b",
+    telemetryTag: "IND-COMPLIANT: 100%",
   },
   "bio-compute": {
     icon: <Cpu className="w-5 h-5 md:w-6 md:h-6 text-emerald-400" />,
     accentHex: "#34d399",
-    glowColor: "rgba(52, 211, 153, 0.4)",
-    badgeBg: "bg-emerald-950/70",
+    glowColor: "rgba(52, 211, 153, 0.45)",
+    badgeBg: "bg-emerald-950/80",
     badgeText: "text-emerald-300",
-    badgeBorder: "border-emerald-500/40",
+    badgeBorder: "border-emerald-500/50",
     hoverBorder: "group-hover:border-emerald-400",
-    hoverGlow: "group-hover:shadow-[0_0_30px_rgba(52,211,153,0.35)]",
+    hoverGlow: "group-hover:shadow-[0_0_35px_rgba(52,211,153,0.5)]",
     gradientId: "spoke-emerald",
     colorFrom: "#34d399",
     colorTo: "#10b981",
+    telemetryTag: "INFERENCE: < 3.8 ms",
   },
 };
 
 // 6 Node Coordinates on a 800x800 SVG canvas (Radius: 270px around center (400, 400))
 // Angles: -90° (top), -30° (top-right), 30° (bottom-right), 90° (bottom), 150° (bottom-left), 210° (top-left)
 const RADIAL_COORDINATES = [
-  { cx: 400, cy: 130, percentX: 50, percentY: 16.25, angleDeg: -90, tooltipPlacement: "bottom" as const },
-  { cx: 634, cy: 265, percentX: 79.25, percentY: 33.1, angleDeg: -30, tooltipPlacement: "bottom" as const },
-  { cx: 634, cy: 535, percentX: 79.25, percentY: 66.9, angleDeg: 30, tooltipPlacement: "top" as const },
-  { cx: 400, cy: 670, percentX: 50, percentY: 83.75, angleDeg: 90, tooltipPlacement: "top" as const },
-  { cx: 166, cy: 535, percentX: 20.75, percentY: 66.9, angleDeg: 150, tooltipPlacement: "top" as const },
-  { cx: 166, cy: 265, percentX: 20.75, percentY: 33.1, angleDeg: 210, tooltipPlacement: "bottom" as const },
+  { cx: 400, cy: 130, percentX: 50, percentY: 16.25, angleDeg: -90, label: "000°", tooltipPlacement: "bottom" as const },
+  { cx: 634, cy: 265, percentX: 79.25, percentY: 33.1, angleDeg: -30, label: "060°", tooltipPlacement: "bottom" as const },
+  { cx: 634, cy: 535, percentX: 79.25, percentY: 66.9, angleDeg: 30, label: "120°", tooltipPlacement: "top" as const },
+  { cx: 400, cy: 670, percentX: 50, percentY: 83.75, angleDeg: 90, label: "180°", tooltipPlacement: "top" as const },
+  { cx: 166, cy: 535, percentX: 20.75, percentY: 66.9, angleDeg: 150, label: "240°", tooltipPlacement: "top" as const },
+  { cx: 166, cy: 265, percentX: 20.75, percentY: 33.1, angleDeg: 210, label: "300°", tooltipPlacement: "bottom" as const },
 ];
 
 export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
@@ -150,15 +158,37 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
         <SectionHeading
           eyebrow="// 04 — CAPABILITIES"
           headline="Full-Stack Synthetic Biology & High-Performance Bio-Compute."
-          subheading="Interactive orbital hub connecting in silico generative modeling, wet-lab robotic synthesis, and Bayesian clinical pipeline design."
+          subheading="Interactive orbital command hub connecting in silico generative modeling, wet-lab robotic synthesis, and Bayesian clinical pipeline design."
         />
 
         {/* ── DESKTOP & TABLET: RADIAL ORBITAL HUB-SPOKE SYSTEM (>= 768px) ── */}
         <div className="hidden md:flex flex-col items-center justify-center relative mt-6 lg:mt-12">
+          
+          {/* 4 Corner Ambient Cyber HUD Widgets */}
+          <div className="absolute top-2 left-0 font-mono text-[9px] text-cyan-400/70 hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-md bg-slate-950/80 border border-cyan-500/20 backdrop-blur-md shadow-[0_0_15px_rgba(34,211,238,0.15)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]" />
+            <span>[GENOMICS MODELING // 10^18 FLOPS]</span>
+          </div>
+
+          <div className="absolute top-2 right-0 font-mono text-[9px] text-indigo-400/70 hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-md bg-slate-950/80 border border-indigo-500/20 backdrop-blur-md shadow-[0_0_15px_rgba(99,102,241,0.15)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse shadow-[0_0_8px_#818cf8]" />
+            <span>[WET-LAB ROBOTICS // CLOSED-LOOP]</span>
+          </div>
+
+          <div className="absolute bottom-2 left-0 font-mono text-[9px] text-teal-400/70 hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-md bg-slate-950/80 border border-teal-500/20 backdrop-blur-md shadow-[0_0_15px_rgba(45,212,191,0.15)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse shadow-[0_0_8px_#2dd4bf]" />
+            <span>[BAYESIAN SIMULATOR // ACTIVE]</span>
+          </div>
+
+          <div className="absolute bottom-2 right-0 font-mono text-[9px] text-purple-400/70 hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-md bg-slate-950/80 border border-purple-500/20 backdrop-blur-md shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse shadow-[0_0_8px_#c084fc]" />
+            <span>[REGULATORY AUTOMATION // SOC-2]</span>
+          </div>
+
           {/* Orbital Canvas Wrapper */}
           <div className="relative w-full max-w-[880px] aspect-[1/0.95] max-h-[780px] flex items-center justify-center select-none py-6">
             
-            {/* SVG Connecting Spokes & Orbital Guides Layer */}
+            {/* SVG Connecting Spokes, Energy Photon Packets & Orbital Rings */}
             <svg
               viewBox="0 0 800 800"
               className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
@@ -167,17 +197,18 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
                 {/* Radial gradients for each spoke line */}
                 {CAPABILITIES.map((cap) => {
                   const theme = THEME_MAP[cap.id] || THEME_MAP["drug-discovery"];
+                  const coord = RADIAL_COORDINATES[CAPABILITIES.findIndex((c) => c.id === cap.id)];
                   return (
                     <linearGradient
                       key={theme.gradientId}
                       id={theme.gradientId}
                       x1="400"
                       y1="400"
-                      x2={RADIAL_COORDINATES[CAPABILITIES.findIndex((c) => c.id === cap.id)]?.cx || 400}
-                      y2={RADIAL_COORDINATES[CAPABILITIES.findIndex((c) => c.id === cap.id)]?.cy || 400}
+                      x2={coord?.cx || 400}
+                      y2={coord?.cy || 400}
                       gradientUnits="userSpaceOnUse"
                     >
-                      <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.4" />
+                      <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.4" />
                       <stop offset="70%" stopColor={theme.colorFrom} stopOpacity="0.9" />
                       <stop offset="100%" stopColor={theme.colorTo} stopOpacity="1" />
                     </linearGradient>
@@ -186,45 +217,84 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
 
                 {/* Center Hub Ambient Glow Radial */}
                 <radialGradient id="hub-ambient" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.35" />
-                  <stop offset="60%" stopColor="#6366f1" stopOpacity="0.12" />
+                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.4" />
+                  <stop offset="60%" stopColor="#6366f1" stopOpacity="0.15" />
                   <stop offset="100%" stopColor="#030712" stopOpacity="0" />
                 </radialGradient>
               </defs>
 
-              {/* Orbital Guide Circles (Cosmic & Molecular Blueprint Aesthetic) */}
+              {/* Outer Rotating Holographic Track with Degree Glyphs */}
+              <g className="animate-spin-32s-reverse" style={{ transformOrigin: "400px 400px" }}>
+                <circle
+                  cx="400"
+                  cy="400"
+                  r="380"
+                  fill="none"
+                  stroke="rgba(56, 189, 248, 0.18)"
+                  strokeWidth="1.5"
+                  strokeDasharray="6 14"
+                />
+                {/* Degree Tick Ticks */}
+                {[0, 60, 120, 180, 240, 300].map((deg) => {
+                  const rad = (deg * Math.PI) / 180;
+                  const x1 = 400 + Math.cos(rad) * 370;
+                  const y1 = 400 + Math.sin(rad) * 370;
+                  const x2 = 400 + Math.cos(rad) * 390;
+                  const y2 = 400 + Math.sin(rad) * 390;
+                  return (
+                    <line
+                      key={`deg-tick-${deg}`}
+                      x1={x1}
+                      y1={y1}
+                      x2={x2}
+                      y2={y2}
+                      stroke="rgba(56, 189, 248, 0.45)"
+                      strokeWidth="1.5"
+                    />
+                  );
+                })}
+              </g>
+
+              {/* Middle Primary Orbital Track with Crosshair Nodes */}
+              <g className="animate-spin-20s" style={{ transformOrigin: "400px 400px" }}>
+                <circle
+                  cx="400"
+                  cy="400"
+                  r="270"
+                  fill="none"
+                  stroke="rgba(99, 102, 241, 0.22)"
+                  strokeWidth="1.5"
+                  strokeDasharray="12 18"
+                />
+                <circle cx="670" cy="400" r="4" fill="#38bdf8" style={{ filter: "drop-shadow(0 0 6px #38bdf8)" }} />
+                <circle cx="130" cy="400" r="4" fill="#c084fc" style={{ filter: "drop-shadow(0 0 6px #c084fc)" }} />
+              </g>
+
+              {/* Inner High-Speed Ring */}
               <circle
                 cx="400"
                 cy="400"
-                r="380"
+                r="160"
                 fill="none"
-                stroke="rgba(148, 163, 184, 0.08)"
+                stroke="rgba(56, 189, 248, 0.25)"
                 strokeWidth="1"
                 strokeDasharray="4 8"
               />
-              <circle
-                cx="400"
-                cy="400"
-                r="285"
+
+              {/* Inter-Node Neural Constellation Perimeter Links */}
+              <polygon
+                points={RADIAL_COORDINATES.map((c) => `${c.cx},${c.cy}`).join(" ")}
                 fill="none"
-                stroke="rgba(148, 163, 184, 0.12)"
-                strokeWidth="1"
-                strokeDasharray="6 12"
-              />
-              <circle
-                cx="400"
-                cy="400"
-                r="175"
-                fill="none"
-                stroke="rgba(59, 130, 246, 0.15)"
-                strokeWidth="1"
-                strokeDasharray="2 6"
+                stroke="rgba(56, 189, 248, 0.2)"
+                strokeWidth="1.5"
+                strokeDasharray="6 8"
+                className="animate-perimeter-flow"
               />
 
               {/* Ambient Hub Backdrop Flare */}
               <circle cx="400" cy="400" r="140" fill="url(#hub-ambient)" />
 
-              {/* Dynamic Spoke Lines Connecting Center Hub to Each Node */}
+              {/* Dynamic Spoke Lines with Real-Time Photon Packets */}
               {CAPABILITIES.map((cap, idx) => {
                 const coord = RADIAL_COORDINATES[idx];
                 const theme = THEME_MAP[cap.id] || THEME_MAP["drug-discovery"];
@@ -238,35 +308,50 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
                       y1="400"
                       x2={coord.cx}
                       y2={coord.cy}
-                      stroke="rgba(148, 163, 184, 0.18)"
+                      stroke="rgba(148, 163, 184, 0.2)"
                       strokeWidth="1.5"
                     />
 
-                    {/* Active Pulsing Flow Stroke */}
+                    {/* Active Pulsing Energy Stroke */}
                     <line
                       x1="400"
                       y1="400"
                       x2={coord.cx}
                       y2={coord.cy}
                       stroke={`url(#${theme.gradientId})`}
-                      strokeWidth={isHovered ? "2.5" : "1.5"}
-                      strokeDasharray="8 14"
-                      className="animate-spoke-flow"
+                      strokeWidth={isHovered ? "3.5" : "2"}
+                      strokeDasharray="14 18"
+                      className="animate-spoke-packet"
                       style={{
-                        opacity: isHovered ? 1 : 0.35,
-                        filter: isHovered ? `drop-shadow(0 0 8px ${theme.accentHex})` : "none",
+                        opacity: isHovered ? 1 : 0.65,
+                        filter: isHovered ? `drop-shadow(0 0 12px ${theme.accentHex})` : `drop-shadow(0 0 4px ${theme.accentHex})`,
                         transition: "opacity 0.3s ease, stroke-width 0.3s ease, filter 0.3s ease",
                       }}
                     />
 
-                    {/* Animated Contact Joint / Signal Blip on Node Boundary */}
+                    {/* Traveling Photon Energy Packet along the Spoke */}
+                    <circle
+                      r={isHovered ? 4.5 : 3}
+                      fill="#FFFFFF"
+                      style={{
+                        filter: `drop-shadow(0 0 8px ${theme.accentHex}) drop-shadow(0 0 14px ${theme.accentHex})`,
+                      }}
+                    >
+                      <animateMotion
+                        path={`M 400 400 L ${coord.cx} ${coord.cy}`}
+                        dur={isHovered ? "1.2s" : "2.4s"}
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+
+                    {/* Animated Contact Joint / Signal Beacon on Node Boundary */}
                     <circle
                       cx={coord.cx}
                       cy={coord.cy}
-                      r={isHovered ? 4.5 : 2.5}
+                      r={isHovered ? 6 : 3.5}
                       fill={theme.accentHex}
                       style={{
-                        filter: `drop-shadow(0 0 6px ${theme.accentHex})`,
+                        filter: `drop-shadow(0 0 10px ${theme.accentHex})`,
                         transition: "r 0.3s ease",
                       }}
                     />
@@ -275,7 +360,7 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
               })}
             </svg>
 
-            {/* ── CENTRAL HUB NODE ── */}
+            {/* ── CENTRAL HUB COMMAND ENGINE ── */}
             <div
               onMouseEnter={() => {
                 setIsHubHovered(true);
@@ -284,23 +369,23 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
               onMouseLeave={() => setIsHubHovered(false)}
               className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center cursor-default group"
             >
-              {/* Outer Pulsing Aura Ring */}
-              <div className="w-36 h-36 lg:w-40 lg:h-40 rounded-full p-[2px] bg-gradient-to-tr from-blue-500/40 via-cyan-400/50 to-indigo-500/40 shadow-[0_0_40px_rgba(59,130,246,0.3)] group-hover:shadow-[0_0_60px_rgba(34,211,238,0.55)] group-hover:scale-105 transition-all duration-500">
+              {/* Outer Pulsing Aura Ring with Rotating Reactor Track */}
+              <div className="w-36 h-36 lg:w-44 lg:h-44 rounded-full p-[2px] bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_50px_rgba(34,211,238,0.4)] group-hover:shadow-[0_0_80px_rgba(34,211,238,0.7)] group-hover:scale-105 transition-all duration-500 animate-core-reactor">
                 
                 {/* Rotating 3D Specular Track */}
-                <div className="w-full h-full rounded-full bg-slate-950/95 backdrop-blur-2xl p-3 flex flex-col items-center justify-center text-center relative overflow-hidden border border-slate-800/90 shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-1px_2px_rgba(0,0,0,0.8)]">
+                <div className="w-full h-full rounded-full bg-slate-950/95 backdrop-blur-2xl p-3 flex flex-col items-center justify-center text-center relative overflow-hidden border border-cyan-500/30 shadow-[inset_0_1px_2px_rgba(255,255,255,0.3),inset_0_-1px_2px_rgba(0,0,0,0.8)]">
                   
                   {/* Subtle Background Radial Shimmer */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-transparent to-indigo-500/10 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/15 via-transparent to-indigo-500/15 pointer-events-none" />
 
-                  {/* Core Icon Mark */}
-                  <div className="w-8 h-8 rounded-lg bg-blue-950/80 border border-cyan-400/50 flex items-center justify-center mb-1 shadow-[0_0_15px_rgba(34,211,238,0.4)]">
-                    <span className="font-mono text-cyan-300 font-black text-xs">CB</span>
+                  {/* Core Icon Mark with Pulsing Cyber Beacon */}
+                  <div className="w-9 h-9 rounded-xl bg-blue-950 border border-cyan-400/70 flex items-center justify-center mb-1 shadow-[0_0_20px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform">
+                    <Zap className="w-4 h-4 text-cyan-300 animate-pulse" />
                   </div>
 
                   {/* Hub Label */}
                   <span className="font-mono text-[9px] text-cyan-400 font-bold uppercase tracking-widest leading-none">
-                    // CORE SYSTEM
+                    // COMMAND CORE
                   </span>
                   
                   <span className="font-sans font-extrabold text-white text-xs lg:text-sm tracking-tight mt-0.5">
@@ -308,9 +393,9 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
                   </span>
 
                   {/* Status Indicator */}
-                  <div className="mt-1 flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-900/90 border border-slate-800 text-[9px] font-mono text-slate-300">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                    <span>6 NODES</span>
+                  <div className="mt-1 flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-900/90 border border-cyan-500/30 text-[9px] font-mono text-slate-300 shadow-inner">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_6px_#22d3ee]" />
+                    <span className="font-semibold text-cyan-300">6 ENGINES SYNC</span>
                   </div>
                 </div>
               </div>
@@ -338,13 +423,16 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
                     onClick={() => handleNodeClick(cap.id)}
                     className="relative group cursor-pointer flex flex-col items-center"
                   >
-                    {/* Node Icon Circle Badge */}
+                    {/* Node Icon Circle Badge with Sci-Fi HUD Bracket Accents */}
                     <div
-                      className={`relative w-14 h-14 lg:w-16 lg:h-16 rounded-2xl p-[1.5px] bg-gradient-to-br from-slate-700 via-slate-800 to-slate-950 transition-all duration-300 shadow-[0_12px_28px_rgba(0,0,0,0.85)] ${theme.hoverBorder} ${theme.hoverGlow} ${
-                        isHovered ? "scale-110 -translate-y-1" : "scale-100"
+                      className={`relative w-14 h-14 lg:w-16 lg:h-16 rounded-2xl p-[2px] bg-gradient-to-br from-slate-700 via-slate-800 to-slate-950 transition-all duration-300 shadow-[0_14px_30px_rgba(0,0,0,0.9)] ${theme.hoverBorder} ${theme.hoverGlow} ${
+                        isHovered ? "scale-115 -translate-y-1.5" : "scale-100"
                       }`}
                     >
-                      <div className="w-full h-full rounded-[14.5px] bg-slate-950/95 backdrop-blur-xl flex items-center justify-center relative overflow-hidden border border-slate-800 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
+                      {/* Top Specular Rim */}
+                      <div className="absolute top-0 left-3 right-3 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                      <div className="w-full h-full rounded-[14px] bg-slate-950/95 backdrop-blur-xl flex items-center justify-center relative overflow-hidden border border-slate-800 group-hover:border-cyan-400/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
                         {/* Glow tint on hover */}
                         <div
                           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
@@ -360,17 +448,22 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
                       </div>
                     </div>
 
-                    {/* Node Title & Category Badge (Compact Always Visible) */}
-                    <div className="mt-2.5 flex flex-col items-center text-center max-w-[150px] lg:max-w-[170px]">
+                    {/* Node Title & Category Badge */}
+                    <div className="mt-2 flex flex-col items-center text-center max-w-[150px] lg:max-w-[170px]">
                       <span
-                        className={`text-[9px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border mb-1 transition-colors ${theme.badgeBg} ${theme.badgeText} ${theme.badgeBorder}`}
+                        className={`text-[9px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full border mb-1 transition-colors ${theme.badgeBg} ${theme.badgeText} ${theme.badgeBorder} shadow-sm`}
                       >
                         {cap.category}
                       </span>
                       
-                      <h4 className="font-sans font-bold text-xs lg:text-sm text-white group-hover:text-cyan-300 transition-colors leading-tight">
+                      <h4 className="font-sans font-bold text-xs lg:text-sm text-white group-hover:text-cyan-300 transition-colors leading-tight drop-shadow-sm">
                         {cap.title}
                       </h4>
+
+                      {/* Live Telemetry Micro-Tag */}
+                      <span className="font-mono text-[8px] text-cyan-400/80 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {theme.telemetryTag}
+                      </span>
                     </div>
 
                     {/* ── PROGRESSIVE DISCLOSURE: HOVER CARD / EXPANDABLE DRAWER ── */}
@@ -383,20 +476,25 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
                           : "opacity-0 -translate-y-2 scale-95"
                       }`}
                       style={{
-                        width: "230px",
+                        width: "240px",
                         left: "50%",
-                        marginLeft: "-115px",
+                        marginLeft: "-120px",
                         ...(coord.tooltipPlacement === "top"
-                          ? { bottom: "100%", marginBottom: "14px" }
-                          : { top: "100%", marginTop: "14px" }),
+                          ? { bottom: "100%", marginBottom: "16px" }
+                          : { top: "100%", marginTop: "16px" }),
                       }}
                     >
-                      <div className="p-3.5 rounded-2xl bg-slate-950/98 border border-cyan-500/40 shadow-[0_20px_45px_rgba(0,0,0,0.95),0_0_25px_rgba(34,211,238,0.25)] backdrop-blur-2xl text-left space-y-2">
+                      <div className="p-4 rounded-2xl bg-slate-950/98 border border-cyan-400/50 shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(34,211,238,0.35)] backdrop-blur-2xl text-left space-y-2.5">
+                        <div className="flex items-center justify-between font-mono text-[9px] text-cyan-400 border-b border-slate-800 pb-1.5">
+                          <span>// NODE TELEMETRY</span>
+                          <span className="text-emerald-400 font-bold">● ACTIVE</span>
+                        </div>
+
                         <p className="font-sans text-[11px] text-slate-300 leading-relaxed">
                           {cap.description}
                         </p>
 
-                        {/* Metric Callout or Action Indicator */}
+                        {/* Metric Callout */}
                         <div className="pt-2 border-t border-slate-800 flex items-center justify-between font-mono text-[10px]">
                           {cap.highlightMetric ? (
                             <span className="text-cyan-300 font-semibold flex items-center gap-1">
@@ -424,7 +522,7 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
         <div className="block md:hidden mt-8">
           {/* Mobile Central Hub Badge */}
           <div className="flex items-center justify-center mb-8">
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-slate-950/90 border border-blue-500/40 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-slate-950/90 border border-cyan-500/50 shadow-[0_0_25px_rgba(34,211,238,0.35)]">
               <div className="w-6 h-6 rounded-md bg-blue-950 border border-cyan-400/50 flex items-center justify-center font-mono text-cyan-300 text-[10px] font-black">
                 CB
               </div>
@@ -528,3 +626,4 @@ export const Capabilities: React.FC<CapabilitiesProps> = ({ onOpenDetail }) => {
     </section>
   );
 };
+
