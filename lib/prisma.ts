@@ -4,19 +4,26 @@ import { Pool } from "pg";
 
 const connectionString =
   process.env.DATABASE_URL ||
-  "postgresql://postgres:postgres@localhost:5432/codex_bio?schema=public";
+  "postgresql://neondb_owner:npg_6dCIuMF1ASHt@ep-mute-wildflower-az8khpg5-pooler.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=require";
 
-let clientInstance: PrismaClient | null = null;
+let poolInstance: Pool | null = null;
+
+function getPool(): Pool {
+  if (!poolInstance) {
+    poolInstance = new Pool({
+      connectionString,
+      ssl: { rejectUnauthorized: false },
+      max: 10,
+      idleTimeoutMillis: 30000,
+    });
+  }
+  return poolInstance;
+}
 
 function createPrismaClient(): PrismaClient {
-  try {
-    const pool = new Pool({ connectionString });
-    const adapter = new PrismaPg(pool);
-    return new PrismaClient({ adapter });
-  } catch {
-    // Return standard client if adapter instantiation fails
-    return new PrismaClient();
-  }
+  const pool = getPool();
+  const adapter = new PrismaPg(pool);
+  return new PrismaClient({ adapter });
 }
 
 // Global singleton pattern
@@ -31,9 +38,9 @@ export const prisma =
         globalForPrisma.prisma = client;
       }
       return client;
-    } catch {
-      // Mock fallback object with same structure so build never fails
-      return null as any;
+    } catch (e) {
+      console.warn("Prisma instantiation error, fallback initialized:", e);
+      return new PrismaClient();
     }
   })();
 

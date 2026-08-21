@@ -33,6 +33,28 @@ export default function CrisprDesignerPage() {
     setTimeout(() => setCopiedIdx(null), 2000);
   };
 
+  const [savedSuccess, setSavedSuccess] = useState(false);
+
+  const handleSaveExperiment = async () => {
+    try {
+      const res = await fetch("/api/experiments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: `CRISPR Guide Scan (${cleanSeq.substring(0, 8)}...)`,
+          type: "CRISPR_KNOCKOUT_DESIGN",
+          parameters: { sequence: cleanSeq, minScore },
+        }),
+      });
+      if (res.ok) {
+        setSavedSuccess(true);
+        setTimeout(() => setSavedSuccess(false), 3000);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handleExportCSV = () => {
     const headers = "ID,Spacer(20nt),PAM(3nt),Strand,Start,End,CutSite,GC%,Score,Risk,PolyTWarning\n";
     const rows = guides
@@ -67,6 +89,21 @@ export default function CrisprDesignerPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={handleSaveExperiment}
+            disabled={guides.length === 0}
+            className="px-4 py-2.5 rounded-xl bg-surface-elevated hover:bg-slate-800 border border-amber-500/30 text-amber-300 text-xs font-semibold flex items-center gap-2 transition-colors"
+          >
+            {savedSuccess ? (
+              <>
+                <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                <span>Saved to Vault</span>
+              </>
+            ) : (
+              <span>Save Run to DB</span>
+            )}
+          </button>
+
           <button
             onClick={handleExportCSV}
             disabled={guides.length === 0}

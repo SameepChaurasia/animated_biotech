@@ -35,15 +35,38 @@ export const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, detai
   const [copiedDoi, setCopiedDoi] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
 
-  const detail: ResearchDetail | undefined = detailId ? RESEARCH_DETAILS[detailId] : undefined;
+  const [detail, setDetail] = useState<ResearchDetail | undefined>(
+    detailId ? RESEARCH_DETAILS[detailId] : undefined
+  );
 
   useEffect(() => {
-    if (detail?.interactiveParams) {
-      setAffinity(detail.interactiveParams.bindingAffinity.default);
-      setRmsd(detail.interactiveParams.foldingRmsd.default);
-      setThroughput(detail.interactiveParams.throughputSpeed.default);
+    if (!detailId) {
+      setDetail(undefined);
+      return;
     }
-  }, [detailId, detail]);
+    if (RESEARCH_DETAILS[detailId]) {
+      setDetail(RESEARCH_DETAILS[detailId]);
+      if (RESEARCH_DETAILS[detailId].interactiveParams) {
+        setAffinity(RESEARCH_DETAILS[detailId].interactiveParams.bindingAffinity.default);
+        setRmsd(RESEARCH_DETAILS[detailId].interactiveParams.foldingRmsd.default);
+        setThroughput(RESEARCH_DETAILS[detailId].interactiveParams.throughputSpeed.default);
+      }
+    }
+
+    fetch(`/api/research/${detailId}`)
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.data) {
+          setDetail(resData.data);
+          if (resData.data.interactiveParams) {
+            setAffinity(resData.data.interactiveParams.bindingAffinity.default);
+            setRmsd(resData.data.interactiveParams.foldingRmsd.default);
+            setThroughput(resData.data.interactiveParams.throughputSpeed.default);
+          }
+        }
+      })
+      .catch(() => {});
+  }, [detailId]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

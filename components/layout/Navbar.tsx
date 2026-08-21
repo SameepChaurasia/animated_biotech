@@ -69,11 +69,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
   return (
     <header className="fixed top-3 left-3 right-3 z-50 max-w-5xl mx-auto">
       <div
-        className={`w-full rounded-full transition-all duration-300 px-3.5 md:px-4 py-1.5 md:py-2 flex items-center justify-between backdrop-blur-2xl border ${
-          scrolled
-            ? "bg-slate-950/90 border-white/20 shadow-[0_12px_32px_rgba(0,0,0,0.85)]"
-            : "bg-slate-950/75 border-white/15 shadow-[0_8px_24px_rgba(0,0,0,0.65)]"
-        }`}
+        className={`w-full rounded-full transition-all duration-300 px-3.5 md:px-4 py-1.5 md:py-2 flex items-center justify-between backdrop-blur-2xl border ${scrolled
+          ? "bg-slate-950/90 border-white/20 shadow-[0_12px_32px_rgba(0,0,0,0.85)]"
+          : "bg-slate-950/75 border-white/15 shadow-[0_8px_24px_rgba(0,0,0,0.65)]"
+          }`}
       >
         {/* Logo Monogram with Recruiter Attribution Pill */}
         <Link
@@ -109,11 +108,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(link.href, e)}
-                className={`font-sans text-xs lg:text-[13px] font-semibold px-2.5 py-1 rounded-full transition-all duration-200 flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
-                  isActive
-                    ? "bg-blue-600 text-white shadow-[0_0_12px_rgba(59,130,246,0.6)] border border-blue-400/60"
-                    : "text-slate-300 hover:text-white hover:bg-slate-900/70"
-                }`}
+                className={`font-sans text-xs lg:text-[13px] font-semibold px-2.5 py-1 rounded-full transition-all duration-200 flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${isActive
+                  ? "bg-blue-600 text-white shadow-[0_0_12px_rgba(59,130,246,0.6)] border border-blue-400/60"
+                  : "text-slate-300 hover:text-white hover:bg-slate-900/70"
+                  }`}
               >
                 {isActive && (
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -131,7 +129,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
             className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/40 text-accent-cyan font-mono text-xs px-3 py-1.5 transition-all shadow-[0_0_12px_rgba(59,130,246,0.3)] hover:scale-105"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-ping" />
-            <span>Platform OS</span>
+            <span>CODEX STUDIO</span>
           </Link>
 
           <Button
@@ -180,11 +178,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
                       setMobileMenuOpen(false);
                       handleNavClick(link.href, e);
                     }}
-                    className={`font-sans text-xl font-bold transition-all py-2.5 px-4 rounded-2xl flex items-center justify-between ${
-                      isActive
-                        ? "bg-blue-600/40 text-blue-300 border border-blue-500/50 shadow-md"
-                        : "text-white hover:text-blue-400 hover:bg-slate-900/60"
-                    }`}
+                    className={`font-sans text-xl font-bold transition-all py-2.5 px-4 rounded-2xl flex items-center justify-between ${isActive
+                      ? "bg-blue-600/40 text-blue-300 border border-blue-500/50 shadow-md"
+                      : "text-white hover:text-blue-400 hover:bg-slate-900/60"
+                      }`}
                   >
                     <span>{link.label}</span>
                     {isActive && (

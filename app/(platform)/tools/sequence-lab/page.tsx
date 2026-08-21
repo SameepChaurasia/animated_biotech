@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Binary,
   RotateCw,
@@ -39,6 +39,30 @@ export default function SequenceLabPage() {
   const digestionFragments = simulateDigestion(cleanSeq, ["EcoRI", "BamHI", "HindIII", "NotI"]);
   const orfs = findORFs(cleanSeq, 6);
 
+  const [vaultSequences, setVaultSequences] = useState<any[]>([]);
+  const [selectedVaultId, setSelectedVaultId] = useState<string>("");
+
+  const loadVaultSequences = () => {
+    fetch("/api/sequences")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data) setVaultSequences(data.data);
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    loadVaultSequences();
+  }, []);
+
+  const handleSelectVaultSeq = (seqId: string) => {
+    setSelectedVaultId(seqId);
+    const found = vaultSequences.find((s) => s.id === seqId);
+    if (found && found.nucleotides) {
+      setSequence(found.nucleotides);
+    }
+  };
+
   const handleSaveToDatabase = async () => {
     try {
       const res = await fetch("/api/sequences", {
@@ -53,6 +77,7 @@ export default function SequenceLabPage() {
       });
       if (res.ok) {
         setSavedSuccess(true);
+        loadVaultSequences();
         setTimeout(() => setSavedSuccess(false), 3000);
       }
     } catch (e) {
@@ -70,14 +95,30 @@ export default function SequenceLabPage() {
             <span>Bioinformatics Workbench · Version 2.4</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-display font-bold text-ink">
-            DNA & RNA Sequence Laboratory
+            DNA &amp; RNA Sequence Laboratory
           </h1>
           <p className="text-xs sm:text-sm text-ink-muted mt-1">
-            Real-time biophysical kinetics, dynamic programming sequence alignment, restriction mapping, and ORF translation.
+            Real-time biophysical kinetics, dynamic programming sequence alignment, restriction mapping, and ORF translation backed by PostgreSQL.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          {vaultSequences.length > 0 && (
+            <select
+              value={selectedVaultId}
+              onChange={(e) => handleSelectVaultSeq(e.target.value)}
+              aria-label="Load sequence from Vault"
+              className="px-3 py-2 rounded-xl bg-surface-elevated border border-border text-xs font-mono text-ink focus:outline-none focus:border-accent-blue"
+            >
+              <option value="">📂 Load from Vault ({vaultSequences.length} saved)...</option>
+              {vaultSequences.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name} ({s.accession || `${s.length} bp`})
+                </option>
+              ))}
+            </select>
+          )}
+
           <button
             onClick={handleSaveToDatabase}
             className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-semibold flex items-center gap-2 shadow-lg shadow-blue-500/25 transition-all hover:scale-105"

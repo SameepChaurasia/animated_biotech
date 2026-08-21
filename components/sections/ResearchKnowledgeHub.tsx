@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Search,
   Download,
@@ -139,17 +139,29 @@ export const ResearchKnowledgeHub: React.FC<ResearchKnowledgeHubProps> = ({ onOp
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [papers, setPapers] = useState<ResearchPaper[]>(RESEARCH_PAPERS);
+
+  useEffect(() => {
+    fetch("/api/research")
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.data && Array.isArray(resData.data) && resData.data.length > 0) {
+          setPapers(resData.data);
+        }
+      })
+      .catch((err) => console.warn("Failed to fetch research papers from API:", err));
+  }, []);
 
   const categories = [
-    { label: "All", count: 6 },
-    { label: "Protein Design", count: 1 },
-    { label: "Genomic Omics", count: 1 },
-    { label: "Wet-Lab Robotics", count: 2 },
-    { label: "Toxicology & Safety", count: 1 },
-    { label: "Clinical Simulation", count: 1 },
+    { label: "All", count: papers.length },
+    { label: "Protein Design", count: papers.filter((p) => p.category === "Protein Design").length },
+    { label: "Genomic Omics", count: papers.filter((p) => p.category === "Genomic Omics").length },
+    { label: "Wet-Lab Robotics", count: papers.filter((p) => p.category === "Wet-Lab Robotics").length },
+    { label: "Toxicology & Safety", count: papers.filter((p) => p.category === "Toxicology & Safety").length },
+    { label: "Clinical Simulation", count: papers.filter((p) => p.category === "Clinical Simulation").length },
   ];
 
-  const filteredPapers = RESEARCH_PAPERS.filter((paper) => {
+  const filteredPapers = papers.filter((paper) => {
     const matchesCategory = selectedCategory === "All" || paper.category === selectedCategory;
     const matchesSearch =
       paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -189,7 +201,7 @@ export const ResearchKnowledgeHub: React.FC<ResearchKnowledgeHubProps> = ({ onOp
       case "paper-04": return "predictive-tox";
       case "paper-05": return "robotic-synthesis";
       case "paper-06": return "clinical-simulator";
-      default: return "protein-engine";
+      default: return paperId;
     }
   };
 

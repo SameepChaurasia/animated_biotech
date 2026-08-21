@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { STATS } from "@/data/content";
+import { STATS, StatItem } from "@/data/content";
 
 interface StatsProps {
   onOpenDetail: (detailId: string) => void;
@@ -55,6 +55,19 @@ const STAT_THEMES = [
 ];
 
 export const Stats: React.FC<StatsProps> = ({ onOpenDetail }) => {
+  const [stats, setStats] = useState<StatItem[]>(STATS);
+
+  useEffect(() => {
+    fetch("/api/stats")
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.stats && Array.isArray(resData.stats) && resData.stats.length > 0) {
+          setStats(resData.stats);
+        }
+      })
+      .catch((err) => console.warn("Failed to load live stats from API:", err));
+  }, []);
+
   return (
     <section id="impact" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
       {/* Decorative SVG Sparkline Data Curve */}
@@ -74,7 +87,7 @@ export const Stats: React.FC<StatsProps> = ({ onOpenDetail }) => {
 
         {/* 4 Stats Grid with Creative Cyber HUD Borders */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {STATS.map((stat, idx) => {
+          {stats.map((stat: StatItem, idx: number) => {
             const mapId =
               idx === 0
                 ? "drug-discovery"

@@ -182,3 +182,61 @@ model ActivityLog {
   @@index([userId])
   @@index([createdAt])
 }
+
+model ResearchPaper {
+  id                String          @id
+  title             String
+  category          String          // "Protein Design" | "Genomic Omics" | "Wet-Lab Robotics" | "Toxicology & Safety" | "Clinical Simulation" | "Platform Engine" | "Mission Pillar"
+  journal           String
+  doi               String          @unique
+  year              String
+  authors           String
+  abstract          String          @db.Text
+  readTime          String?         @default("8 min read")
+  impactFactor      String?         @default("15.0")
+  keyTakeaway       String?         @db.Text
+  downloadSize      String?         @default("4.2 MB PDF")
+  counter           String?
+  subtitle          String?
+  highlights        String[]
+  specs             Json?           // Array of { label: string, value: string, detail: string }
+  interactiveParams Json?           // { bindingAffinity, foldingRmsd, throughputSpeed, offTargetTox }
+  whitepaper        Json?           // { doi, journal, publicationDate, authors, citations, downloadUrl, keyFindings }
+  labProtocol       Json?           // { assayType, temperature, ph, roboticPlatform, incubationTime }
+  isFeatured        Boolean         @default(true)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@index([category])
+  @@index([year])
+}
+
+model PlatformStat {
+  id                String          @id
+  label             String
+  targetNumber      Float
+  prefix            String?
+  suffix            String?
+  decimals          Int?            @default(0)
+  description       String          @db.Text
+  detailId          String?
+  order             Int             @default(0)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@index([order])
+}
+
+model ChatMessage {
+  id                String          @id @default(cuid())
+  sessionId         String?         @default("default_session")
+  userId            String          @default("user_default")
+  role              String          // "user" | "assistant" | "system"
+  content           String          @db.Text
+  metadata          Json?
+  createdAt         DateTime        @default(now())
+
+  @@index([userId])
+  @@index([sessionId])
+  @@index([createdAt])
+}

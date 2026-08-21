@@ -48,6 +48,43 @@ export const ChatInterface: React.FC = () => {
   };
 
   useEffect(() => {
+    fetch("/api/chat")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data && Array.isArray(data.data) && data.data.length > 0) {
+          const loaded: Message[] = [];
+          for (const item of data.data) {
+            if (item.userMessage) {
+              loaded.push({
+                role: "user",
+                content: item.userMessage,
+                timestamp: item.timestamp || item.createdAt || new Date().toISOString(),
+              });
+            }
+            if (item.assistantMessage) {
+              loaded.push({
+                role: "assistant",
+                content: item.assistantMessage,
+                timestamp: item.timestamp || item.createdAt || new Date().toISOString(),
+              });
+            }
+            if (item.role && item.content) {
+              loaded.push({
+                role: item.role,
+                content: item.content,
+                timestamp: item.createdAt || item.timestamp || new Date().toISOString(),
+              });
+            }
+          }
+          if (loaded.length > 0) {
+            setMessages(loaded);
+          }
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
     scrollToBottom();
   }, [messages, loading]);
 

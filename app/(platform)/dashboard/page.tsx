@@ -36,6 +36,21 @@ export default function DashboardPage() {
   const [recentExperiments, setRecentExperiments] = useState<any[]>([]);
 
   useEffect(() => {
+    // Fetch live telemetry stats from API
+    fetch("/api/stats")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.telemetry) {
+          setStats({
+            activeProjects: data.telemetry.activeProjects,
+            totalSequences: data.telemetry.totalSequences,
+            completedSimulations: data.telemetry.completedSimulations,
+            meanAccuracy: data.telemetry.meanAccuracy,
+          });
+        }
+      })
+      .catch(() => {});
+
     // Fetch recent experiments from API
     fetch("/api/experiments")
       .then((res) => res.json())

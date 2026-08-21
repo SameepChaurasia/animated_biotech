@@ -28,17 +28,20 @@ export const ParticleField: React.FC<ParticleFieldProps> = ({
 
   // Keep references to config props so scroll state updates in parent never re-trigger WebGL recreation
   const paletteRef = useRef(palette);
-  paletteRef.current = palette;
   const countRef = useRef(count);
-  countRef.current = count;
   const speedRef = useRef(speed);
-  speedRef.current = speed;
   const bondDistRef = useRef(bondDist);
-  bondDistRef.current = bondDist;
   const maxBondsRef = useRef(maxBonds);
-  maxBondsRef.current = maxBonds;
   const sizeRef = useRef(size);
-  sizeRef.current = size;
+
+  useEffect(() => {
+    paletteRef.current = palette;
+    countRef.current = count;
+    speedRef.current = speed;
+    bondDistRef.current = bondDist;
+    maxBondsRef.current = maxBonds;
+    sizeRef.current = size;
+  }, [palette, count, speed, bondDist, maxBonds, size]);
 
   useEffect(() => {
     const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

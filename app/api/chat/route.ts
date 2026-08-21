@@ -5,17 +5,59 @@ import { designGuideRNAs } from "@/lib/bioinformatics/crispr";
 import { findCutSites } from "@/lib/bioinformatics/restriction";
 import { findORFs } from "@/lib/bioinformatics/orf";
 import { alignSequences } from "@/lib/bioinformatics/alignment";
-import { inMemoryMongo } from "@/lib/mongodb";
+import { inMemoryMongo, getMongoDb } from "@/lib/mongodb";
+import { prisma } from "@/lib/prisma";
 import { publishBiotechEvent, KAFKA_TOPICS } from "@/lib/kafka";
 
 export const dynamic = "force-dynamic";
 
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const sessionId = searchParams.get("sessionId") || "default_session";
+
+    let messages: any[] = [];
+
+    // Try fetching from PostgreSQL ChatMessage
+    try {
+      messages = await prisma.chatMessage.findMany({
+        where: { sessionId },
+        orderBy: { createdAt: "asc" },
+        take: 50,
+      });
+    } catch {
+      // Try fetching from MongoDB Atlas / inMemory
+      try {
+        const db = await getMongoDb();
+        if (db) {
+          const docs = await db
+            .collection("chat_sessions")
+            .find({ sessionId })
+            .sort({ createdAt: 1 })
+            .limit(50)
+            .toArray();
+          messages = docs;
+        } else {
+          const col = inMemoryMongo.getCollection("chat_sessions");
+          messages = await col.find().toArray();
+        }
+      } catch (mongoErr) {
+        console.warn("Mongo chat fetch failed:", mongoErr);
+      }
+    }
+
+    return NextResponse.json({ success: true, count: messages.length, data: messages });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}
+
 export async function POST(request: Request) {
   try {
-    const { messages = [] } = await request.json();
+    const { messages = [], sessionId = "default_session" } = await request.json();
     const lastUserMessage = messages[messages.length - 1]?.content || "";
 
-    // Publish event
+    // Publish event to message broker
     await publishBiotechEvent(KAFKA_TOPICS.AI_QUERY_LOGGED, {
       queryLength: lastUserMessage.length,
       timestamp: new Date().toISOString(),
@@ -67,14 +109,54 @@ ${toolResultText ? toolResultText : "I can assist you with:\n1. **Thermodynamic 
 
 *Data computed deterministically with sub-millisecond precision.*`;
 
-    // Save to in-memory MongoDB store
-    const chatCollection = inMemoryMongo.getCollection("chat_sessions");
-    await chatCollection.insertOne({
-      userId: "user_default",
-      userMessage: lastUserMessage,
-      assistantMessage: aiResponse,
-      timestamp: new Date().toISOString(),
-    });
+    // 1. Save to PostgreSQL ChatMessage
+    try {
+      if (lastUserMessage) {
+        await prisma.chatMessage.create({
+          data: {
+            sessionId,
+            userId: "user_default",
+            role: "user",
+            content: lastUserMessage,
+          },
+        });
+      }
+      await prisma.chatMessage.create({
+        data: {
+          sessionId,
+          userId: "user_default",
+          role: "assistant",
+          content: aiResponse,
+        },
+      });
+    } catch (pgErr) {
+      console.warn("PostgreSQL chat message save failed:", pgErr);
+    }
+
+    // 2. Save to MongoDB Atlas / In-Memory
+    try {
+      const db = await getMongoDb();
+      if (db) {
+        await db.collection("chat_sessions").insertOne({
+          sessionId,
+          userId: "user_default",
+          userMessage: lastUserMessage,
+          assistantMessage: aiResponse,
+          timestamp: new Date().toISOString(),
+        });
+      } else {
+        const chatCollection = inMemoryMongo.getCollection("chat_sessions");
+        await chatCollection.insertOne({
+          sessionId,
+          userId: "user_default",
+          userMessage: lastUserMessage,
+          assistantMessage: aiResponse,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    } catch (mongoErr) {
+      console.warn("MongoDB chat insert failed:", mongoErr);
+    }
 
     return NextResponse.json({
       role: "assistant",

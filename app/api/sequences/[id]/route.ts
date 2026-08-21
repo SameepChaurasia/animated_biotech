@@ -41,8 +41,8 @@ export async function PUT(
     const body = await request.json();
     const { name, nucleotides, type, projectId, notes } = body;
 
-    let cleanSeq = nucleotides ? nucleotides.toUpperCase().replace(/[^ATCGU]/g, "") : undefined;
-    let metrics = cleanSeq ? calculateThermodynamics(cleanSeq) : undefined;
+    const cleanSeq = nucleotides ? nucleotides.toUpperCase().replace(/[^ATCGU]/g, "") : undefined;
+    const metrics = cleanSeq ? calculateThermodynamics(cleanSeq) : undefined;
 
     let updated = null;
     try {
