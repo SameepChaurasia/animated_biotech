@@ -32,11 +32,10 @@ export const TextDecode: React.FC<TextDecodeProps> = ({
     }
 
     let intervalId: NodeJS.Timeout;
-    let timeoutId: NodeJS.Timeout;
     const length = text.length;
 
     // Start decoding after delay
-    timeoutId = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       let iteration = 0;
 
       intervalId = setInterval(() => {

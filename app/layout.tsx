@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Fraunces, Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
 import { Preloader } from "@/components/Preloader";
 import { CursorTrail } from "@/components/ui/CursorTrail";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { FloatingStudioTrigger } from "@/components/ui/FloatingStudioTrigger";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -63,28 +65,40 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${fraunces.variable} ${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} dark`}
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: "#3B82F6",
+          colorBackground: "#0B132B",
+        },
+      }}
     >
-      <body className="bg-void text-ink font-sans antialiased min-h-screen flex flex-col selection:bg-accent-lime selection:text-void">
-        {/* Keyboard Skip to Main Content Link */}
-        <a href="#main" className="skip-link">
-          Skip to main content
-        </a>
+      <html
+        lang="en"
+        className={`${fraunces.variable} ${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} dark`}
+      >
+        <body className="bg-void text-ink font-sans antialiased min-h-screen flex flex-col selection:bg-accent-lime selection:text-void">
+          {/* Keyboard Skip to Main Content Link */}
+          <a href="#main" className="skip-link">
+            Skip to main content
+          </a>
 
-        {/* Bioluminescent Custom Cursor & Trail */}
-        <CustomCursor />
-        <CursorTrail />
+          {/* Bioluminescent Custom Cursor & Trail */}
+          <CustomCursor />
+          <CursorTrail />
 
-        {/* Preloader Animation */}
-        <Preloader />
+          {/* Preloader Animation */}
+          <Preloader />
 
-        {/* Smooth Scroll Provider & Global Shell */}
-        <SmoothScrollProvider>
-          <div className="flex-1">{children}</div>
-        </SmoothScrollProvider>
-      </body>
-    </html>
+          {/* Smooth Scroll Provider & Global Shell */}
+          <SmoothScrollProvider>
+            <div className="flex-1">{children}</div>
+          </SmoothScrollProvider>
+
+          {/* Permanent Floating Workstation Trigger */}
+          <FloatingStudioTrigger />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

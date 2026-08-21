@@ -1,0 +1,184 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  RESEARCHER
+  BIOINFORMATICIAN
+  LAB_DIRECTOR
+  ADMIN
+}
+
+enum ProjectStatus {
+  PLANNING
+  ACTIVE
+  SYNTHESIS
+  IN_SILICO_VALIDATION
+  COMPLETED
+  ARCHIVED
+}
+
+enum SequenceType {
+  DNA
+  RNA
+  PEPTIDE
+  PLASMID
+  PROMOTER
+  CRISPR_GUIDE
+}
+
+enum ExperimentStatus {
+  QUEUED
+  IN_PROGRESS
+  KINETICS_SIMULATION
+  COMPLETED
+  FAILED
+  ABORTED
+}
+
+enum ExperimentType {
+  THERMODYNAMIC_MELTING
+  PAIRWISE_ALIGNMENT
+  RESTRICTION_DIGEST
+  CRISPR_KNOCKOUT_DESIGN
+  PROTEIN_FOLDING_DIFFUSION
+  METABOLIC_FLUX_ANALYSIS
+  IN_SILICO_TOXICOLOGY
+}
+
+model User {
+  id              String          @id @default(cuid())
+  clerkId         String          @unique
+  email           String          @unique
+  displayName     String?
+  avatarUrl       String?
+  institution     String?         @default("Codex Bio Institute")
+  role            Role            @default(RESEARCHER)
+  projects        Project[]
+  sequences       Sequence[]
+  experiments     Experiment[]
+  pipelines       Pipeline[]
+  savedAnalyses   SavedAnalysis[]
+  activityLogs    ActivityLog[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([clerkId])
+}
+
+model Project {
+  id              String          @id @default(cuid())
+  name            String
+  code            String          @unique // e.g. PRJ-ONC-884
+  description     String?
+  status          ProjectStatus   @default(ACTIVE)
+  targetOrganism  String?         @default("Homo sapiens")
+  diseaseArea     String?         @default("Oncology")
+  tags            String[]
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sequences       Sequence[]
+  experiments     Experiment[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Sequence {
+  id              String          @id @default(cuid())
+  name            String
+  accession       String?         @unique // e.g. CB-SEQ-9402
+  nucleotides     String          @db.Text
+  type            SequenceType    @default(DNA)
+  length          Int
+  gcContent       Float?
+  meltingTemp     Float?
+  freeEnergy      Float?
+  notes           String?
+  projectId       String?
+  project         Project?        @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyses        SavedAnalysis[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([userId])
+  @@index([projectId])
+}
+
+model Experiment {
+  id              String            @id @default(cuid())
+  name            String
+  runId           String            @unique // e.g. EXP-2026-993
+  type            ExperimentType
+  status          ExperimentStatus  @default(QUEUED)
+  parameters      Json              // Dynamic experiment input hyperparameters
+  results         Json?             // Computed thermodynamic, alignment, or structure data
+  executionTimeMs Int?
+  projectId       String?
+  project         Project?          @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  userId          String
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pipelineId      String?
+  pipeline        Pipeline?         @relation(fields: [pipelineId], references: [id], onDelete: SetNull)
+  startedAt       DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime          @default(now())
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([status])
+}
+
+model Pipeline {
+  id              String          @id @default(cuid())
+  name            String
+  description     String?
+  nodes           Json            // Canvas nodes layout and configuration
+  edges           Json            // Node connections
+  isTemplate      Boolean         @default(false)
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  experiments     Experiment[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([userId])
+}
+
+model SavedAnalysis {
+  id              String          @id @default(cuid())
+  title           String
+  analysisType    String          // "thermodynamics", "alignment", "crispr", "restriction", "orf"
+  inputPayload    Json
+  outputMetrics   Json
+  sequenceId      String?
+  sequence        Sequence?       @relation(fields: [sequenceId], references: [id], onDelete: SetNull)
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt       DateTime        @default(now())
+
+  @@index([userId])
+  @@index([sequenceId])
+}
+
+model ActivityLog {
+  id              String          @id @default(cuid())
+  action          String          // "CREATED_SEQUENCE", "EXECUTED_EXPERIMENT", "RAN_CRISPR_DESIGN"
+  entityType      String          // "Sequence", "Project", "Experiment", "Pipeline"
+  entityId        String?
+  details         Json?
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt       DateTime        @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}

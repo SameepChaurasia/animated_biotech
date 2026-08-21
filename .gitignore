@@ -30,8 +30,13 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files (strict secret protection for GitHub)
 .env*
+.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # vercel
 .vercel
@@ -39,3 +44,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# clerk configuration (can include secrets)
+/.clerk/
+
+# Private hosting and secret setup instructions (keep hidden from GitHub/recruiters)
+Hosting_Guide.md
+hosting_guide.md
+HOSTING_GUIDE.md
+*hosting_guide*
+*Hosting_Guide*

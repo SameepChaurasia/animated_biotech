@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codex-bio-worker
+  namespace: codex-bio
+  labels:
+    app: codex-bio-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: codex-bio-worker
+  template:
+    metadata:
+      labels:
+        app: codex-bio-worker
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/sameepchaurasia/codex-bio-worker:latest
+          ports:
+            - containerPort: 4001
+          env:
+            - name: PORT
+              value: "4001"
+            - name: KAFKA_BROKERS
+              value: "kafka-service:9092"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1024Mi"
+            limits:
+              cpu: "2000m"
+              memory: "4096Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4001
+            initialDelaySeconds: 10
+            periodSeconds: 10

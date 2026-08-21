@@ -126,6 +126,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPartner }) => {
 
         {/* CTA Button & Mobile Toggle */}
         <div className="flex items-center gap-2">
+          <Link
+            href="/dashboard"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/40 text-accent-cyan font-mono text-xs px-3 py-1.5 transition-all shadow-[0_0_12px_rgba(59,130,246,0.3)] hover:scale-105"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-ping" />
+            <span>Platform OS</span>
+          </Link>
+
           <Button
             onClick={onOpenPartner}
             variant="primary"
